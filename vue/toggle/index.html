@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+<title>toggle</title>
+
+<style>
+*,
+*::before,
+*::after {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    padding: 30px;
+}
+
+#toggle {
+    border-radius: 15px;
+    overflow: hidden;
+}
+
+.toggleBtn {
+    margin: 0;
+    padding: 15px;
+    width: 100%;
+    display: block;
+    border: 0px;
+    cursor: pointer;
+    outline: none;
+    transition: background-color .5s;
+}
+.toggleBtn:focus,
+.toggleBtn:hover {
+    background-color: #aaa;
+}
+.togglePanel {
+    overflow: hidden;
+}
+.togglePanel {
+    background-color: #42b983;
+    color: #fff;
+    transition: height .3s ease-in-out;
+}
+.togglePanel > p {
+    margin: 0;
+    padding: 20px;
+    color: #fff;
+}
+</style>
+</head>
+<body>
+
+<div id="toggle">
+<button @click="clickHandler" class="toggleBtn">CLICK</button>
+
+<transition
+    @enter="enter"
+    @after-enter="afterEnter"
+    @before-leave="beforeLeave"
+    @leave="leave"
+    @after-leave="afterLeave"
+>
+    <div v-show="isOpen" class="togglePanel">
+        <p>Lorem ipsum dolor sit, amet consectetur adipisicing elit. Iure dolores ex exercitationem at quidem nam, consequatur deleniti tenetur. Earum eius debitis doloremque sunt recusandae laborum ex obcaecati magni perferendis tenetur?</p>
+    </div>
+</transition>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+<script src="./run.js"></script>
+</body>
+</html>

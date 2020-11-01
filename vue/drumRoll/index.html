@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+<title>drumRoll</title>
+
+<link href="https://fonts.googleapis.com/css?family=Roboto:400,700&display=swap" rel="stylesheet">
+
+<style>
+html {
+    font-size: 62.5%;
+}
+body {
+    font-size: 1.6rem;
+    font-family: 'Roboto', sans-serif;
+    text-align: center;
+}
+input {
+    margin: 30px 0;
+    padding: 10px 10px 10px 25px;
+    border: 2px solid #42b983;
+    border-radius: 20px;
+    text-align: center;
+}
+.rollText {
+    margin: 0;
+    font-size: 20rem;
+    font-weight: bold;
+    color: #42b983;
+}
+</style>
+</head>
+<body>
+
+<div id="animated-number-demo">
+    <input
+        v-model.number="number"
+        type="number"
+        step="10"
+    >
+    <p class="rollText">{{ animatedNumber }}</p>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+<script src="./run.js"></script>
+</body>
+</html>

@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+<title>ToDoList</title>
+
+<link rel="stylesheet" href="./style.css">
+</head>
+<body>
+
+<div id="toDoList">
+    <add-item-area v-on:add-item="addToDoListItem"></add-item-area>
+
+    <to-do-area v-bind:to-do-list="toDoList" v-on:item-click="itemClick"></to-do-area>
+
+    <delete-item-btn v-bind:delete-flag="deleteFlag" v-bind:delete-arry="deleteItem" v-on:item-delete="itemDelete"></delete-item-btn>
+<!-- /#toDoList --></div>
+
+<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+<script src="./run.js"></script>
+</body>
+</html>
