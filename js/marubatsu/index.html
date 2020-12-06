@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>marubatsu</title>
+<script src="/marubatsu/run.js" defer></script>
+
+<style>
+    * {
+        box-sizing: border-box;
+    }
+
+    body {
+        margin: 0;
+        padding: 30px;
+    }
+
+    .box {
+        margin: auto;
+        display: flex;
+        flex-wrap: wrap;
+        max-width: 500px;
+        border: 1px solid #000;
+    }
+
+    .box button {
+        flex-basis: calc(100% / 3);
+        height: 150px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+        border: none;
+    }
+
+    .box button:nth-of-type(n + 2) {
+        border-left: 1px solid #000;
+    }
+
+    .box button:nth-of-type(3n + 1) {
+        border-left: none;
+    }
+
+    .box button:nth-of-type(n + 4) {
+        border-top: 1px solid #000;
+    }
+</style>
+</head>
+<body>
+
+<p class="text">手番：<span class="teban"></span></p>
+
+<div class="box">
+<button type="button"></button>
+<button type="button"></button>
+<button type="button"></button>
+<button type="button"></button>
+<button type="button"></button>
+<button type="button"></button>
+<button type="button"></button>
+<button type="button"></button>
+<button type="button"></button>
+</div>
+
+</body>
+</html>
