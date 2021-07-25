@@ -1,0 +1,15 @@
+.l-contentsArea {
+
+}
+
+.contentsArea__inner {
+
+}
+
+.contentsArea__inner > *:first-child {
+    margin-top: 0 !important;
+}
+
+.contentsArea__inner > *:last-child {
+    margin-bottom: 0 !important;
+}
