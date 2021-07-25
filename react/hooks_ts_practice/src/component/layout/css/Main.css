@@ -1,6 +1,5 @@
 .l-main {
-    display: flex;
-    justify-content: space-between;
+    grid-column: 2/3;
 }
 
 .l-main > * {
@@ -8,9 +7,9 @@
 }
 
 .l-main > *:first-child {
-    width: 20%;
-}
-
-.l-main > *:last-child {
-    width: 80%;
+    width:  200px;
+    height: calc(100% - 56px);
+    position: fixed;
+    top: 56px;
+    left: 0;
 }

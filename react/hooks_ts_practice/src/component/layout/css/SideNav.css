@@ -1,15 +1,24 @@
 .l-sideNav {
-
+    padding: 0 2px 0 0;
+    position: relative;
 }
 
-.sideNav__inner {
-
+.l-sideNav::after {
+    content: "";
+    width: 2px;
+    height: 100%;
+    background-color: #ed2828;
+    position: absolute;
+    top: 0;
+    right: 0;
 }
 
-.sideNav__list {
-
+.sideNav__listItem a {
+    padding: 15px;
+    width: 100%;
+    display: block;
 }
 
-.sideNav__listItem {
-
+.sideNav__listItem + .sideNav__listItem {
+    border-top: 2px solid #ed2828;
 }

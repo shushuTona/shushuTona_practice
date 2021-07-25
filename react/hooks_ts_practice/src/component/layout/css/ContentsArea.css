@@ -1,9 +1,5 @@
 .l-contentsArea {
-
-}
-
-.contentsArea__inner {
-
+    height: 100%;
 }
 
 .contentsArea__inner > *:first-child {

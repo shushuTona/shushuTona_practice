@@ -1,6 +1,7 @@
 .l-footer {
     margin: 0;
     padding: 15px;
+    grid-column: 2/3;
     font-size: 12px;
     border-top: 2px solid #ed2828;
     text-align: right;
