@@ -1,0 +1,17 @@
+.l-header {
+    border-bottom: 2px solid #ed2828;
+}
+
+.header__inner {
+    padding: 15px;
+    display: flex;
+    justify-content: space-between;
+}
+
+.header__logo {
+
+}
+
+.header__account {
+
+}
