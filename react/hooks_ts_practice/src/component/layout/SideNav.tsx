@@ -9,9 +9,9 @@ const SideNav = React.memo( () => {
         <div className="l-sideNav">
             <div className="sideNav__inner">
                 <ul className="sideNav__list">
-                    <li className="sideNav__listItem"><Link to="/">Home</Link></li>
-                    <li className="sideNav__listItem"><Link to="/goals">Personal Goals</Link></li>
-                    <li className="sideNav__listItem"><Link to="/task">Task</Link></li>
+                    <li className="sideNav__listItem"><Link to="/"><span>Home</span></Link></li>
+                    <li className="sideNav__listItem"><Link to="/goals"><span>Personal Goals</span></Link></li>
+                    <li className="sideNav__listItem"><Link to="/task"><span>Task</span></Link></li>
                 </ul>
             </div>
         </div>

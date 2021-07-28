@@ -2,6 +2,10 @@
     height: 100%;
 }
 
+.contentsArea__inner {
+    padding: 15px;
+}
+
 .contentsArea__inner > *:first-child {
     margin-top: 0 !important;
 }

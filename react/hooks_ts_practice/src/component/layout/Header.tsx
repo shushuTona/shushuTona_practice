@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 import './css/Header.css';
 
 const Header = React.memo( () => {
@@ -7,7 +8,7 @@ const Header = React.memo( () => {
     return (
         <header className="l-header">
             <div className="header__inner">
-                <a className="header__logo" href="/">LOGO</a>
+                <Link className="header__logo" to="/">LOGO</Link>
                 <div className="header__account">ログインした名前</div>
             </div>
         </header>
