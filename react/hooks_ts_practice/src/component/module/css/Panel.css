@@ -1,0 +1,210 @@
+.m-panel {
+    display: block;
+    border: 1px solid #333;
+    overflow: hidden;
+    border-radius: 5px;
+    box-shadow: 0 2px 5px 2px #d0d0d0;
+    position: relative;
+    caret-color: transparent;
+}
+
+@keyframes panelShowAnimation {
+    0% {
+        transform-origin: center;
+        transform: scale(.95) translateY(5px);
+        opacity: 0;
+    }
+
+    100% {
+        transform: scale(1) translateY(0px);
+        opacity: 1;
+    }
+}
+
+.m-panel.is-show {
+    animation-name: panelShowAnimation;
+    animation-timing-function: ease-in;
+    animation-duration: .3s;
+    animation-fill-mode: both;
+}
+
+@keyframes panelHoverAnimation {
+    0% {
+        transform-origin: center;
+        transform: translateX(0);
+    }
+
+    25% {
+        transform-origin: center;
+        transform: translateX(2px);
+    }
+
+    50% {
+        transform-origin: center;
+        transform: translateX(-2px);
+    }
+
+    75% {
+        transform-origin: center;
+        transform: translateX(2px);
+    }
+
+    100% {
+        transform: translateX(0);
+    }
+}
+
+.m-panel:hover {
+    animation-name: panelHoverAnimation;
+    animation-timing-function: ease-in;
+    animation-duration: .3s;
+    animation-fill-mode: both;
+}
+
+.panel__title {
+    display: flex;
+    align-items: center;
+}
+
+.panel__input {
+    width: 0;
+    caret-color: transparent;
+}
+
+.panel__inputLabel {
+    margin: 0 0 0 10px;
+    width: 18px;
+    height: 18px;
+    position: relative;
+    z-index: 1;
+    caret-color: transparent;
+}
+
+.panel__inputLabel::before {
+    content: "";
+    width: 18px;
+    height: 18px;
+    border-radius: 50%;
+    background-color: #fff;
+    border: 1px solid #333;
+    transition: border-color .3s;
+    position: absolute;
+    top: 0;
+    left: 0;
+    cursor: pointer;
+    caret-color: transparent;
+}
+
+@keyframes inputLabelHoverAnimation {
+    0% {
+        transform-origin: center;
+        transform: scale(1);
+    }
+
+    50% {
+        transform: scale(1.3);
+    }
+
+    100% {
+        transform: scale(1);
+    }
+}
+
+.panel__inputLabel:hover::before,
+.panel__inputLabel:focus::before {
+    border-color: #ed2828;
+
+    animation-name: inputLabelHoverAnimation;
+    animation-timing-function: ease-in-out;
+    animation-duration: .5s;
+    animation-fill-mode: both;
+}
+
+.panel__inputLabel::after {
+    content: "";
+    margin: auto;
+    width: 15px;
+    height: 8px;
+    border-bottom: 3px solid #ed2828;
+    border-left: 3px solid #ed2828;
+    border-radius: 2px;
+    transform: rotate(0deg);
+    opacity: 0;
+    transition: opacity .2s, transform .2s;
+    position: absolute;
+    top: 0;
+    bottom: 6px;
+    left: 3px;
+    right: 0;
+    cursor: pointer;
+    caret-color: transparent;
+}
+
+.panel__input:checked + .panel__inputLabel::after {
+    opacity: 1;
+    transform: rotate(-40deg);
+}
+
+.panel__btn {
+    padding: 10px;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    border: none;
+    transition: color .3s;
+    cursor: pointer;
+    caret-color: transparent;
+}
+
+.panel__btn:hover,
+.panel__btn:focus {
+    color: #ed2828;
+}
+
+.panel__btn::before {
+    content: "";
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    top: 0;
+    left: 0;
+}
+
+.panel__btn span {
+    position: relative;
+    z-index: 1;
+}
+
+.panel__status {
+    margin: 0 10px 0 0;
+    padding: 2px;
+    display: inline-block;
+    color: #333;
+    border-radius: 5px;
+    font-size: 12px;
+    border: 1px solid #333;
+}
+
+.panel__desc {
+    height: 0;
+    transition: height .3s;
+    overflow: hidden;
+}
+
+.panel__descInner {
+    padding: 10px;
+    display: block;
+    word-break: break-word;
+    position: relative;
+}
+
+.panel__descInner::before {
+    content: "";
+    margin: 0 auto;
+    width: calc(100% - 20px);
+    border-top: 1px solid #333;
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+}
