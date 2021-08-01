@@ -17,6 +17,37 @@
     cursor: auto;
 }
 
+@keyframes btnHoverAnimation {
+    0% {
+        transform: translateY(0px);
+    }
+
+    25% {
+        transform: translateY(-10px);
+    }
+
+    50% {
+        transform: translateY(0px);
+    }
+
+    75% {
+        transform: translateY(-10px);
+    }
+
+    100% {
+        transform: translateY(0px);
+    }
+}
+
+.m-button:not(:disabled),
+.m-button:not(:disabled) {
+    animation-name: btnHoverAnimation;
+    animation-duration: .5s;
+    animation-delay: .3s;
+    animation-timing-function: ease-in-out;
+    animation-fill-mode: both;
+}
+
 .m-button:hover:not(:disabled),
 .m-button:focus:not(:disabled) {
     color: #fff;

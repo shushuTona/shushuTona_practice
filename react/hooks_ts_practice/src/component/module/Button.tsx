@@ -4,7 +4,7 @@ import './css/Button.css';
 interface Props {
     btnText: string,
     clickHandler: MouseEventHandler,
-    disabled: boolean
+    disabled?: boolean
 }
 
 const Button = React.memo( ( { btnText, clickHandler, disabled }: Props) => {
