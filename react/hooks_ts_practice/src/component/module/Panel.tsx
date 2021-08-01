@@ -1,14 +1,14 @@
-import React, { ChangeEventHandler, MouseEventHandler, useEffect, useCallback, useRef } from 'react';
+import React, { ChangeEventHandler, ChangeEvent, MouseEventHandler, useEffect, useCallback, useRef } from 'react';
 import './css/Panel.css';
 
 interface Props {
-    panelID: string,
+    panelID: number,
     panelTitle: string,
     panelDesc: string,
-    panelStatus: 'Standby' | 'Running' | 'Finish',
+    panelStatus: 'Standby' | 'Running' | 'Finish' | 'Stopped',
     panelHasTaskNum: number,
     panelFinishedTaskNum: number,
-    changePanelHandler: ChangeEventHandler
+    changePanelHandler: ( panelID: number, checked: boolean ) => void
 }
 
 const Panel = React.memo( ( {
@@ -61,6 +61,10 @@ const Panel = React.memo( ( {
         }
     }, [] );
 
+    const inputChangeHandler: ChangeEventHandler = useCallback( ( event: ChangeEvent<HTMLInputElement> ) => {
+        changePanelHandler( panelID, event.target.checked );
+    }, [] );
+
     // 初回表示用のアニメーション後に該当classを削除する
     useEffect( () => {
         if (
@@ -76,21 +80,16 @@ const Panel = React.memo( ( {
 
             rootRef.current.addEventListener( 'animationend', animationendHandler );
 
+            // パネルの開閉トランジション後の処理
             panelRef.current.addEventListener( 'transitionend', ( event ) => {
                 if (
                     rootRef.current &&
                     panelRef.current &&
                     panelInnerRef.current
                 ) {
-                    console.log( panelRef.current.style.height );
-
                     if ( panelRef.current.clientHeight === 0 ) {
-                        console.log('閉じた後');
-
                         rootRef.current.classList.remove( 'is-open' );
                     } else if ( rootRef.current.classList.contains( 'is-open' )) {
-                        console.log('開けた後');
-
                         panelRef.current.style.height = 'auto';
                     }
                 }
@@ -102,8 +101,8 @@ const Panel = React.memo( ( {
         <div className="m-panel is-show" ref={rootRef}>
             <div className="panel__inner">
                 <div className="panel__title">
-                    <input id={panelID} className="panel__input" type="checkbox" onChange={changePanelHandler} />
-                    <label className="panel__inputLabel" htmlFor={panelID}></label>
+                    <input id={`panel-${panelID}`} className="panel__input" type="checkbox" onChange={inputChangeHandler} />
+                    <label className="panel__inputLabel" htmlFor={`panel-${panelID}`}></label>
                     <button className="panel__btn" type="button" onClick={clickHandler}>
                         <span className="panel__status">{panelStatus}</span>
                         <span>{panelTitle}</span>
@@ -122,11 +121,11 @@ const Panel = React.memo( ( {
                                 ) :
                                 (
                                     <p className="panel__taskNumDesc">
-                                        <span className="panel__taskNumText">この目標に紐付けされたタスクはまだないです</span>
+                                        <span className="panel__taskNumText">この目標にタスクは紐付けされていないです。<br />Taskページから目標を達成するためのタスクを追加しよう！</span>
                                     </p>
                                 )
                         }
-                        <p className="panel__descContents">{panelDesc}</p>
+                        <p className="panel__descContents"><span>目標を達成したい理由</span>{panelDesc}</p>
                     </div>
                 </div>
             </div>
