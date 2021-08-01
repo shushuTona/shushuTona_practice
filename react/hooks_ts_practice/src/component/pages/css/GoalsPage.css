@@ -1,0 +1,11 @@
+.goalPanelArea {
+    margin: 30px 0;
+}
+
+.goalPanelArea__item + .goalPanelArea__item {
+    margin: 15px 0 0;
+}
+
+.goalInputArea {
+    margin: 0 0 30px;
+}
