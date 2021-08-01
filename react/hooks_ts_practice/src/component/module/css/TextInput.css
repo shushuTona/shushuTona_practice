@@ -1,4 +1,9 @@
+::placeholder {
+    color: #999;
+}
+
 .m-textInput {
+    max-width: 800px;
     display: flex;
     align-items: center;
     flex-flow: row-reverse;
@@ -28,6 +33,7 @@
 }
 
 textarea.textInput__input {
+    height: 36px;
     min-height: 36px;
     resize: vertical;
 }
