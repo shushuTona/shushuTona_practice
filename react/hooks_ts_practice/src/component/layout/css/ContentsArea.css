@@ -3,7 +3,7 @@
 }
 
 .contentsArea__inner {
-    padding: 15px;
+    padding: 15px 15px 30px;
 }
 
 .contentsArea__inner > *:first-child {
