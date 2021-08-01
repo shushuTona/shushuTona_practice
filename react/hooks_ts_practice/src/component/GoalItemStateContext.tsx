@@ -9,7 +9,7 @@ interface GoalItemInterface {
     id: number,
     title: string,
     desc: string,
-    taskNum: number
+    hasTaskNum: number
 }
 
 interface InitialStateInterface {

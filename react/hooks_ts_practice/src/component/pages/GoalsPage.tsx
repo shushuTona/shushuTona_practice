@@ -22,7 +22,8 @@ interface GoalItemInterface {
     title: string,
     desc: string,
     panelStatus: 'Standby' | 'Running' | 'Finish'
-    taskNum: number
+    hasTaskNum: number,
+    finishedTaskNum: number
 }
 
 const GoalsPage = memo( () => {
@@ -40,7 +41,8 @@ const GoalsPage = memo( () => {
             title,
             desc,
             panelStatus: 'Standby',
-            taskNum: 0
+            hasTaskNum: 0,
+            finishedTaskNum: 0
         }
 
         console.log( payload );
@@ -115,6 +117,8 @@ const GoalsPage = memo( () => {
                                     panelTitle={ itemObj.title }
                                     panelDesc={itemObj.desc}
                                     panelStatus={itemObj.panelStatus}
+                                    panelHasTaskNum={itemObj.hasTaskNum}
+                                    panelFinishedTaskNum={itemObj.finishedTaskNum}
                                     changePanelHandler={panelChangeHandler} />
                             </li>
                         );

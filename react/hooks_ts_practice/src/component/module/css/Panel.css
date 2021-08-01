@@ -208,3 +208,13 @@
     left: 0;
     right: 0;
 }
+
+.panel__taskNumDesc {
+    margin: 0 0 10px;
+    font-size: 14px;
+    color: #666;
+}
+
+.panel__descContents {
+    margin: 0;
+}

@@ -5,11 +5,21 @@ interface Props {
     panelID: string,
     panelTitle: string,
     panelDesc: string,
-    panelStatus: 'Standby' | 'Running' | 'Finish'
+    panelStatus: 'Standby' | 'Running' | 'Finish',
+    panelHasTaskNum: number,
+    panelFinishedTaskNum: number,
     changePanelHandler: ChangeEventHandler
 }
 
-const Panel = React.memo( ( { panelID, panelTitle, panelDesc, panelStatus, changePanelHandler }: Props ) => {
+const Panel = React.memo( ( {
+    panelID,
+    panelTitle,
+    panelDesc,
+    panelStatus,
+    panelHasTaskNum,
+    panelFinishedTaskNum,
+    changePanelHandler
+}: Props ) => {
     console.log( 'Panel' );
 
     const rootRef = useRef<HTMLDivElement>(null);
@@ -101,7 +111,23 @@ const Panel = React.memo( ( { panelID, panelTitle, panelDesc, panelStatus, chang
                 </div>
 
                 <div className="panel__desc" ref={panelRef}>
-                    <div className="panel__descInner" ref={panelInnerRef}>{panelDesc}</div>
+                    <div className="panel__descInner" ref={panelInnerRef}>
+                        {
+                            ( panelHasTaskNum > 0 ) ?
+                                (
+                                    <p className="panel__taskNumDesc">
+                                        <span className="panel__taskNumText">完了したタスク数</span>
+                                        <span className="panel__taskNum">{panelFinishedTaskNum}</span>  / <span className="panel__taskNum">{panelHasTaskNum}</span> :
+                                    </p>
+                                ) :
+                                (
+                                    <p className="panel__taskNumDesc">
+                                        <span className="panel__taskNumText">この目標に紐付けされたタスクはまだないです</span>
+                                    </p>
+                                )
+                        }
+                        <p className="panel__descContents">{panelDesc}</p>
+                    </div>
                 </div>
             </div>
         </div>
