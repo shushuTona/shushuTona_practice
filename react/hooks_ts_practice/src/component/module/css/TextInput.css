@@ -5,8 +5,8 @@
 .m-textInput {
     max-width: 800px;
     display: flex;
-    align-items: center;
-    flex-flow: row-reverse;
+    align-items: flex-start;
+    flex-direction: column-reverse;
     cursor: pointer;
 }
 
@@ -19,6 +19,7 @@
 }
 
 .textInput__input {
+    margin: 5px 0 0;
     padding: 5px;
     width: 100%;
     display: block;
@@ -33,19 +34,39 @@
 }
 
 textarea.textInput__input {
-    height: 36px;
-    min-height: 36px;
+    height: 60px;
+    min-height: 60px;
     resize: vertical;
 }
 
 .textInput__label {
     width: 100%;
-    max-width: 250px;
+    max-width: none;
     display: block;
-    transition: color .3s;
     flex-shrink: 0;
 }
 
 .textInput__input:focus + .textInput__label {
     color: #ed2828;
+}
+
+@media screen and (min-width: 600px) {
+    .m-textInput {
+        align-items: center;
+        flex-flow: row-reverse;
+    }
+
+    .textInput__input {
+        margin: 0;
+    }
+
+    textarea.textInput__input {
+        height: 36px;
+        min-height: 36px;
+    }
+
+    .textInput__label {
+        max-width: 250px;
+        transition: color .3s;
+    }
 }

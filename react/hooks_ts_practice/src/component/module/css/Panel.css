@@ -28,39 +28,6 @@
     animation-fill-mode: both;
 }
 
-@keyframes panelHoverAnimation {
-    0% {
-        transform-origin: center;
-        transform: translateX(0);
-    }
-
-    25% {
-        transform-origin: center;
-        transform: translateX(2px);
-    }
-
-    50% {
-        transform-origin: center;
-        transform: translateX(-2px);
-    }
-
-    75% {
-        transform-origin: center;
-        transform: translateX(2px);
-    }
-
-    100% {
-        transform: translateX(0);
-    }
-}
-
-.m-panel:not(.is-open):hover {
-    animation-name: panelHoverAnimation;
-    animation-timing-function: ease-in;
-    animation-duration: .3s;
-    animation-fill-mode: both;
-}
-
 .panel__title {
     display: flex;
     align-items: center;
@@ -93,31 +60,6 @@
     left: 0;
     cursor: pointer;
     caret-color: transparent;
-}
-
-@keyframes inputLabelHoverAnimation {
-    0% {
-        transform-origin: center;
-        transform: scale(1);
-    }
-
-    50% {
-        transform: scale(1.3);
-    }
-
-    100% {
-        transform: scale(1);
-    }
-}
-
-.panel__inputLabel:hover::before,
-.panel__inputLabel:focus::before {
-    border-color: #ed2828;
-
-    animation-name: inputLabelHoverAnimation;
-    animation-timing-function: ease-in-out;
-    animation-duration: .5s;
-    animation-fill-mode: both;
 }
 
 .panel__inputLabel::after {
@@ -154,11 +96,6 @@
     transition: color .3s;
     cursor: pointer;
     caret-color: transparent;
-}
-
-.panel__btn:hover,
-.panel__btn:focus {
-    color: #ed2828;
 }
 
 .panel__btn::before {
@@ -224,4 +161,69 @@
     display: block;
     color: #999;
     font-size: 12px;
+}
+
+@media screen and (min-width: 600px) {
+    @keyframes panelHoverAnimation {
+        0% {
+            transform-origin: center;
+            transform: translateX(0);
+        }
+
+        25% {
+            transform-origin: center;
+            transform: translateX(2px);
+        }
+
+        50% {
+            transform-origin: center;
+            transform: translateX(-2px);
+        }
+
+        75% {
+            transform-origin: center;
+            transform: translateX(2px);
+        }
+
+        100% {
+            transform: translateX(0);
+        }
+    }
+
+    .m-panel:not(.is-open):hover {
+        animation-name: panelHoverAnimation;
+        animation-timing-function: ease-in;
+        animation-duration: .3s;
+        animation-fill-mode: both;
+    }
+
+    @keyframes inputLabelHoverAnimation {
+        0% {
+            transform-origin: center;
+            transform: scale(1);
+        }
+
+        50% {
+            transform: scale(1.3);
+        }
+
+        100% {
+            transform: scale(1);
+        }
+    }
+
+    .panel__inputLabel:hover::before,
+    .panel__inputLabel:focus::before {
+        border-color: #ed2828;
+
+        animation-name: inputLabelHoverAnimation;
+        animation-timing-function: ease-in-out;
+        animation-duration: .5s;
+        animation-fill-mode: both;
+    }
+
+    .panel__btn:hover,
+    .panel__btn:focus {
+        color: #ed2828;
+    }
 }

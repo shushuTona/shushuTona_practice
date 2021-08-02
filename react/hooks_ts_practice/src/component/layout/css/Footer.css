@@ -3,6 +3,8 @@
     padding: 15px;
     grid-column: 2/3;
     font-size: 12px;
+    background-color: #333;
+    color: #fff;
     border-top: 2px solid #ed2828;
     text-align: right;
 }

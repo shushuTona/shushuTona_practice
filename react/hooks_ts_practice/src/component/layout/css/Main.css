@@ -7,9 +7,19 @@
 }
 
 .l-main > *:first-child {
-    width:  200px;
-    height: calc(100% - 56px);
+    width: 100%;
+    height: auto;
+    background-color: #fff;
     position: fixed;
-    top: 56px;
+    top: 52px;
     left: 0;
+    z-index: 1;
+}
+
+@media screen and (min-width: 600px) {
+    .l-main > *:first-child {
+        width:  200px;
+        height: calc(100% - 56px);
+        top: 56px;
+    }
 }

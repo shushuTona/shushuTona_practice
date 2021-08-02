@@ -1,16 +1,21 @@
 .l-sideNav {
-    padding: 0 2px 0 0;
+    padding: 0;
     position: relative;
 }
 
 .l-sideNav::after {
     content: "";
-    width: 2px;
-    height: 100%;
+    width: 100%;
+    height: 2px;
     background-color: #ed2828;
     position: absolute;
-    top: 0;
-    right: 0;
+    bottom: 0;
+    left: 0;
+}
+
+.sideNav__list {
+    display: flex;
+    justify-content: center;
 }
 
 .sideNav__listItem a {
@@ -21,4 +26,24 @@
 
 .sideNav__listItem + .sideNav__listItem {
     border-top: 2px solid #ed2828;
+}
+
+@media screen and (min-width: 600px) {
+    .l-sideNav {
+        padding: 0 2px 0 0;
+    }
+
+    .l-sideNav::after {
+        width: 2px;
+        height: 100%;
+        top: 0;
+        bottom: auto;
+        left: auto;
+        right: 0;
+    }
+
+    .sideNav__list {
+        display: block;
+        border-bottom: 2px solid #ed2828;
+    }
 }

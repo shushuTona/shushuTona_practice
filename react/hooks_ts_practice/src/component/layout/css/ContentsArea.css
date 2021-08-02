@@ -3,7 +3,7 @@
 }
 
 .contentsArea__inner {
-    padding: 15px 15px 30px;
+    padding: 70px 15px 30px;
 }
 
 .contentsArea__inner > *:first-child {
@@ -12,4 +12,10 @@
 
 .contentsArea__inner > *:last-child {
     margin-bottom: 0 !important;
+}
+
+@media screen and (min-width: 600px) {
+    .contentsArea__inner {
+        padding-top: 15px;
+    }
 }
