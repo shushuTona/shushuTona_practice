@@ -9,7 +9,9 @@ interface GoalItemInterface {
     id: number,
     title: string,
     desc: string,
-    hasTaskNum: number
+    panelStatus: 'Standby' | 'Running' | 'Finish' | 'Stopped',
+    hasTaskNum: number,
+    finishedTaskNum: number
 }
 
 interface InitialStateInterface {
@@ -17,10 +19,15 @@ interface InitialStateInterface {
 }
 
 interface ReducerActions {
-    type: 'ADD_GOAL_STATE' | 'CHANGE_GOAL_STATE'
+    type: 'ADD_GOAL_ITEM' |
+            'CHANGE_GOAL_ITEM_STATE' |
+            'CHANGE_GOAL_ITEM_STATUS_RUNNING' |
+            'CHANGE_GOAL_ITEM_STATUS_FINISH' |
+            'CHANGE_GOAL_ITEM_STATUS_STOPPED'
     payload: GoalItemInterface
 }
 
+// localStorage内の一覧を初期値として取得する。（localStorageにGOAL_ITEMが存在しない場合、新規で作成する。）
 let initialState: InitialStateInterface = {};
 const localItem = localStorage.getItem( 'GOAL_ITEM' );
 if ( localItem !== null ) {
@@ -38,13 +45,33 @@ const commonStateReducer = ( state: InitialStateInterface, { type, payload }: Re
         [id]: payload
     };
 
+    console.log( localItemObj[id] );
+
     switch ( type ) {
-        case 'ADD_GOAL_STATE':
+        case 'ADD_GOAL_ITEM':
             // 各コンポーネントのhooksでstateをdepsとして指定しているから、新しいオブジェクトをreturnする
             const mergeState = { ...localItemObj, ...payloadObj };
             localStorage.setItem( 'GOAL_ITEM', JSON.stringify( mergeState ) );
 
             return mergeState;
+
+        // case 'CHANGE_GOAL_ITEM_STATE':
+        // return '';
+
+        case 'CHANGE_GOAL_ITEM_STATUS_RUNNING':
+            localItemObj[id].panelStatus = 'Standby';
+            localStorage.setItem( 'GOAL_ITEM', JSON.stringify( localItemObj ) );
+            return localItemObj;
+
+        case 'CHANGE_GOAL_ITEM_STATUS_FINISH':
+            localItemObj[id].panelStatus = 'Finish';
+            localStorage.setItem( 'GOAL_ITEM', JSON.stringify( localItemObj ) );
+            return localItemObj;
+
+        case 'CHANGE_GOAL_ITEM_STATUS_STOPPED':
+            localItemObj[id].panelStatus = 'Stopped';
+            localStorage.setItem( 'GOAL_ITEM', JSON.stringify( localItemObj ) );
+            return localItemObj;
 
         default:
             return state;
