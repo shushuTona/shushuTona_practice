@@ -9,3 +9,13 @@
 .goalInputArea {
     margin: 0 0 30px;
 }
+
+.goalBtnArea {
+    margin: -10px -10px 0 0;
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.goalBtnArea__item {
+    margin: 10px 10px 0 0;
+}

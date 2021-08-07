@@ -21,9 +21,18 @@ interface ReducerActions {
     payload: GoalItemInterface
 }
 
-const initialState: InitialStateInterface = {}
+let initialState: InitialStateInterface = {};
+const localItem = localStorage.getItem( 'GOAL_ITEM' );
+if ( localItem !== null ) {
+    initialState = JSON.parse( localItem );
+} else {
+    localStorage.setItem( 'GOAL_ITEM', JSON.stringify({}) );
+}
 
 const commonStateReducer = ( state: InitialStateInterface, { type, payload }: ReducerActions ) => {
+    const localItemString = localStorage.getItem( 'GOAL_ITEM' );
+    const localItemObj = localItemString !== null && JSON.parse( localItemString );
+
     const id = payload.id;
     const payloadObj = {
         [id]: payload
@@ -32,7 +41,10 @@ const commonStateReducer = ( state: InitialStateInterface, { type, payload }: Re
     switch ( type ) {
         case 'ADD_GOAL_STATE':
             // 各コンポーネントのhooksでstateをdepsとして指定しているから、新しいオブジェクトをreturnする
-            return { ...state, ...payloadObj};
+            const mergeState = { ...localItemObj, ...payloadObj };
+            localStorage.setItem( 'GOAL_ITEM', JSON.stringify( mergeState ) );
+
+            return mergeState;
 
         default:
             return state;

@@ -63,7 +63,7 @@ const Panel = React.memo( ( {
 
     const inputChangeHandler: ChangeEventHandler = useCallback( ( event: ChangeEvent<HTMLInputElement> ) => {
         changePanelHandler( panelID, event.target.checked );
-    }, [] );
+    }, [changePanelHandler] );
 
     // 初回表示用のアニメーション後に該当classを削除する
     useEffect( () => {
