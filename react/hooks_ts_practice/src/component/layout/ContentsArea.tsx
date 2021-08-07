@@ -6,9 +6,9 @@ import {
 import './css/ContentsArea.css';
 
 // Page Component
-import { HomePage } from '../pages/HomePage';
-import { TaskPage } from '../pages/TaskPage';
-import { GoalsPage } from '../pages/GoalsPage';
+import HomePage from '../pages/HomePage';
+const TaskPage = React.lazy( () => import( '../pages/TaskPage' ));
+const GoalsPage = React.lazy( () => import( '../pages/GoalsPage' ));
 
 const ContentsArea = React.memo( () => {
     console.log( 'ContentsArea' );
@@ -16,17 +16,13 @@ const ContentsArea = React.memo( () => {
     return (
         <div className="l-contentsArea">
             <div className="contentsArea__inner">
-                <Switch>
-                    <Route path="/goals">
-                        <GoalsPage />
-                    </Route>
-                    <Route path="/task">
-                        <TaskPage />
-                    </Route>
-                    <Route path="/">
-                        <HomePage />
-                    </Route>
-                </Switch>
+                <React.Suspense fallback={<p></p>}>
+                    <Switch>
+                            <Route path="/goals" component={GoalsPage} />
+                            <Route path="/task" component={TaskPage} />
+                            <Route path="/" component={HomePage} />
+                    </Switch>
+                </React.Suspense>
             </div>
         </div>
     );
