@@ -16,13 +16,13 @@
     cursor: auto;
 }
 
-@keyframes btnHoverAnimation {
+@keyframes btnJumpAnimation {
     0% {
         transform: translateY(0px);
     }
 
     25% {
-        transform: translateY(-10px);
+        transform: translateY(-5px);
     }
 
     50% {
@@ -30,7 +30,7 @@
     }
 
     75% {
-        transform: translateY(-10px);
+        transform: translateY(-5px);
     }
 
     100% {
@@ -38,9 +38,8 @@
     }
 }
 
-.m-button:not(:disabled),
 .m-button:not(:disabled) {
-    animation-name: btnHoverAnimation;
+    animation-name: btnJumpAnimation;
     animation-duration: .5s;
     animation-delay: .3s;
     animation-timing-function: ease-in-out;
