@@ -66,7 +66,7 @@ textarea.textInput__input {
     }
 
     .textInput__label {
-        max-width: 250px;
+        max-width: 200px;
         transition: color .3s;
     }
 }

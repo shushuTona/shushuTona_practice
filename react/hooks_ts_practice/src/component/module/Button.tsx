@@ -1,4 +1,4 @@
-import React, { MouseEventHandler } from 'react';
+import { memo, MouseEventHandler } from 'react';
 import './css/Button.css';
 
 interface Props {
@@ -7,7 +7,7 @@ interface Props {
     disabled?: boolean
 }
 
-const Button = React.memo( ( { btnText, clickHandler, disabled }: Props) => {
+const Button = memo( ( { btnText, clickHandler, disabled }: Props) => {
     console.log( 'Button' );
 
     return (

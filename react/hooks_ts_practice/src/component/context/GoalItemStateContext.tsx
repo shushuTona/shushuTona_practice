@@ -1,4 +1,4 @@
-import React, { ReducerState, Reducer, Dispatch, ReducerAction, createContext, useReducer } from 'react';
+import { PropsWithChildren, ReducerState, Reducer, Dispatch, ReducerAction, createContext, useReducer } from 'react';
 
 interface ContextInterface {
     state: ReducerState<Reducer<any, any>>,
@@ -36,7 +36,7 @@ if ( localItem !== null ) {
     localStorage.setItem( 'GOAL_ITEM', JSON.stringify({}) );
 }
 
-const commonStateReducer = ( state: InitialStateInterface, { type, payload }: ReducerActions ) => {
+const goalItemStateReducer = ( state: InitialStateInterface, { type, payload }: ReducerActions ) => {
     const localItemString = localStorage.getItem( 'GOAL_ITEM' );
     const localItemObj = localItemString !== null && JSON.parse( localItemString );
 
@@ -80,8 +80,8 @@ const commonStateReducer = ( state: InitialStateInterface, { type, payload }: Re
 
 const GoalItemStateContext = createContext<ContextInterface>( {} as ContextInterface );
 
-const GoalItemContextProvider = ( { children }: React.PropsWithChildren<{}>) => {
-    const [state, dispatch] = useReducer( commonStateReducer, initialState );
+const GoalItemContextProvider = ( { children }: PropsWithChildren<{}>) => {
+    const [state, dispatch] = useReducer( goalItemStateReducer, initialState );
 
     return (
         <GoalItemStateContext.Provider value={{ state, dispatch }}>
