@@ -44,19 +44,21 @@ const goalItemStateReducer = ( state: InitialStateInterface, { type, payload }: 
     const payloadObj = {
         [id]: payload
     };
-
-    console.log( localItemObj[id] );
+    let mergeState: InitialStateInterface;
 
     switch ( type ) {
         case 'ADD_GOAL_ITEM':
             // 各コンポーネントのhooksでstateをdepsとして指定しているから、新しいオブジェクトをreturnする
-            const mergeState = { ...localItemObj, ...payloadObj };
+            mergeState = { ...localItemObj, ...payloadObj };
             localStorage.setItem( 'GOAL_ITEM', JSON.stringify( mergeState ) );
 
             return mergeState;
 
-        // case 'CHANGE_GOAL_ITEM_STATE':
-        // return '';
+        case 'CHANGE_GOAL_ITEM_STATE':
+            mergeState = { ...localItemObj, ...payloadObj };
+            localStorage.setItem( 'GOAL_ITEM', JSON.stringify( mergeState ) );
+
+            return mergeState;
 
         case 'CHANGE_GOAL_ITEM_STATUS_RUNNING':
             localItemObj[id].panelStatus = 'Standby';
