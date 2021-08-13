@@ -19,11 +19,14 @@ import { TextInput } from '../module/TextInput';
 import { Disclosure } from '../module/Disclosure';
 import './css/GoalsPage.css';
 
+const panelStatusArray = ['Standby', 'Running', 'Finish', 'Stopped'];
+type panelStatusType = typeof panelStatusArray[number];
+
 interface GoalItemInterface {
     id: number,
     title: string,
     desc: string,
-    panelStatus: 'Standby' | 'Running' | 'Finish' | 'Stopped',
+    panelStatus: panelStatusType,
     hasTaskNum: number,
     finishedTaskNum: number
 }
@@ -84,8 +87,17 @@ const GoalsPage = memo( () => {
     // 選択した目標のステータスをStoppedに変更する
     const btnClickChangeStatusHandler: MouseEventHandler = useCallback( () => {
         console.log( 'btnClickChangeStatusHandler' );
-        console.log( checkedItemList );
-    }, [checkedItemList] );
+
+        const payloadArray: GoalItemInterface[] = [];
+        checkedItemList.forEach( ( goalItemIndex ) => {
+            payloadArray.push( goalItemContext.state[goalItemIndex] );
+        } );
+
+        goalItemContext.dispatch( {
+            type: 'CHANGE_GOAL_ITEM_STATUS_STOPPED',
+            payload: payloadArray
+        } );
+    }, [goalItemContext, checkedItemList] );
 
     // パネルチェックボックスイベントハンドラ
     const panelChangeHandler = useCallback( ( panelID: number, checked: boolean ): void => {

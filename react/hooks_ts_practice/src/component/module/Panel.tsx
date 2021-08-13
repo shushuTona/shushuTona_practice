@@ -1,11 +1,14 @@
 import React, { ChangeEventHandler, ChangeEvent, MouseEventHandler, useEffect, useCallback, useRef } from 'react';
 import './css/Panel.css';
 
+const panelStatusArray = ['Standby', 'Running', 'Finish', 'Stopped'];
+type panelStatusType = typeof panelStatusArray[number];
+
 interface Props {
     panelID: number,
     panelTitle: string,
     panelDesc: string,
-    panelStatus: 'Standby' | 'Running' | 'Finish' | 'Stopped',
+    panelStatus: panelStatusType,
     panelHasTaskNum: number,
     panelFinishedTaskNum: number,
     changePanelHandler: ( panelID: number, checked: boolean ) => void
@@ -63,7 +66,7 @@ const Panel = React.memo( ( {
 
     const inputChangeHandler: ChangeEventHandler = useCallback( ( event: ChangeEvent<HTMLInputElement> ) => {
         changePanelHandler( panelID, event.target.checked );
-    }, [changePanelHandler] );
+    }, [panelID, changePanelHandler] );
 
     // 初回表示用のアニメーション後に該当classを削除する
     useEffect( () => {

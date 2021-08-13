@@ -1,20 +1,25 @@
-import { PropsWithChildren, ReducerState, Reducer, Dispatch, ReducerAction, createContext, useReducer } from 'react';
+import {
+    PropsWithChildren,
+    Reducer,
+    Dispatch,
+    ReducerAction,
+    createContext,
+    useReducer
+} from 'react';
 
-interface ContextInterface {
-    state: ReducerState<Reducer<any, any>>,
-    dispatch: Dispatch<ReducerAction<Reducer<any, any>>>
-}
+const panelStatusArray = ['Standby', 'Running', 'Finish', 'Stopped'];
+type panelStatusType = typeof panelStatusArray[number];
 
 interface GoalItemInterface {
     id: number,
     title: string,
     desc: string,
-    panelStatus: 'Standby' | 'Running' | 'Finish' | 'Stopped',
+    panelStatus: panelStatusType,
     hasTaskNum: number,
     finishedTaskNum: number
 }
 
-interface InitialStateInterface {
+interface GoalItemStateInterface {
     [key: number]: GoalItemInterface
 }
 
@@ -24,60 +29,96 @@ interface ReducerActions {
             'CHANGE_GOAL_ITEM_STATUS_RUNNING' |
             'CHANGE_GOAL_ITEM_STATUS_FINISH' |
             'CHANGE_GOAL_ITEM_STATUS_STOPPED'
-    payload: GoalItemInterface
+    payload: GoalItemInterface | GoalItemInterface[]
+}
+
+interface ContextInterface {
+    state: GoalItemStateInterface,
+    dispatch: Dispatch<ReducerAction<Reducer<any, any>>>
 }
 
 // localStorage内の一覧を初期値として取得する。（localStorageにGOAL_ITEMが存在しない場合、新規で作成する。）
-let initialState: InitialStateInterface = {};
+let initialState: GoalItemStateInterface = {};
 const localItem = localStorage.getItem( 'GOAL_ITEM' );
 if ( localItem !== null ) {
     initialState = JSON.parse( localItem );
 } else {
     localStorage.setItem( 'GOAL_ITEM', JSON.stringify({}) );
 }
+let mergeState: GoalItemStateInterface;
 
-const goalItemStateReducer = ( state: InitialStateInterface, { type, payload }: ReducerActions ) => {
+const goalItemStateReducer: Reducer<GoalItemStateInterface, ReducerActions> = ( prevState, { type, payload } ): GoalItemStateInterface => {
     const localItemString = localStorage.getItem( 'GOAL_ITEM' );
     const localItemObj = localItemString !== null && JSON.parse( localItemString );
 
-    const id = payload.id;
-    const payloadObj = {
-        [id]: payload
-    };
-    let mergeState: InitialStateInterface;
+    if (
+        type === 'ADD_GOAL_ITEM' ||
+        type === 'CHANGE_GOAL_ITEM_STATE'
+    ) {
+        const id = ( payload as GoalItemInterface ).id;
+        const payloadObj = {
+            [id]: payload
+        };
 
-    switch ( type ) {
-        case 'ADD_GOAL_ITEM':
-            // 各コンポーネントのhooksでstateをdepsとして指定しているから、新しいオブジェクトをreturnする
-            mergeState = { ...localItemObj, ...payloadObj };
-            localStorage.setItem( 'GOAL_ITEM', JSON.stringify( mergeState ) );
+        mergeState = { ...localItemObj, ...payloadObj };
+        localStorage.setItem( 'GOAL_ITEM', JSON.stringify( mergeState ) );
+        return mergeState;
 
-            return mergeState;
+        // switch ( type ) {
+        //     case 'ADD_GOAL_ITEM':
+        //         // 各コンポーネントのhooksでstateをdepsとして指定しているから、新しいオブジェクトをreturnする
+        //         mergeState = { ...localItemObj, ...payloadObj };
 
-        case 'CHANGE_GOAL_ITEM_STATE':
-            mergeState = { ...localItemObj, ...payloadObj };
-            localStorage.setItem( 'GOAL_ITEM', JSON.stringify( mergeState ) );
+        //         localStorage.setItem( 'GOAL_ITEM', JSON.stringify( mergeState ) );
+        //         return mergeState;
 
-            return mergeState;
+        //     case 'CHANGE_GOAL_ITEM_STATE':
+        //         mergeState = { ...localItemObj, ...payloadObj };
 
-        case 'CHANGE_GOAL_ITEM_STATUS_RUNNING':
-            localItemObj[id].panelStatus = 'Standby';
-            localStorage.setItem( 'GOAL_ITEM', JSON.stringify( localItemObj ) );
-            return localItemObj;
+        //         localStorage.setItem( 'GOAL_ITEM', JSON.stringify( mergeState ) );
+        //         return mergeState;
+        // }
+    } else if (
+        Array.isArray( payload ) &&
+        (
+            type === 'CHANGE_GOAL_ITEM_STATUS_RUNNING' ||
+            type === 'CHANGE_GOAL_ITEM_STATUS_FINISH' ||
+            type === 'CHANGE_GOAL_ITEM_STATUS_STOPPED'
+        )
+    ) {
+        let panelStatus: panelStatusType;
 
-        case 'CHANGE_GOAL_ITEM_STATUS_FINISH':
-            localItemObj[id].panelStatus = 'Finish';
-            localStorage.setItem( 'GOAL_ITEM', JSON.stringify( localItemObj ) );
-            return localItemObj;
+        switch ( type ) {
+            case 'CHANGE_GOAL_ITEM_STATUS_RUNNING':
+                panelStatus = 'Running';
+                break;
 
-        case 'CHANGE_GOAL_ITEM_STATUS_STOPPED':
-            localItemObj[id].panelStatus = 'Stopped';
-            localStorage.setItem( 'GOAL_ITEM', JSON.stringify( localItemObj ) );
-            return localItemObj;
+            case 'CHANGE_GOAL_ITEM_STATUS_FINISH':
+                panelStatus = 'Finish';
+                break;
 
-        default:
-            return state;
+            case 'CHANGE_GOAL_ITEM_STATUS_STOPPED':
+                panelStatus = 'Stopped';
+                break;
+        }
+
+        let payloadObj: GoalItemStateInterface = {};
+        payload.forEach( ( goalItem ) => {
+            const id = goalItem.id;
+            const setGoalItem = { ...goalItem, panelStatus };
+
+            payloadObj[id] = setGoalItem;
+        } );
+
+        mergeState = { ...localItemObj, ...payloadObj };
+        localStorage.setItem( 'GOAL_ITEM', JSON.stringify( mergeState ) );
+
+        console.log( mergeState );
+
+        return mergeState;
     }
+
+    return prevState;
 }
 
 const GoalItemStateContext = createContext<ContextInterface>( {} as ContextInterface );

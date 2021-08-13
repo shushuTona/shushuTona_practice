@@ -8,6 +8,9 @@ import {
     lazy
 } from 'react';
 
+const panelStatusArray = ['Standby', 'Running', 'Finish', 'Stopped'];
+type panelStatusType = typeof panelStatusArray[number];
+
 interface ModalReducerState {
     isModalShow: boolean,
     isModalHidden: boolean,
@@ -18,7 +21,7 @@ interface EditGoalItemProps {
     id: number,
     title: string,
     desc: string,
-    panelStatus: 'Standby' | 'Running' | 'Finish' | 'Stopped'
+    panelStatus: panelStatusType
 }
 
 interface ModalReducerActions {
