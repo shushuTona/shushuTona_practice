@@ -1,4 +1,8 @@
-import { memo, useContext, Suspense } from 'react';
+import {
+    memo,
+    useContext,
+    Suspense
+} from 'react';
 import { ModalStateContext } from '../context/ModalContext';
 import './css/Modal.css';
 
@@ -13,7 +17,7 @@ const Modal = memo( () => {
             <div className="modal__contents">
                 <Suspense fallback={<p>Loading...</p>}>
                     {
-                        modalContentsComponent()
+                        modalContentsComponent
                     }
                 </Suspense>
             </div>

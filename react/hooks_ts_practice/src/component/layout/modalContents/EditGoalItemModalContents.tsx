@@ -26,6 +26,8 @@ interface Props {
 }
 
 const EditGoalItemModalContents = memo( ( { id, title, desc, panelStatus }: Props ) => {
+    console.log('EditGoalItemModalContents');
+
     const [titleState, setTitleState] = useState( title );
     const [descState, setDescState] = useState( desc );
     const [panelStatusState, setPanelStatusState] = useState( panelStatus );

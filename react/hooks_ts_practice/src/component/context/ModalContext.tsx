@@ -8,12 +8,10 @@ import {
     lazy
 } from 'react';
 
-const EditGoalItemModalContents = lazy( () => import( '../layout/modalContents/EditGoalItemModalContents' ) );
-
 interface ModalReducerState {
     isModalShow: boolean,
     isModalHidden: boolean,
-    modalContentsComponent(): JSX.Element
+    modalContentsComponent: JSX.Element
 }
 
 interface EditGoalItemProps {
@@ -41,16 +39,16 @@ const modalStateReducer: Reducer<ModalReducerState, ModalReducerActions> = ( pre
         case 'EDIT_GOAL_ITEM':
             const { id, title, desc, panelStatus } = payload as EditGoalItemProps;
 
+            // propsの値がキャッシュされる（？）から都度importする
+            const EditGoalItemModalContents = lazy( () => import( '../layout/modalContents/EditGoalItemModalContents' ) );
+
             mergeState = { ...prevState, ...{
-                isModalShow: true,
-                isModalHidden: false,
-                    modalContentsComponent() {
-                        return (
-                            <EditGoalItemModalContents id={id} title={title} desc={desc} panelStatus={panelStatus} />
-                        )
-                    }
+                    isModalShow: true,
+                    isModalHidden: false,
+                    modalContentsComponent: <EditGoalItemModalContents id={id} title={title} desc={desc} panelStatus={panelStatus} />
                 }
             };
+
             console.log( mergeState );
 
             return mergeState;
@@ -71,11 +69,7 @@ const modalStateReducer: Reducer<ModalReducerState, ModalReducerActions> = ( pre
 const initialState: ModalReducerState = {
     isModalShow: false,
     isModalHidden: false,
-    modalContentsComponent() {
-        return (
-            <p>Modal Contents.</p>
-        )
-    }
+    modalContentsComponent: <p>Modal Contents.</p>
 }
 
 const ModalStateContext = createContext<ContextInterface>( {} as ContextInterface );
