@@ -70,7 +70,8 @@ const TaskPage = memo( () => {
         setTargetGoalState( event.target.value );
     }, [] );
 
-    const btnClickHandler: MouseEventHandler = useCallback( () => {
+    // 新規タスクを追加する処理
+    const addBtnClickHandler: MouseEventHandler = useCallback( () => {
         taskItemContext.dispatch( {
             type: 'ADD_TASK_ITEM',
             payload: [
@@ -97,6 +98,33 @@ const TaskPage = memo( () => {
         }
     }, [taskItemContext, count, titleState, descState, targetGoalState, selectRefObj] );
 
+    // 対象タスクを編集する処理
+    const editBtnClickHandler: MouseEventHandler = useCallback( () => {
+        console.log('editBtnClickHandler');
+    }, [] );
+
+    // 対象タスクのステータスを中断に変更する処理
+    const stoppedBtnClickHandler: MouseEventHandler = useCallback( () => {
+        console.log( 'stoppedBtnClickHandler' );
+
+        const payloadArray: TaskItemInterface[] = [];
+        checkedItemList.forEach( ( itemId ) => {
+            const taskItem = taskItemContext.state[itemId];
+            payloadArray.push( taskItem );
+        } );
+
+        taskItemContext.dispatch( {
+            type: 'CHANGE_TASK_ITEM_STATUS_STOPPED',
+            payload: payloadArray
+        } );
+    }, [checkedItemList, taskItemContext] );
+
+    // 対象タスクを削除する処理
+    const removeBtnClickHandler: MouseEventHandler = useCallback( () => {
+        console.log('removeBtnClickHandler');
+    }, [] );
+
+    // パネルのチェックボックスを操作した際の処理
     const panelChangeHandler = useCallback( ( panelID: number, checked: boolean ): void => {
         console.log( checkedItemList );
 
@@ -147,10 +175,12 @@ const TaskPage = memo( () => {
         );
     }, [titleState, descState, targetGoalState, goalItemArray] );
 
+    // チェックされているパネルが1つの時falseになるフラグ
     const btnActiveSingularFlag = useMemo( () => {
         return checkedItemList.length !== 1;
     }, [checkedItemList] );
 
+    // チェックされているパネルが1つ以上の時falseになるフラグ
     const btnActiveMultipleFlag = useMemo( () => {
         return checkedItemList.length === 0;
     }, [checkedItemList] );
@@ -180,7 +210,7 @@ const TaskPage = memo( () => {
                     inputType="input"
                     inputValue={descState}
                     labelText="タスクの内容"
-                    placeholder="○○の本を読むことは△△の資格を取る為に必要だから！"
+                    placeholder="△△の資格を取る為に必要な○○の本を読む！"
                     changeInputHandler={descInputChangeHandler} />
 
                 <Select
@@ -196,28 +226,28 @@ const TaskPage = memo( () => {
                 <li className="btnArea__item">
                     <Button
                         btnText="新しいタスクを追加する"
-                        clickHandler={btnClickHandler}
+                        clickHandler={addBtnClickHandler}
                         disabled={addTaskBtnDisabledFlag} />
                 </li>
 
                 <li className="btnArea__item">
                     <Button
                         btnText="対象のタスクを編集する"
-                        clickHandler={btnClickHandler}
+                        clickHandler={editBtnClickHandler}
                         disabled={btnActiveSingularFlag} />
                 </li>
 
                 <li className="btnArea__item">
                     <Button
-                        btnText="対象のタスクを完了にする"
-                        clickHandler={btnClickHandler}
+                        btnText="対象のタスクを中断する"
+                        clickHandler={stoppedBtnClickHandler}
                         disabled={btnActiveMultipleFlag} />
                 </li>
 
                 <li className="btnArea__item">
                     <Button
                         btnText="対象のタスクを削除する"
-                        clickHandler={btnClickHandler}
+                        clickHandler={removeBtnClickHandler}
                         disabled={btnActiveMultipleFlag} />
                 </li>
             </ul>

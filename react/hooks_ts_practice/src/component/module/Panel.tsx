@@ -118,7 +118,7 @@ const Panel = React.memo( ( {
                     <div className="panel__descInner" ref={panelInnerRef}>
                         {
                             // 目標のパネルを表示
-                            panelHasTaskNum ?
+                            panelHasTaskNum !== undefined ?
                                 (
                                     panelHasTaskNum > 0 ?
                                         (

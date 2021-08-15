@@ -51,6 +51,7 @@ let mergeState: TaskItemStateInterface;
 const taskItemStateReducer: Reducer<TaskItemStateInterface, ReducerActions> = ( prevState, { type, payload } ) => {
     const localItemString = localStorage.getItem( 'TASK_ITEM' );
     const localItemObj = localItemString !== null && JSON.parse( localItemString );
+    let panelStatus: taskStatusType;
 
     switch ( type ) {
         case 'ADD_TASK_ITEM':
@@ -63,18 +64,26 @@ const taskItemStateReducer: Reducer<TaskItemStateInterface, ReducerActions> = ( 
             break;
 
         case 'CHANGE_TASK_ITEM_STATUS_RUNNING':
+            panelStatus = 'Running';
             break;
 
         case 'CHANGE_TASK_ITEM_STATUS_FINISH':
+            panelStatus = 'Finish';
             break;
 
         case 'CHANGE_TASK_ITEM_STATUS_STOPPED':
+            panelStatus = 'Stopped';
             break;
     }
 
     let payloadObj: TaskItemStateInterface = {};
     payload.forEach( ( taskItem ) => {
         const id = taskItem.id;
+
+        if ( panelStatus ) {
+            taskItem.taskStatus = panelStatus;
+        }
+
         payloadObj[id] = taskItem;
     } );
 
