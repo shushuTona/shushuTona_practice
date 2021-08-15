@@ -8,15 +8,30 @@
  * └削除はできない（目標を止めた形跡は残すべき）
  * ・各目標に紐づいているタスク数表示
  */
-import { Fragment, memo, useContext, useCallback, ChangeEvent, MouseEventHandler, ChangeEventHandler, useState, useMemo } from 'react';
+import {
+    memo,
+    Fragment,
+    ChangeEvent,
+    MouseEventHandler,
+    ChangeEventHandler,
+    useState,
+    useContext,
+    useCallback,
+    useMemo
+} from 'react';
 import { Link } from 'react-router-dom';
+
+// Context
 import { GoalItemStateContext } from '../context/GoalItemStateContext';
 import { ModalStateContext } from '../context/ModalContext';
+
+// Module
 import { Heading } from '../module/Heading';
 import { Button } from '../module/Button';
 import { Panel } from '../module/Panel';
 import { TextInput } from '../module/TextInput';
 import { Disclosure } from '../module/Disclosure';
+
 import './css/GoalsPage.css';
 
 const panelStatusArray = ['Standby', 'Running', 'Finish', 'Stopped'];
@@ -155,42 +170,42 @@ const GoalsPage = memo( () => {
 
             <div className="goalInputArea">
                 <TextInput
-                    inputType={'input'}
+                    inputType="input"
                     inputValue={title}
-                    labelText={'目標のタイトル'}
-                    placeholder={'○○の資格を取る！'}
+                    labelText="目標のタイトル"
+                    placeholder="○○の資格を取る！"
                     changeInputHandler={titleInputChangeHandler} />
 
                 <TextInput
-                    inputType={'textarea'}
+                    inputType="textarea"
                     inputValue={desc}
-                    labelText={'目標を達成したい理由'}
-                    placeholder={'○○の資格を取れると、△△が出来るようになるから。'}
+                    labelText="目標を達成したい理由"
+                    placeholder="○○の資格を取れると、△△が出来るようになるから。"
                     changeInputHandler={descInputChangeHandler} />
             </div>
 
-            <ul className="goalBtnArea">
-                <li className="goalBtnArea__item">
+            <ul className="btnArea">
+                <li className="btnArea__item">
                     <Button
-                        btnText={'新しい目標を追加する'}
+                        btnText="新しい目標を追加する"
                         clickHandler={btnClickAddItemHandler}
                         disabled={btnDisabledFlag} />
                 </li>
-                <li className="goalBtnArea__item">
+                <li className="btnArea__item">
                     <Button
-                        btnText={'対象の目標を編集する'}
+                        btnText="対象の目標を編集する"
                         clickHandler={btnClickItemChangeHandler}
                         disabled={checkedItemList.length !== 1} />
                 </li>
-                <li className="goalBtnArea__item">
+                <li className="btnArea__item">
                     <Button
-                        btnText={'対象の目標を中断する'}
+                        btnText="対象の目標を中断する"
                         clickHandler={btnClickChangeStatusHandler}
                         disabled={checkedItemList.length === 0} />
                 </li>
             </ul>
 
-            <Disclosure title={'目標のステータスについて'}>
+            <Disclosure title="目標のステータスについて">
                 <ul className="goalDescription__panelInner">
                     <li className="goalDescription__item">まだタスクが紐付けされていない目標は、ステータスが<span className="goalDescription__status">Standby</span>になります。<br /><Link to="/task">Taskページでタスクを設定しよう！</Link></li>
                     <li className="goalDescription__item">1つでも進行中のタスクが紐づいている目標は、ステータスが<span className="goalDescription__status">Running</span>になります。</li>
@@ -199,11 +214,11 @@ const GoalsPage = memo( () => {
                 </ul>
             </Disclosure>
 
-            <ul className="goalPanelArea">
+            <ul className="panelArea">
                 {
                     itemList.map( ( itemObj ) => {
                         return (
-                            <li className="goalPanelArea__item" key={ itemObj.id }>
+                            <li className="panelArea__item" key={ itemObj.id }>
                                 <Panel
                                     panelID={itemObj.id}
                                     panelTitle={ itemObj.title }

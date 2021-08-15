@@ -5,12 +5,15 @@ import {
     ChangeEventHandler,
     useState,
     useCallback,
-    useContext
+    useContext,
+    useMemo
 } from 'react';
 
+// Context
 import { GoalItemStateContext } from '../../context/GoalItemStateContext';
 import { ModalStateContext } from '../../context/ModalContext';
 
+// Module
 import { TextInput } from '../../module/TextInput';
 import { Select } from '../../module/Select';
 import { Button } from '../../module/Button';
@@ -54,11 +57,8 @@ const EditGoalItemModalContents = memo( ( { id, title, desc, panelStatus }: Prop
 
         console.log( changeValue );
 
-        if (panelStatusArray.indexOf( changeValue ) >= 0) {
-            setPanelStatusState( changeValue );
-            console.log( panelStatusState );
-        }
-    }, [panelStatusState] );
+        setPanelStatusState( changeValue );
+    }, [] );
 
     // 編集確定ボタンクリック処理
     const clickChangeFinishBtnHandler: MouseEventHandler = useCallback( () => {
@@ -90,6 +90,16 @@ const EditGoalItemModalContents = memo( ( { id, title, desc, panelStatus }: Prop
         });
     }, [modalContext] );
 
+    const btnDisabledFlag = useMemo( () => {
+        console.log( 'btnDisabledFlag' );
+
+        return (
+            titleState.length === 0 ||
+            descState.length === 0 ||
+            panelStatusArray.indexOf( panelStatusState ) === -1
+        )
+    }, [titleState, descState, panelStatusState]);
+
     return (
         <div className="modal__editGoalItem">
             <TextInput
@@ -110,10 +120,11 @@ const EditGoalItemModalContents = memo( ( { id, title, desc, panelStatus }: Prop
                 options={panelStatusArray}
                 selectValue={panelStatusState}
                 labelText="状態"
+                defaultText="状態を選択してください。"
                 changeInputHandler={changeSelectHandler} />
 
             <div className="modal__btnList">
-                <Button btnText="編集確定" clickHandler={clickChangeFinishBtnHandler} />
+                <Button btnText="編集確定" clickHandler={clickChangeFinishBtnHandler} disabled={btnDisabledFlag} />
                 <Button btnText="戻る" clickHandler={clickChangeReturnBtnHandler} />
             </div>
         </div>

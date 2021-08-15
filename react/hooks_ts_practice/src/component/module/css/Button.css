@@ -16,6 +16,16 @@
     cursor: auto;
 }
 
+.btnArea {
+    margin: -10px -10px 0 0;
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.btnArea__item {
+    margin: 10px 10px 0 0;
+}
+
 @keyframes btnJumpAnimation {
     0% {
         transform: translateY(0px);

@@ -9,8 +9,9 @@ interface Props {
     panelTitle: string,
     panelDesc: string,
     panelStatus: panelStatusType,
-    panelHasTaskNum: number,
-    panelFinishedTaskNum: number,
+    panelHasTaskNum?: number,
+    panelFinishedTaskNum?: number,
+    goalTitle?: string,
     changePanelHandler: ( panelID: number, checked: boolean ) => void
 }
 
@@ -21,6 +22,7 @@ const Panel = React.memo( ( {
     panelStatus,
     panelHasTaskNum,
     panelFinishedTaskNum,
+    goalTitle,
     changePanelHandler
 }: Props ) => {
     console.log( 'Panel' );
@@ -108,25 +110,38 @@ const Panel = React.memo( ( {
                     <label className="panel__inputLabel" htmlFor={`panel-${panelID}`}></label>
                     <button className="panel__btn" type="button" onClick={clickHandler}>
                         <span className="panel__status">{panelStatus}</span>
-                        <span>{panelTitle}</span>
+                        <span className="panel__title">{panelTitle}</span>
                     </button>
                 </div>
 
                 <div className="panel__desc" ref={panelRef}>
                     <div className="panel__descInner" ref={panelInnerRef}>
                         {
-                            ( panelHasTaskNum > 0 ) ?
+                            // 目標のパネルを表示
+                            panelHasTaskNum ?
                                 (
-                                    <p className="panel__taskNumDesc">
-                                        <span className="panel__taskNumText">完了したタスク数</span>
-                                        <span className="panel__taskNum">{panelFinishedTaskNum}</span>  / <span className="panel__taskNum">{panelHasTaskNum}</span> :
-                                    </p>
-                                ) :
+                                    panelHasTaskNum > 0 ?
+                                        (
+                                            <p className="panel__taskDesc">
+                                                <span className="panel__taskDescText">完了したタスク数</span>
+                                                <span className="panel__taskNum">{panelFinishedTaskNum}</span>  / <span className="panel__taskNum">{panelHasTaskNum}</span> :
+                                            </p>
+                                        ) :
+                                        (
+                                            <p className="panel__taskDesc">
+                                                <span className="panel__taskDescText">この目標にタスクは紐付けされていないです。<br />Taskページから目標を達成するためのタスクを追加しよう！</span>
+                                            </p>
+                                        )
+                                ) : ''
+                        }
+                        {
+                            // タスクのパネルを表示
+                            goalTitle ?
                                 (
-                                    <p className="panel__taskNumDesc">
-                                        <span className="panel__taskNumText">この目標にタスクは紐付けされていないです。<br />Taskページから目標を達成するためのタスクを追加しよう！</span>
+                                    <p className="panel__taskDesc">
+                                        <span className="panel__taskDescText">達成したい目標：{goalTitle}</span>
                                     </p>
-                                )
+                                ): ''
                         }
                         <p className="panel__descContents"><span>目標を達成したい理由</span>{panelDesc}</p>
                     </div>

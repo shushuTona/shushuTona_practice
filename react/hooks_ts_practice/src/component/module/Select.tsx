@@ -1,17 +1,25 @@
-import { memo, ChangeEventHandler } from 'react';
+import {
+    memo,
+    ChangeEventHandler,
+    RefObject
+} from 'react';
+
 import './css/Select.css';
 
 interface Props {
     readonly options: string[],
     selectValue: string,
     labelText: string,
-    changeInputHandler: ChangeEventHandler
+    defaultText: string,
+    changeInputHandler: ChangeEventHandler,
+    selectRef?: RefObject<HTMLSelectElement>
 }
 
-const Select = memo( ( { options, selectValue, labelText, changeInputHandler }: Props) => {
+const Select = memo( ( { options, selectValue, labelText, defaultText, changeInputHandler, selectRef }: Props ) => {
     return (
         <label className="m-select">
-            <select className="select__inner" defaultValue={selectValue} onChange={changeInputHandler}>
+            <select className="select__inner" defaultValue={selectValue} onChange={changeInputHandler} ref={selectRef}>
+                <option defaultValue="">{defaultText}</option>
                 {
                     options.map( ( optionItem ) => {
                         return <option

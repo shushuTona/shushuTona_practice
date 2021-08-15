@@ -146,7 +146,7 @@
     right: 0;
 }
 
-.panel__taskNumDesc {
+.panel__taskDesc {
     margin: 0 0 10px;
     color: #999;
     font-size: 12px;
@@ -161,6 +161,14 @@
     display: block;
     color: #999;
     font-size: 12px;
+}
+
+.panelArea {
+    margin: 30px 0;
+}
+
+.panelArea__item + .panelArea__item {
+    margin: 15px 0 0;
 }
 
 @media screen and (min-width: 600px) {

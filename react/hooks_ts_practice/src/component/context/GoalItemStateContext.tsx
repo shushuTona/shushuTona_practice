@@ -62,22 +62,8 @@ const goalItemStateReducer: Reducer<GoalItemStateInterface, ReducerActions> = ( 
 
         mergeState = { ...localItemObj, ...payloadObj };
         localStorage.setItem( 'GOAL_ITEM', JSON.stringify( mergeState ) );
+
         return mergeState;
-
-        // switch ( type ) {
-        //     case 'ADD_GOAL_ITEM':
-        //         // 各コンポーネントのhooksでstateをdepsとして指定しているから、新しいオブジェクトをreturnする
-        //         mergeState = { ...localItemObj, ...payloadObj };
-
-        //         localStorage.setItem( 'GOAL_ITEM', JSON.stringify( mergeState ) );
-        //         return mergeState;
-
-        //     case 'CHANGE_GOAL_ITEM_STATE':
-        //         mergeState = { ...localItemObj, ...payloadObj };
-
-        //         localStorage.setItem( 'GOAL_ITEM', JSON.stringify( mergeState ) );
-        //         return mergeState;
-        // }
     } else if (
         Array.isArray( payload ) &&
         (
