@@ -11,9 +11,11 @@
 import {
     memo,
     Fragment,
+    createRef,
     ChangeEvent,
     MouseEventHandler,
     ChangeEventHandler,
+    RefObject,
     useState,
     useContext,
     useCallback,
@@ -57,6 +59,32 @@ const GoalsPage = memo( () => {
     const [desc, setDesc] = useState( '' );
     const [checkedItemList, setCheckedItemList] = useState<number[]>([]);
 
+    // 表示要素一覧配列を生成する
+    const itemList = useMemo( (): GoalItemInterface[] => {
+        const returnArray: GoalItemInterface[] = Object.values( goalItemContext.state );
+
+        return returnArray;
+    }, [goalItemContext.state] );
+
+    // パネルに渡すrefオブジェクトの配列
+    const panelRefObjArray = useMemo( () => {
+        const returnArray: RefObject<HTMLInputElement>[] = [];
+
+        itemList.forEach( () => {
+            const panelRef = createRef<HTMLInputElement>();
+            returnArray.push( panelRef );
+        } );
+
+        return returnArray;
+    }, [itemList] );
+
+    // ボタンの非活性コントロール用フラグを生成する
+    const btnDisabledFlag = useMemo( () => {
+        console.log( 'btnDisabledFlag' );
+
+        return title === '' || desc === '';
+    }, [title, desc] );
+
     // ボタンがクリックされる度に、新しいアイテムをdispatchで追加する
     const btnClickAddItemHandler: MouseEventHandler = useCallback( () => {
         const payload = {
@@ -82,8 +110,8 @@ const GoalsPage = memo( () => {
     }, [ goalItemContext, count, title, desc ] ); // TODO：Buttonコンポーネントの再レンダリングが走ってしまうけど、setCountが機能しなくなる
 
     // 選択した目標の内容を修正する
-    const btnClickItemChangeHandler: MouseEventHandler = useCallback( () => {
-        console.log( 'btnClickItemChangeHandler' );
+    const editBtnClickHandler: MouseEventHandler = useCallback( () => {
+        console.log( 'editBtnClickHandler' );
 
         const checkedItemIndex = checkedItemList[0];
         const { id, title, desc, panelStatus } = goalItemContext.state[checkedItemIndex];
@@ -97,7 +125,14 @@ const GoalsPage = memo( () => {
                 panelStatus
             }
         } );
-    }, [checkedItemList, goalItemContext.state, modalContext] );
+
+        setCheckedItemList( [] );
+        panelRefObjArray.forEach( ( inputRefObj ) => {
+            if ( inputRefObj.current ) {
+                inputRefObj.current.checked = false;
+            }
+        } );
+    }, [checkedItemList, goalItemContext.state, modalContext, panelRefObjArray] );
 
     // 選択した目標のステータスをStoppedに変更する
     const btnClickChangeStatusHandler: MouseEventHandler = useCallback( () => {
@@ -112,7 +147,14 @@ const GoalsPage = memo( () => {
             type: 'CHANGE_GOAL_ITEM_STATUS_STOPPED',
             payload: payloadArray
         } );
-    }, [goalItemContext, checkedItemList] );
+
+        setCheckedItemList( [] );
+        panelRefObjArray.forEach( ( inputRefObj ) => {
+            if ( inputRefObj.current ) {
+                inputRefObj.current.checked = false;
+            }
+        } );
+    }, [goalItemContext, checkedItemList, panelRefObjArray] );
 
     // パネルチェックボックスイベントハンドラ
     const panelChangeHandler = useCallback( ( panelID: number, checked: boolean ): void => {
@@ -148,20 +190,6 @@ const GoalsPage = memo( () => {
         setDesc( event.target.value );
     }, [] );
 
-    // 表示要素一覧配列を生成する
-    const itemList = useMemo( (): GoalItemInterface[] => {
-        const returnArray: GoalItemInterface[] = Object.values( goalItemContext.state );
-
-        return returnArray;
-    }, [goalItemContext.state] );
-
-    // ボタンの非活性コントロール用フラグを生成する
-    const btnDisabledFlag = useMemo( () => {
-        console.log('btnDisabledFlag');
-
-        return title === '' || desc === '';
-    }, [title, desc] );
-
     return (
         <Fragment>
             <Heading htmlHeadingTag={'h1'} text={'Personal Goals'} />
@@ -194,7 +222,7 @@ const GoalsPage = memo( () => {
                 <li className="btnArea__item">
                     <Button
                         btnText="対象の目標を編集する"
-                        clickHandler={btnClickItemChangeHandler}
+                        clickHandler={editBtnClickHandler}
                         disabled={checkedItemList.length !== 1} />
                 </li>
                 <li className="btnArea__item">
@@ -216,7 +244,7 @@ const GoalsPage = memo( () => {
 
             <ul className="panelArea">
                 {
-                    itemList.map( ( itemObj ) => {
+                    itemList.map( ( itemObj, index ) => {
                         return (
                             <li className="panelArea__item" key={ itemObj.id }>
                                 <Panel
@@ -226,6 +254,7 @@ const GoalsPage = memo( () => {
                                     panelStatus={itemObj.panelStatus}
                                     panelHasTaskNum={itemObj.hasTaskNum}
                                     panelFinishedTaskNum={itemObj.finishedTaskNum}
+                                    inputRef={panelRefObjArray[index]}
                                     changePanelHandler={panelChangeHandler} />
                             </li>
                         );

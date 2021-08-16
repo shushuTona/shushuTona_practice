@@ -52,13 +52,22 @@ const taskItemStateReducer: Reducer<TaskItemStateInterface, ReducerActions> = ( 
     const localItemString = localStorage.getItem( 'TASK_ITEM' );
     const localItemObj = localItemString !== null && JSON.parse( localItemString );
     let panelStatus: taskStatusType;
+    let payloadObj: TaskItemStateInterface = {};
 
     switch ( type ) {
         case 'ADD_TASK_ITEM':
             break;
 
         case 'DELETE_TASK_ITEM':
-            break;
+            payload.forEach( ( taskItem ) => {
+                const id = taskItem.id;
+                delete localItemObj[id];
+            } );
+
+            console.log( localItemObj );
+            localStorage.setItem( 'TASK_ITEM', JSON.stringify( localItemObj ) );
+
+            return localItemObj;
 
         case 'CHANGE_TASK_ITEM_STATE':
             break;
@@ -76,7 +85,6 @@ const taskItemStateReducer: Reducer<TaskItemStateInterface, ReducerActions> = ( 
             break;
     }
 
-    let payloadObj: TaskItemStateInterface = {};
     payload.forEach( ( taskItem ) => {
         const id = taskItem.id;
 

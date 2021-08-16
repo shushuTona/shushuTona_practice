@@ -1,16 +1,16 @@
 import {
     memo,
-    MouseEventHandler,
     ChangeEvent,
     ChangeEventHandler,
+    MouseEventHandler,
     useState,
     useCallback,
     useContext,
-    useMemo
+    useMemo,
 } from 'react';
 
 // Context
-import { GoalItemStateContext } from '../../context/GoalItemStateContext';
+import { TaskItemStateContext } from '../../context/TaskItemStateContext';
 import { ModalStateContext } from '../../context/ModalContext';
 
 // Module
@@ -25,74 +25,67 @@ interface Props {
     id: number,
     title: string,
     desc: string,
-    panelStatus: panelStatusType
+    taskStatus: panelStatusType
 }
 
-const EditGoalItemModalContents = memo( ( { id, title, desc, panelStatus }: Props ) => {
-    console.log('EditGoalItemModalContents');
-
+const EditTaskItemModalContents = memo( ( { id, title, desc, taskStatus }: Props ) => {
     const [titleState, setTitleState] = useState( title );
     const [descState, setDescState] = useState( desc );
-    const [panelStatusState, setPanelStatusState] = useState( panelStatus );
+    const [taskStatusState, setPanelStatusState] = useState( taskStatus );
 
-    const goalItemContext = useContext( GoalItemStateContext );
+    const taskItemContext = useContext( TaskItemStateContext );
     const modalContext = useContext( ModalStateContext );
 
-    // 目標タイトル入力変更
-    const changeTitleHandler: ChangeEventHandler = useCallback( ( event: ChangeEvent<HTMLInputElement> ) => {
+    const changeTitleHandler: ChangeEventHandler = useCallback( (event: ChangeEvent<HTMLInputElement>) => {
         setTitleState( event.target.value );
     }, [] );
 
-    // 目標達成理由入力変更
     const changeDescHandler: ChangeEventHandler = useCallback( ( event: ChangeEvent<HTMLInputElement> ) => {
         setDescState( event.target.value );
     }, [] );
 
-    // 目標状態変更
-    const changeSelectHandler: ChangeEventHandler = useCallback( (event: ChangeEvent<HTMLSelectElement>) => {
-        const changeValue = event.target.value as panelStatusType;
-        setPanelStatusState( changeValue );
+    const changeSelectHandler: ChangeEventHandler = useCallback( ( event: ChangeEvent<HTMLSelectElement> ) => {
+        console.log( event.target.value );
+
+        setPanelStatusState( event.target.value );
     }, [] );
 
-    // 編集確定ボタンクリック処理
     const clickChangeFinishBtnHandler: MouseEventHandler = useCallback( () => {
-        // 変更した目標内容を更新する処理
         const payload = {
             id,
             title: titleState,
             desc: descState,
-            panelStatus: panelStatusState
+            taskStatus: taskStatusState
         }
 
         console.log( payload );
 
-        goalItemContext.dispatch( {
-            type: 'CHANGE_GOAL_ITEM_STATE',
-            payload
+        taskItemContext.dispatch( {
+            type: 'CHANGE_TASK_ITEM_STATE',
+            payload: [
+                payload
+            ]
         } );
 
         modalContext.dispatch( {
             type: 'CLOSE_MODAL'
         } );
-    }, [goalItemContext, modalContext, id, titleState, descState, panelStatusState] );
+    }, [id, titleState, descState, taskStatusState, taskItemContext, modalContext] );
 
-    // 戻るボタンクリック処理
     const clickChangeReturnBtnHandler: MouseEventHandler = useCallback( () => {
         // モーダルを閉じる処理
         modalContext.dispatch( {
             type: 'CLOSE_MODAL'
-        });
+        } );
     }, [modalContext] );
 
     const btnDisabledFlag = useMemo( () => {
-        console.log( 'btnDisabledFlag' );
-
         return (
             titleState.length === 0 ||
             descState.length === 0 ||
-            panelStatusArray.indexOf( panelStatusState ) === -1
+            panelStatusArray.indexOf( taskStatusState ) === -1
         )
-    }, [titleState, descState, panelStatusState]);
+    }, [titleState, descState, taskStatusState] );
 
     return (
         <div className="modal__editGoalItem">
@@ -112,7 +105,7 @@ const EditGoalItemModalContents = memo( ( { id, title, desc, panelStatus }: Prop
 
             <Select
                 options={panelStatusArray}
-                selectValue={panelStatusState}
+                selectValue={taskStatusState}
                 labelText="状態"
                 defaultText="状態を選択してください。"
                 changeInputHandler={changeSelectHandler} />
@@ -125,4 +118,4 @@ const EditGoalItemModalContents = memo( ( { id, title, desc, panelStatus }: Prop
     )
 } );
 
-export default EditGoalItemModalContents;
+export default EditTaskItemModalContents;

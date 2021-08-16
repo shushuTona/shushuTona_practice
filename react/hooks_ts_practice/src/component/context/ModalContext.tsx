@@ -17,7 +17,7 @@ interface ModalReducerState {
     modalContentsComponent: JSX.Element
 }
 
-interface EditGoalItemProps {
+interface EditItemProps {
     id: number,
     title: string,
     desc: string,
@@ -25,8 +25,10 @@ interface EditGoalItemProps {
 }
 
 interface ModalReducerActions {
-    type: 'EDIT_GOAL_ITEM' | 'CLOSE_MODAL',
-    payload?: EditGoalItemProps
+    type: 'EDIT_GOAL_ITEM' |
+            'EDIT_TASK_ITEM' |
+            'CLOSE_MODAL',
+    payload?: EditItemProps
 }
 
 interface ContextInterface {
@@ -35,38 +37,60 @@ interface ContextInterface {
 }
 
 const modalStateReducer: Reducer<ModalReducerState, ModalReducerActions> = ( prevState, { type, payload } ) => {
-    console.log( payload );
     let mergeState: ModalReducerState;
+    let payloadObj: ModalReducerState;
 
-    switch ( type ) {
-        case 'EDIT_GOAL_ITEM':
-            const { id, title, desc, panelStatus } = payload as EditGoalItemProps;
+    if ( payload ) {
+        const { id, title, desc, panelStatus } = payload;
 
-            // propsの値がキャッシュされる（？）から都度importする
-            const EditGoalItemModalContents = lazy( () => import( '../layout/modalContents/EditGoalItemModalContents' ) );
-
-            mergeState = { ...prevState, ...{
+        switch ( type ) {
+            case 'EDIT_GOAL_ITEM':
+                // propsの値がキャッシュされる（？）から都度importする
+                const EditGoalItemModalContents = lazy( () => import( '../layout/modalContents/EditGoalItemModalContents' ) );
+                payloadObj = {
                     isModalShow: true,
                     isModalHidden: false,
                     modalContentsComponent: <EditGoalItemModalContents id={id} title={title} desc={desc} panelStatus={panelStatus} />
-                }
-            };
+                };
+                break;
 
-            console.log( mergeState );
+            case 'EDIT_TASK_ITEM':
+                const EditTaskItemModalContents = lazy( () => import( '../layout/modalContents/EditTaskItemModalContents' ) );
+                payloadObj = {
+                    isModalShow: true,
+                    isModalHidden: false,
+                    modalContentsComponent: <EditTaskItemModalContents id={id} title={title} desc={desc} taskStatus={panelStatus} />
+                };
+                break;
 
-            return mergeState;
-
-        case 'CLOSE_MODAL':
-            mergeState = {
-                ...prevState, ...{
+            default:
+                payloadObj = {
                     isModalShow: false,
-                    isModalHidden: true
+                    isModalHidden: false,
+                    modalContentsComponent: <p>Modal Contents.</p>
                 }
-            };
-            console.log( mergeState );
+        }
 
-            return mergeState;
+        mergeState = {...prevState, ...payloadObj};
+
+        console.log( mergeState );
+
+        return mergeState;
+    } else if (
+        type === 'CLOSE_MODAL'
+    ) {
+        mergeState = {
+            ...prevState, ...{
+                isModalShow: false,
+                isModalHidden: true
+            }
+        };
+        console.log( mergeState );
+
+        return mergeState;
     }
+
+    return prevState;
 }
 
 const initialState: ModalReducerState = {

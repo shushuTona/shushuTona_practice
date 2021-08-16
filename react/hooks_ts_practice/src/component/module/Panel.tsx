@@ -1,4 +1,4 @@
-import React, { ChangeEventHandler, ChangeEvent, MouseEventHandler, useEffect, useCallback, useRef } from 'react';
+import React, { ChangeEventHandler, ChangeEvent, MouseEventHandler, useEffect, useCallback, useRef, RefObject } from 'react';
 import './css/Panel.css';
 
 const panelStatusArray = ['Standby', 'Running', 'Finish', 'Stopped'];
@@ -12,6 +12,7 @@ interface Props {
     panelHasTaskNum?: number,
     panelFinishedTaskNum?: number,
     goalTitle?: string,
+    inputRef?: RefObject<HTMLInputElement>
     changePanelHandler: ( panelID: number, checked: boolean ) => void
 }
 
@@ -23,6 +24,7 @@ const Panel = React.memo( ( {
     panelHasTaskNum,
     panelFinishedTaskNum,
     goalTitle,
+    inputRef,
     changePanelHandler
 }: Props ) => {
     console.log( 'Panel' );
@@ -106,7 +108,7 @@ const Panel = React.memo( ( {
         <div className="m-panel is-show" ref={rootRef}>
             <div className="panel__inner">
                 <div className="panel__title">
-                    <input id={`panel-${panelID}`} className="panel__input" type="checkbox" onChange={inputChangeHandler} />
+                    <input id={`panel-${panelID}`} className="panel__input" type="checkbox" onChange={inputChangeHandler} ref={inputRef} />
                     <label className="panel__inputLabel" htmlFor={`panel-${panelID}`}></label>
                     <button className="panel__btn" type="button" onClick={clickHandler}>
                         <span className="panel__status">{panelStatus}</span>

@@ -20,10 +20,12 @@ import {
     useCallback,
     useMemo,
     createRef,
+    RefObject,
 } from 'react';
 
 import { GoalItemStateContext } from '../context/GoalItemStateContext';
 import { TaskItemStateContext } from '../context/TaskItemStateContext';
+import { ModalStateContext } from '../context/ModalContext';
 
 import { Heading } from '../module/Heading';
 import { Button } from '../module/Button';
@@ -49,6 +51,7 @@ const TaskPage = memo( () => {
 
     const goalItemContext = useContext( GoalItemStateContext );
     const taskItemContext = useContext( TaskItemStateContext );
+    const modalContext = useContext( ModalStateContext );
 
     const [titleState, setTitleState] = useState( '' );
     const [descState, setDescState] = useState( '' );
@@ -57,6 +60,65 @@ const TaskPage = memo( () => {
 
     const selectRefObj = createRef<HTMLSelectElement>();
     let count = Object.keys( taskItemContext.state ).length;
+
+    // 表示要素一覧配列を生成する
+    const itemList = useMemo( (): TaskItemInterface[] => {
+        const returnArray: TaskItemInterface[] = Object.values( taskItemContext.state );
+
+        return returnArray;
+    }, [taskItemContext.state] );
+
+    // パネルに渡すrefオブジェクトの配列
+    const panelRefObjArray = useMemo( () => {
+        const returnArray: RefObject<HTMLInputElement>[] = [];
+
+        itemList.forEach( () => {
+            const panelRef = createRef<HTMLInputElement>();
+            returnArray.push( panelRef );
+        } );
+
+        return returnArray;
+    }, [itemList] );
+
+    // タスクを紐づける目標のタイトル一覧
+    const goalItemArray = useMemo( () => {
+        const goalItemStateObj = goalItemContext.state;
+        const selectOptionList = [];
+
+        for ( let goalItemIndex in goalItemStateObj ) {
+            selectOptionList.push( goalItemStateObj[goalItemIndex].title );
+        }
+
+        return selectOptionList;
+    }, [goalItemContext] );
+
+    // タスク追加ボタンの活性判定フラグ
+    const addTaskBtnDisabledFlag = useMemo( () => {
+        return (
+            titleState.length === 0 ||
+            descState.length === 0 ||
+            goalItemArray.indexOf( targetGoalState ) === -1
+        );
+    }, [titleState, descState, targetGoalState, goalItemArray] );
+
+    // チェックされているパネルが1つの時falseになるフラグ
+    const btnActiveSingularFlag = useMemo( () => {
+        return checkedItemList.length !== 1;
+    }, [checkedItemList] );
+
+    // チェックされているパネルが1つ以上の時falseになるフラグ
+    const btnActiveMultipleFlag = useMemo( () => {
+        return checkedItemList.length === 0;
+    }, [checkedItemList] );
+
+    const uncheckedPanel = useCallback( () => {
+        setCheckedItemList( [] );
+        panelRefObjArray.forEach( ( inputRefObj ) => {
+            if ( inputRefObj.current ) {
+                inputRefObj.current.checked = false;
+            }
+        } );
+    }, [panelRefObjArray] );
 
     const titleInputChangeHandler: ChangeEventHandler = useCallback( ( event: ChangeEvent<HTMLInputElement> ) => {
         setTitleState( event.target.value );
@@ -100,8 +162,23 @@ const TaskPage = memo( () => {
 
     // 対象タスクを編集する処理
     const editBtnClickHandler: MouseEventHandler = useCallback( () => {
-        console.log('editBtnClickHandler');
-    }, [] );
+        console.log( 'editBtnClickHandler' );
+
+        const checkedItemIndex = checkedItemList[0];
+        const { id, title, desc, taskStatus } = taskItemContext.state[checkedItemIndex];
+
+        modalContext.dispatch( {
+            type: 'EDIT_TASK_ITEM',
+            payload: {
+                id,
+                title,
+                desc,
+                panelStatus: taskStatus
+            }
+        } );
+
+        uncheckedPanel();
+    }, [checkedItemList, taskItemContext, modalContext, uncheckedPanel] );
 
     // 対象タスクのステータスを中断に変更する処理
     const stoppedBtnClickHandler: MouseEventHandler = useCallback( () => {
@@ -117,12 +194,27 @@ const TaskPage = memo( () => {
             type: 'CHANGE_TASK_ITEM_STATUS_STOPPED',
             payload: payloadArray
         } );
-    }, [checkedItemList, taskItemContext] );
+
+        uncheckedPanel();
+    }, [checkedItemList, taskItemContext, uncheckedPanel] );
 
     // 対象タスクを削除する処理
     const removeBtnClickHandler: MouseEventHandler = useCallback( () => {
-        console.log('removeBtnClickHandler');
-    }, [] );
+        console.log( 'removeBtnClickHandler' );
+
+        const payloadArray: TaskItemInterface[] = [];
+        checkedItemList.forEach( ( itemId ) => {
+            const taskItem = taskItemContext.state[itemId];
+            payloadArray.push( taskItem );
+        } );
+
+        taskItemContext.dispatch( {
+            type: 'DELETE_TASK_ITEM',
+            payload: payloadArray
+        } );
+
+        uncheckedPanel();
+    }, [checkedItemList, taskItemContext, uncheckedPanel] );
 
     // パネルのチェックボックスを操作した際の処理
     const panelChangeHandler = useCallback( ( panelID: number, checked: boolean ): void => {
@@ -153,44 +245,6 @@ const TaskPage = memo( () => {
             }
         }
     }, [checkedItemList] );
-
-    // タスクを紐づける目標のタイトル一覧
-    const goalItemArray = useMemo( () => {
-        const goalItemStateObj = goalItemContext.state;
-        const selectOptionList = [];
-
-        for ( let goalItemIndex in goalItemStateObj ) {
-            selectOptionList.push( goalItemStateObj[goalItemIndex].title );
-        }
-
-        return selectOptionList;
-    }, [goalItemContext] );
-
-    // タスク追加ボタンの活性判定フラグ
-    const addTaskBtnDisabledFlag = useMemo( () => {
-        return (
-            titleState.length === 0 ||
-            descState.length === 0 ||
-            goalItemArray.indexOf(targetGoalState) === -1
-        );
-    }, [titleState, descState, targetGoalState, goalItemArray] );
-
-    // チェックされているパネルが1つの時falseになるフラグ
-    const btnActiveSingularFlag = useMemo( () => {
-        return checkedItemList.length !== 1;
-    }, [checkedItemList] );
-
-    // チェックされているパネルが1つ以上の時falseになるフラグ
-    const btnActiveMultipleFlag = useMemo( () => {
-        return checkedItemList.length === 0;
-    }, [checkedItemList] );
-
-    // 表示要素一覧配列を生成する
-    const itemList = useMemo( (): TaskItemInterface[] => {
-        const returnArray: TaskItemInterface[] = Object.values( taskItemContext.state );
-
-        return returnArray;
-    }, [taskItemContext.state] );
 
     return (
         <Fragment>
@@ -254,7 +308,7 @@ const TaskPage = memo( () => {
 
             <ul className="panelArea">
                 {
-                    itemList.map( ( itemObj ) => {
+                    itemList.map( ( itemObj, index ) => {
                         return (
                             <li className="panelArea__item" key={itemObj.id}>
                                 <Panel
@@ -263,6 +317,7 @@ const TaskPage = memo( () => {
                                     panelDesc={itemObj.desc}
                                     panelStatus={itemObj.taskStatus}
                                     goalTitle={itemObj.goalTitle}
+                                    inputRef={panelRefObjArray[index]}
                                     changePanelHandler={panelChangeHandler} />
                             </li>
                         );
