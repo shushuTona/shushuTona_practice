@@ -1,0 +1,23 @@
+version: '3'
+services:
+  web:
+    container_name: php
+    build:
+      context: ./web
+      dockerfile: Dockerfile
+    tty: true
+    volumes:
+      - ./data:/var/www/html
+    ports:
+      - "8080:80"
+
+  db:
+    container_name: mysql
+    build:
+      context: ./db
+      dockerfile: Dockerfile
+    environment:
+      - MYSQL_ROOT_PASSWORD=pass
+    volumes:
+      # MySQLの設定ファイル
+      - ./db/mysql_conf:/etc/mysql/conf.d
