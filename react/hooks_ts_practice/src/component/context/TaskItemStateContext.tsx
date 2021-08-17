@@ -19,7 +19,10 @@ interface TaskItemInterface {
 }
 
 interface TaskItemStateInterface {
-    [key: number]: TaskItemInterface
+    itemCount: number,
+    itemList: {
+        [key: number]: TaskItemInterface
+    }
 }
 
 interface ReducerActions {
@@ -29,7 +32,8 @@ interface ReducerActions {
     'CHANGE_TASK_ITEM_STATUS_RUNNING' |
     'CHANGE_TASK_ITEM_STATUS_FINISH' |
     'CHANGE_TASK_ITEM_STATUS_STOPPED'
-    payload: TaskItemInterface[]
+    payload: TaskItemInterface[],
+    itemCount?: number
 }
 
 interface ContextInterface {
@@ -38,30 +42,39 @@ interface ContextInterface {
 }
 
 // localStorage内の一覧を初期値として取得する。（localStorageにTASK_ITEMが存在しない場合、新規で作成する。）
-let initialState: TaskItemStateInterface = {};
+let initialState: TaskItemStateInterface = {
+    itemCount: 0,
+    itemList: {}
+};
 const localItem = localStorage.getItem( 'TASK_ITEM' );
 if ( localItem !== null ) {
     initialState = JSON.parse( localItem );
 } else {
-    localStorage.setItem( 'TASK_ITEM', JSON.stringify( {} ) );
+    localStorage.setItem( 'TASK_ITEM', JSON.stringify( initialState ) );
 }
 
 let mergeState: TaskItemStateInterface;
 
-const taskItemStateReducer: Reducer<TaskItemStateInterface, ReducerActions> = ( prevState, { type, payload } ) => {
+const taskItemStateReducer: Reducer<TaskItemStateInterface, ReducerActions> = ( prevState, { type, payload, itemCount } ) => {
     const localItemString = localStorage.getItem( 'TASK_ITEM' );
     const localItemObj = localItemString !== null && JSON.parse( localItemString );
+
+    const payloadObj: TaskItemStateInterface = {
+        itemCount: itemCount !== undefined ? itemCount : prevState.itemCount,
+        itemList: {}
+    };
     let panelStatus: taskStatusType;
-    let payloadObj: TaskItemStateInterface = {};
+    let updateItemCount = prevState.itemCount;
 
     switch ( type ) {
         case 'ADD_TASK_ITEM':
+            updateItemCount = prevState.itemCount + 1;
             break;
 
         case 'DELETE_TASK_ITEM':
             payload.forEach( ( taskItem ) => {
                 const id = taskItem.id;
-                delete localItemObj[id];
+                delete localItemObj.itemList[id];
             } );
 
             console.log( localItemObj );
@@ -92,10 +105,13 @@ const taskItemStateReducer: Reducer<TaskItemStateInterface, ReducerActions> = ( 
             taskItem.taskStatus = panelStatus;
         }
 
-        payloadObj[id] = taskItem;
+        payloadObj.itemList[id] = taskItem;
     } );
 
-    mergeState = { ...localItemObj, ...payloadObj };
+    mergeState = {
+        itemList: { ...localItemObj.itemList, ...payloadObj.itemList },
+        itemCount: updateItemCount
+    };
     localStorage.setItem( 'TASK_ITEM', JSON.stringify( mergeState ) );
 
     console.log( mergeState );
