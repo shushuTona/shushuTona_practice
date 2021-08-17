@@ -145,7 +145,7 @@ const Panel = React.memo( ( {
                                     </p>
                                 ): ''
                         }
-                        <p className="panel__descContents"><span>目標を達成したい理由</span>{panelDesc}</p>
+                        <p className="panel__descContents"><span>{ goalTitle ? 'タスク' : '目標' }を達成したい理由</span>{panelDesc}</p>
                     </div>
                 </div>
             </div>
