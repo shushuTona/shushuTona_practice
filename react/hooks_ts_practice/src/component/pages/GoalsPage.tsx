@@ -17,6 +17,7 @@ import {
     ChangeEventHandler,
     RefObject,
     useState,
+    useEffect,
     useContext,
     useCallback,
     useMemo
@@ -100,7 +101,7 @@ const GoalsPage = memo( () => {
 
         goalItemContext.dispatch( {
             type: 'ADD_GOAL_ITEM',
-            payload
+            payload: [ payload ]
         });
 
         count++;
@@ -189,6 +190,35 @@ const GoalsPage = memo( () => {
     const descInputChangeHandler: ChangeEventHandler = useCallback( ( event: ChangeEvent<HTMLTextAreaElement> ) => {
         setDesc( event.target.value );
     }, [] );
+
+    // タスクの数・完了数によって目標に紐付くタスク数を更新する
+    useEffect(() => {
+        const taskLocalItemString = localStorage.getItem( 'TASK_ITEM' );;
+        const taskLocalItemObj = taskLocalItemString !== null && JSON.parse( taskLocalItemString );
+        const returnObj: { [key: string]: { hasTaskNum: number, finishedTaskNum: number }} = {};
+
+        for ( let objIndex in taskLocalItemObj.itemList ) {
+            const taskObj = taskLocalItemObj.itemList[objIndex];
+            const { goalTitle } = taskObj;
+
+            if ( !returnObj[goalTitle] ) {
+                returnObj[goalTitle] = {
+                    hasTaskNum: 1,
+                    finishedTaskNum: 0
+                }
+            } else {
+                const prevNum = returnObj[goalTitle].hasTaskNum;
+                returnObj[goalTitle].hasTaskNum = prevNum + 1;
+            }
+
+            if ( taskObj.taskStatus === 'Finish' ) {
+                const prevNum = returnObj[goalTitle].finishedTaskNum;
+                returnObj[goalTitle].finishedTaskNum = prevNum + 1;
+            }
+        }
+
+        console.log( returnObj );
+    }, [])
 
     return (
         <Fragment>

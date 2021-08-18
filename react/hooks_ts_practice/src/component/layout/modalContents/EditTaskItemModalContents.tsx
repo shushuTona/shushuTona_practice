@@ -25,10 +25,11 @@ interface Props {
     id: number,
     title: string,
     desc: string,
-    taskStatus: panelStatusType
+    taskStatus: panelStatusType,
+    goalTitle: string
 }
 
-const EditTaskItemModalContents = memo( ( { id, title, desc, taskStatus }: Props ) => {
+const EditTaskItemModalContents = memo( ( { id, title, desc, taskStatus, goalTitle }: Props ) => {
     const [titleState, setTitleState] = useState( title );
     const [descState, setDescState] = useState( desc );
     const [taskStatusState, setPanelStatusState] = useState( taskStatus );
@@ -55,7 +56,8 @@ const EditTaskItemModalContents = memo( ( { id, title, desc, taskStatus }: Props
             id,
             title: titleState,
             desc: descState,
-            taskStatus: taskStatusState
+            taskStatus: taskStatusState,
+            goalTitle
         }
 
         console.log( payload );
@@ -70,7 +72,7 @@ const EditTaskItemModalContents = memo( ( { id, title, desc, taskStatus }: Props
         modalContext.dispatch( {
             type: 'CLOSE_MODAL'
         } );
-    }, [id, titleState, descState, taskStatusState, taskItemContext, modalContext] );
+    }, [id, titleState, descState, taskStatusState, goalTitle, taskItemContext, modalContext] );
 
     const clickChangeReturnBtnHandler: MouseEventHandler = useCallback( () => {
         // モーダルを閉じる処理

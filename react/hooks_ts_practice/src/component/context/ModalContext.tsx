@@ -21,7 +21,8 @@ interface EditItemProps {
     id: number,
     title: string,
     desc: string,
-    panelStatus: panelStatusType
+    panelStatus: panelStatusType,
+    goalTitle: string
 }
 
 interface ModalReducerActions {
@@ -41,12 +42,13 @@ const modalStateReducer: Reducer<ModalReducerState, ModalReducerActions> = ( pre
     let payloadObj: ModalReducerState;
 
     if ( payload ) {
-        const { id, title, desc, panelStatus } = payload;
+        const { id, title, desc, panelStatus, goalTitle } = payload;
 
         switch ( type ) {
             case 'EDIT_GOAL_ITEM':
                 // propsの値がキャッシュされる（？）から都度importする
                 const EditGoalItemModalContents = lazy( () => import( '../layout/modalContents/EditGoalItemModalContents' ) );
+
                 payloadObj = {
                     isModalShow: true,
                     isModalHidden: false,
@@ -59,7 +61,7 @@ const modalStateReducer: Reducer<ModalReducerState, ModalReducerActions> = ( pre
                 payloadObj = {
                     isModalShow: true,
                     isModalHidden: false,
-                    modalContentsComponent: <EditTaskItemModalContents id={id} title={title} desc={desc} taskStatus={panelStatus} />
+                    modalContentsComponent: <EditTaskItemModalContents id={id} title={title} desc={desc} taskStatus={panelStatus} goalTitle={goalTitle} />
                 };
                 break;
 
@@ -73,8 +75,6 @@ const modalStateReducer: Reducer<ModalReducerState, ModalReducerActions> = ( pre
 
         mergeState = {...prevState, ...payloadObj};
 
-        console.log( mergeState );
-
         return mergeState;
     } else if (
         type === 'CLOSE_MODAL'
@@ -85,7 +85,6 @@ const modalStateReducer: Reducer<ModalReducerState, ModalReducerActions> = ( pre
                 isModalHidden: true
             }
         };
-        console.log( mergeState );
 
         return mergeState;
     }

@@ -64,11 +64,11 @@ const EditGoalItemModalContents = memo( ( { id, title, desc, panelStatus }: Prop
             panelStatus: panelStatusState
         }
 
-        console.log( payload );
-
         goalItemContext.dispatch( {
             type: 'CHANGE_GOAL_ITEM_STATE',
-            payload
+            payload: [
+                payload
+            ]
         } );
 
         modalContext.dispatch( {
@@ -85,8 +85,6 @@ const EditGoalItemModalContents = memo( ( { id, title, desc, panelStatus }: Prop
     }, [modalContext] );
 
     const btnDisabledFlag = useMemo( () => {
-        console.log( 'btnDisabledFlag' );
-
         return (
             titleState.length === 0 ||
             descState.length === 0 ||

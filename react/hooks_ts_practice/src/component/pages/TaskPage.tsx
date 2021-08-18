@@ -165,7 +165,7 @@ const TaskPage = memo( () => {
     // 対象タスクを編集する処理
     const editBtnClickHandler: MouseEventHandler = useCallback( () => {
         const checkedItemIndex = checkedItemList[0];
-        const { id, title, desc, taskStatus } = taskItemContext.state.itemList[checkedItemIndex];
+        const { id, title, desc, taskStatus, goalTitle } = taskItemContext.state.itemList[checkedItemIndex];
 
         modalContext.dispatch( {
             type: 'EDIT_TASK_ITEM',
@@ -173,7 +173,8 @@ const TaskPage = memo( () => {
                 id,
                 title,
                 desc,
-                panelStatus: taskStatus
+                panelStatus: taskStatus,
+                goalTitle
             }
         } );
 

@@ -29,7 +29,7 @@ interface ReducerActions {
             'CHANGE_GOAL_ITEM_STATUS_RUNNING' |
             'CHANGE_GOAL_ITEM_STATUS_FINISH' |
             'CHANGE_GOAL_ITEM_STATUS_STOPPED'
-    payload: GoalItemInterface | GoalItemInterface[]
+    payload: GoalItemInterface[]
 }
 
 interface ContextInterface {
@@ -45,66 +45,52 @@ if ( localItem !== null ) {
 } else {
     localStorage.setItem( 'GOAL_ITEM', JSON.stringify({}) );
 }
+
 let mergeState: GoalItemStateInterface;
 
 const goalItemStateReducer: Reducer<GoalItemStateInterface, ReducerActions> = ( prevState, { type, payload } ): GoalItemStateInterface => {
-    const localItemString = localStorage.getItem( 'GOAL_ITEM' );
-    const localItemObj = localItemString !== null && JSON.parse( localItemString );
+    const goalLocalItemString = localStorage.getItem( 'GOAL_ITEM' );
+    const goalLocalItemObj = goalLocalItemString !== null && JSON.parse( goalLocalItemString );
 
-    if (
-        type === 'ADD_GOAL_ITEM' ||
-        type === 'CHANGE_GOAL_ITEM_STATE'
-    ) {
-        const id = ( payload as GoalItemInterface ).id;
-        const payloadObj = {
-            [id]: payload
-        };
+    let panelStatus: panelStatusType;
 
-        mergeState = { ...localItemObj, ...payloadObj };
-        localStorage.setItem( 'GOAL_ITEM', JSON.stringify( mergeState ) );
+    switch ( type ) {
+        case 'ADD_GOAL_ITEM':
+            break;
 
-        return mergeState;
-    } else if (
-        Array.isArray( payload ) &&
-        (
-            type === 'CHANGE_GOAL_ITEM_STATUS_RUNNING' ||
-            type === 'CHANGE_GOAL_ITEM_STATUS_FINISH' ||
-            type === 'CHANGE_GOAL_ITEM_STATUS_STOPPED'
-        )
-    ) {
-        let panelStatus: panelStatusType;
+        case 'CHANGE_GOAL_ITEM_STATE':
+            break;
 
-        switch ( type ) {
-            case 'CHANGE_GOAL_ITEM_STATUS_RUNNING':
-                panelStatus = 'Running';
-                break;
+        case 'CHANGE_GOAL_ITEM_STATUS_RUNNING':
+            panelStatus = 'Running';
+            break;
 
-            case 'CHANGE_GOAL_ITEM_STATUS_FINISH':
-                panelStatus = 'Finish';
-                break;
+        case 'CHANGE_GOAL_ITEM_STATUS_FINISH':
+            panelStatus = 'Finish';
+            break;
 
-            case 'CHANGE_GOAL_ITEM_STATUS_STOPPED':
-                panelStatus = 'Stopped';
-                break;
-        }
-
-        let payloadObj: GoalItemStateInterface = {};
-        payload.forEach( ( goalItem ) => {
-            const id = goalItem.id;
-            const setGoalItem = { ...goalItem, panelStatus };
-
-            payloadObj[id] = setGoalItem;
-        } );
-
-        mergeState = { ...localItemObj, ...payloadObj };
-        localStorage.setItem( 'GOAL_ITEM', JSON.stringify( mergeState ) );
-
-        console.log( mergeState );
-
-        return mergeState;
+        case 'CHANGE_GOAL_ITEM_STATUS_STOPPED':
+            panelStatus = 'Stopped';
+            break;
     }
 
-    return prevState;
+    const payloadObj: GoalItemStateInterface = [];
+    payload.forEach( ( taskItem ) => {
+        const id = taskItem.id;
+
+        if ( panelStatus ) {
+            taskItem.panelStatus = panelStatus;
+        }
+
+        payloadObj[id] = taskItem;
+    } );
+
+    mergeState = { ...goalLocalItemObj, ...payloadObj };
+    localStorage.setItem( 'GOAL_ITEM', JSON.stringify( mergeState ) );
+
+    console.log( mergeState );
+
+    return mergeState;
 }
 
 const GoalItemStateContext = createContext<ContextInterface>( {} as ContextInterface );
