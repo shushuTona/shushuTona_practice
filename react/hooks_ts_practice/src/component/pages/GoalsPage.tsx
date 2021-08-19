@@ -81,8 +81,6 @@ const GoalsPage = memo( () => {
 
     // ボタンの非活性コントロール用フラグを生成する
     const btnDisabledFlag = useMemo( () => {
-        console.log( 'btnDisabledFlag' );
-
         return title === '' || desc === '';
     }, [title, desc] );
 
@@ -97,8 +95,6 @@ const GoalsPage = memo( () => {
             finishedTaskNum: 0
         }
 
-        console.log( payload );
-
         goalItemContext.dispatch( {
             type: 'ADD_GOAL_ITEM',
             payload: [ payload ]
@@ -112,8 +108,6 @@ const GoalsPage = memo( () => {
 
     // 選択した目標の内容を修正する
     const editBtnClickHandler: MouseEventHandler = useCallback( () => {
-        console.log( 'editBtnClickHandler' );
-
         const checkedItemIndex = checkedItemList[0];
         const { id, title, desc, panelStatus } = goalItemContext.state[checkedItemIndex];
 
@@ -137,8 +131,6 @@ const GoalsPage = memo( () => {
 
     // 選択した目標のステータスをStoppedに変更する
     const btnClickChangeStatusHandler: MouseEventHandler = useCallback( () => {
-        console.log( 'btnClickChangeStatusHandler' );
-
         const payloadArray: GoalItemInterface[] = [];
         checkedItemList.forEach( ( goalItemIndex ) => {
             payloadArray.push( goalItemContext.state[goalItemIndex] );
@@ -193,31 +185,48 @@ const GoalsPage = memo( () => {
 
     // タスクの数・完了数によって目標に紐付くタスク数を更新する
     useEffect(() => {
+        const goalLocalItemString = localStorage.getItem( 'GOAL_ITEM' );
         const taskLocalItemString = localStorage.getItem( 'TASK_ITEM' );;
+        const goalLocalItemObj = goalLocalItemString !== null && JSON.parse( goalLocalItemString );
         const taskLocalItemObj = taskLocalItemString !== null && JSON.parse( taskLocalItemString );
-        const returnObj: { [key: string]: { hasTaskNum: number, finishedTaskNum: number }} = {};
 
-        for ( let objIndex in taskLocalItemObj.itemList ) {
-            const taskObj = taskLocalItemObj.itemList[objIndex];
+        const goalTitleObj: { [key: string]: { hasTaskNum: number, finishedTaskNum: number } } = {};
+        const payloadArray: GoalItemInterface[] = [];
+
+        for ( let taskIndex in taskLocalItemObj.itemList ) {
+            const taskObj = taskLocalItemObj.itemList[taskIndex];
             const { goalTitle } = taskObj;
 
-            if ( !returnObj[goalTitle] ) {
-                returnObj[goalTitle] = {
+            if ( !goalTitleObj[goalTitle] ) {
+                goalTitleObj[goalTitle] = {
                     hasTaskNum: 1,
                     finishedTaskNum: 0
                 }
             } else {
-                const prevNum = returnObj[goalTitle].hasTaskNum;
-                returnObj[goalTitle].hasTaskNum = prevNum + 1;
+                const prevNum = goalTitleObj[goalTitle].hasTaskNum;
+                goalTitleObj[goalTitle].hasTaskNum = prevNum + 1;
             }
 
             if ( taskObj.taskStatus === 'Finish' ) {
-                const prevNum = returnObj[goalTitle].finishedTaskNum;
-                returnObj[goalTitle].finishedTaskNum = prevNum + 1;
+                const prevNum = goalTitleObj[goalTitle].finishedTaskNum;
+                goalTitleObj[goalTitle].finishedTaskNum = prevNum + 1;
             }
         }
 
-        console.log( returnObj );
+        for ( let goalIndex in goalLocalItemObj ) {
+            const goalObj = goalLocalItemObj[goalIndex];
+
+            if ( goalTitleObj.hasOwnProperty( goalObj.title ) ) {
+                goalLocalItemObj[goalIndex] = { ...goalLocalItemObj[goalIndex], ...goalTitleObj[goalObj.title] };
+
+                payloadArray.push( { ...goalLocalItemObj[goalIndex], ...goalTitleObj[goalObj.title] } );
+            }
+        }
+
+        goalItemContext.dispatch( {
+            type: 'CHANGE_GOAL_ITEM_STATE',
+            payload: payloadArray
+        } );
     }, [])
 
     return (

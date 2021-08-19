@@ -125,8 +125,8 @@ const Panel = React.memo( ( {
                                     panelHasTaskNum > 0 ?
                                         (
                                             <p className="panel__taskDesc">
-                                                <span className="panel__taskDescText">完了したタスク数</span>
-                                                <span className="panel__taskNum">{panelFinishedTaskNum}</span>  / <span className="panel__taskNum">{panelHasTaskNum}</span> :
+                                                <span className="panel__taskDescText">完了したタスク数</span>：
+                                                <span className="panel__taskNum">{panelFinishedTaskNum}</span>  / <span className="panel__taskNum">{panelHasTaskNum}</span>
                                             </p>
                                         ) :
                                         (

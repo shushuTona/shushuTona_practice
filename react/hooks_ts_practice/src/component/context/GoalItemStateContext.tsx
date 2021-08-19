@@ -88,8 +88,6 @@ const goalItemStateReducer: Reducer<GoalItemStateInterface, ReducerActions> = ( 
     mergeState = { ...goalLocalItemObj, ...payloadObj };
     localStorage.setItem( 'GOAL_ITEM', JSON.stringify( mergeState ) );
 
-    console.log( mergeState );
-
     return mergeState;
 }
 
