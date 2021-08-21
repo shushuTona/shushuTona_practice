@@ -6,8 +6,7 @@
 .l-sideNav::after {
     content: "";
     width: 100%;
-    height: 2px;
-    background-color: #ed2828;
+    border-top: 2px solid #ed2828;
     position: absolute;
     bottom: 0;
     left: 0;
@@ -63,8 +62,10 @@
     }
 
     .l-sideNav::after {
-        width: 2px;
+        width: auto;
         height: 100%;
+        border-top: none;
+        border-right: 2px solid #ed2828;
         top: 0;
         bottom: auto;
         left: auto;
@@ -82,6 +83,7 @@
 
     .sideNav__listItem a::before {
         transform: translateX(-100%);
+        opacity: 1;
     }
 
     .sideNav__listItem a:hover::before,

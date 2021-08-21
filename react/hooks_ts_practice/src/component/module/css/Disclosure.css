@@ -93,8 +93,7 @@
     content: "";
     margin: 0 auto;
     width: calc(100% - 20px);
-    height: 1px;
-    background-color: #333;
+    border-top: 1px solid #333;
     position: absolute;
     top: 0;
     left: 0;
