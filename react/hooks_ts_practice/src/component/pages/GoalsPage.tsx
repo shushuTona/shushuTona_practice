@@ -190,36 +190,43 @@ const GoalsPage = memo( () => {
         const goalLocalItemObj = goalLocalItemString !== null && JSON.parse( goalLocalItemString );
         const taskLocalItemObj = taskLocalItemString !== null && JSON.parse( taskLocalItemString );
 
-        const goalTitleObj: { [key: string]: { hasTaskNum: number, finishedTaskNum: number } } = {};
+        const goalHasTaskNumObj: { [key: string]: { hasTaskNum: number, finishedTaskNum: number, panelStatus: panelStatusType } } = {};
         const payloadArray: GoalItemInterface[] = [];
 
+        // 目標に紐づくタスクの数とそれたが完了しているかの確認
         for ( let taskIndex in taskLocalItemObj.itemList ) {
             const taskObj = taskLocalItemObj.itemList[taskIndex];
             const { goalTitle } = taskObj;
 
-            if ( !goalTitleObj[goalTitle] ) {
-                goalTitleObj[goalTitle] = {
+            if ( !goalHasTaskNumObj[goalTitle] ) {
+                goalHasTaskNumObj[goalTitle] = {
                     hasTaskNum: 1,
-                    finishedTaskNum: 0
+                    finishedTaskNum: 0,
+                    panelStatus: 'Running'
                 }
             } else {
-                const prevNum = goalTitleObj[goalTitle].hasTaskNum;
-                goalTitleObj[goalTitle].hasTaskNum = prevNum + 1;
+                const prevNum = goalHasTaskNumObj[goalTitle].hasTaskNum;
+                goalHasTaskNumObj[goalTitle].hasTaskNum = prevNum + 1;
             }
 
             if ( taskObj.taskStatus === 'Finish' ) {
-                const prevNum = goalTitleObj[goalTitle].finishedTaskNum;
-                goalTitleObj[goalTitle].finishedTaskNum = prevNum + 1;
+                const prevNum = goalHasTaskNumObj[goalTitle].finishedTaskNum;
+                goalHasTaskNumObj[goalTitle].finishedTaskNum = prevNum + 1;
             }
         }
 
+        //
         for ( let goalIndex in goalLocalItemObj ) {
             const goalObj = goalLocalItemObj[goalIndex];
 
-            if ( goalTitleObj.hasOwnProperty( goalObj.title ) ) {
-                goalLocalItemObj[goalIndex] = { ...goalLocalItemObj[goalIndex], ...goalTitleObj[goalObj.title] };
+            if ( goalHasTaskNumObj.hasOwnProperty( goalObj.title ) ) {
+                if ( goalHasTaskNumObj[goalObj.title].finishedTaskNum === goalHasTaskNumObj[goalObj.title].hasTaskNum ) {
+                    goalHasTaskNumObj[goalObj.title].panelStatus = 'Finish';
+                }
 
-                payloadArray.push( { ...goalLocalItemObj[goalIndex], ...goalTitleObj[goalObj.title] } );
+                goalLocalItemObj[goalIndex] = { ...goalLocalItemObj[goalIndex], ...goalHasTaskNumObj[goalObj.title] };
+
+                payloadArray.push( { ...goalLocalItemObj[goalIndex], ...goalHasTaskNumObj[goalObj.title] } );
             }
         }
 
