@@ -184,7 +184,7 @@ const GoalsPage = memo( () => {
     }, [] );
 
     // タスクの数・完了数によって目標に紐付くタスク数を更新する
-    useEffect(() => {
+    useEffect( () => {
         const goalLocalItemString = localStorage.getItem( 'GOAL_ITEM' );
         const taskLocalItemString = localStorage.getItem( 'TASK_ITEM' );;
         const goalLocalItemObj = goalLocalItemString !== null && JSON.parse( goalLocalItemString );
@@ -193,7 +193,18 @@ const GoalsPage = memo( () => {
         const goalHasTaskNumObj: { [key: string]: { hasTaskNum: number, finishedTaskNum: number, panelStatus: panelStatusType } } = {};
         const payloadArray: GoalItemInterface[] = [];
 
-        // 目標に紐づくタスクの数とそれたが完了しているかの確認
+        // 目標のアイテム毎にgoalHasTaskNumObjを初期化
+        for ( let goalIndex in goalLocalItemObj ) {
+            const goalObj = goalLocalItemObj[goalIndex];
+
+            goalHasTaskNumObj[goalObj.title] = {
+                hasTaskNum: 0,
+                finishedTaskNum: 0,
+                panelStatus: 'Standby'
+            }
+        }
+
+        // 各目標に紐づくタスクの数とそれたが完了しているかの確認
         for ( let taskIndex in taskLocalItemObj.itemList ) {
             const taskObj = taskLocalItemObj.itemList[taskIndex];
             const { goalTitle } = taskObj;
@@ -215,18 +226,21 @@ const GoalsPage = memo( () => {
             }
         }
 
-        //
+        // 目標一覧を更新する為のpayloadの配列を作成する
         for ( let goalIndex in goalLocalItemObj ) {
             const goalObj = goalLocalItemObj[goalIndex];
 
             if ( goalHasTaskNumObj.hasOwnProperty( goalObj.title ) ) {
-                if ( goalHasTaskNumObj[goalObj.title].finishedTaskNum === goalHasTaskNumObj[goalObj.title].hasTaskNum ) {
+                if (
+                    goalHasTaskNumObj[goalObj.title].finishedTaskNum !== 0 &&
+                    goalHasTaskNumObj[goalObj.title].hasTaskNum !== 0 &&
+                    goalHasTaskNumObj[goalObj.title].finishedTaskNum === goalHasTaskNumObj[goalObj.title].hasTaskNum
+                ) {
                     goalHasTaskNumObj[goalObj.title].panelStatus = 'Finish';
                 }
 
                 goalLocalItemObj[goalIndex] = { ...goalLocalItemObj[goalIndex], ...goalHasTaskNumObj[goalObj.title] };
-
-                payloadArray.push( { ...goalLocalItemObj[goalIndex], ...goalHasTaskNumObj[goalObj.title] } );
+                payloadArray.push( goalLocalItemObj[goalIndex] );
             }
         }
 
@@ -234,7 +248,7 @@ const GoalsPage = memo( () => {
             type: 'CHANGE_GOAL_ITEM_STATE',
             payload: payloadArray
         } );
-    }, [])
+    }, [] );
 
     return (
         <Fragment>

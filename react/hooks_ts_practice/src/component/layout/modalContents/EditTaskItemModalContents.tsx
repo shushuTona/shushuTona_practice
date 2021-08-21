@@ -60,8 +60,6 @@ const EditTaskItemModalContents = memo( ( { id, title, desc, taskStatus, goalTit
             goalTitle
         }
 
-        console.log( payload );
-
         taskItemContext.dispatch( {
             type: 'CHANGE_TASK_ITEM_STATE',
             payload: [
