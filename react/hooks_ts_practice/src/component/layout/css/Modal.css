@@ -129,3 +129,17 @@
 .modal__editGoalItem > *:last-child {
     margin-bottom: 0 !important;
 }
+
+/* AnnounceAddGoalModalContents */
+.modal__announceAddGoal {
+    padding: 15px 0;
+    text-align: center;
+}
+
+.modal__announceAddGoal > *:first-child {
+    margin-top: 0 !important;
+}
+
+.modal__announceAddGoal > *:last-child {
+    margin-bottom: 0 !important;
+}

@@ -28,6 +28,7 @@ interface EditItemProps {
 interface ModalReducerActions {
     type: 'EDIT_GOAL_ITEM' |
             'EDIT_TASK_ITEM' |
+            'ANNOUNCE_ADD_GOAL' |
             'CLOSE_MODAL',
     payload?: EditItemProps
 }
@@ -76,17 +77,29 @@ const modalStateReducer: Reducer<ModalReducerState, ModalReducerActions> = ( pre
         mergeState = {...prevState, ...payloadObj};
 
         return mergeState;
-    } else if (
-        type === 'CLOSE_MODAL'
-    ) {
-        mergeState = {
-            ...prevState, ...{
-                isModalShow: false,
-                isModalHidden: true
-            }
-        };
+    } else {
+        switch ( type ) {
+            case 'CLOSE_MODAL':
+                mergeState = {
+                    ...prevState, ...{
+                        isModalShow: false,
+                        isModalHidden: true
+                    }
+                };
+                return mergeState;
 
-        return mergeState;
+            case 'ANNOUNCE_ADD_GOAL':
+                const AnnounceAddGoalModalContents = lazy( () => import( '../layout/modalContents/AnnounceAddGoalModalContents' ) );
+
+                mergeState = {
+                    ...prevState, ...{
+                        isModalShow: true,
+                        isModalHidden: false,
+                        modalContentsComponent: <AnnounceAddGoalModalContents />
+                    }
+                };
+                return mergeState;
+        }
     }
 
     return prevState;

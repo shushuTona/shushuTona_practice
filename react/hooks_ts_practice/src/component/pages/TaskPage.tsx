@@ -15,12 +15,13 @@ import {
     MouseEventHandler,
     ChangeEventHandler,
     ChangeEvent,
+    createRef,
+    RefObject,
     useState,
     useContext,
     useCallback,
     useMemo,
-    createRef,
-    RefObject,
+    useEffect
 } from 'react';
 
 import { GoalItemStateContext } from '../context/GoalItemStateContext';
@@ -236,6 +237,15 @@ const TaskPage = memo( () => {
             }
         }
     }, [checkedItemList] );
+
+    useEffect( () => {
+        // まだ目標を設定していない場合、目標設定ページへの遷移モーダル表示
+        if ( Object.values( goalItemContext.state ).length === 0 ) {
+            modalContext.dispatch( {
+                type: 'ANNOUNCE_ADD_GOAL'
+            } );
+        }
+    }, [] );
 
     return (
         <Fragment>

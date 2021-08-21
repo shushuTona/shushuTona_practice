@@ -77,7 +77,6 @@ const taskItemStateReducer: Reducer<TaskItemStateInterface, ReducerActions> = ( 
                 delete localItemObj.itemList[id];
             } );
 
-            console.log( localItemObj );
             localStorage.setItem( 'TASK_ITEM', JSON.stringify( localItemObj ) );
 
             return localItemObj;
@@ -113,8 +112,6 @@ const taskItemStateReducer: Reducer<TaskItemStateInterface, ReducerActions> = ( 
         itemCount: updateItemCount
     };
     localStorage.setItem( 'TASK_ITEM', JSON.stringify( mergeState ) );
-
-    console.log( mergeState );
 
     return mergeState;
 }
