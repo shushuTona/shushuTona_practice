@@ -16,13 +16,13 @@ import {
 import { Link } from 'react-router-dom';
 
 // Context
-import { GoalItemStateContext } from '../context/GoalItemStateContext';
-import { TaskItemStateContext } from '../context/TaskItemStateContext';
-import { ModalStateContext } from '../context/ModalContext';
+import { GoalItemStateContext } from '@/component/context/GoalItemStateContext';
+import { TaskItemStateContext } from '@/component/context/TaskItemStateContext';
+import { ModalStateContext } from '@/component/context/ModalContext';
 
 // Module
-import { Heading } from '../module/Heading';
-import { List } from '../module/List';
+import { Heading } from '@/component/module/Heading';
+import { List } from '@/component/module/List';
 
 const HomePage = memo( () => {
     console.log( 'HomePage' );

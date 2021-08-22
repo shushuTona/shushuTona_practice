@@ -24,16 +24,16 @@ import {
     useEffect
 } from 'react';
 
-import { GoalItemStateContext } from '../context/GoalItemStateContext';
-import { TaskItemStateContext } from '../context/TaskItemStateContext';
-import { ModalStateContext } from '../context/ModalContext';
-import { SnackBarStateContext } from '../context/SnackBarContext';
+import { GoalItemStateContext } from '@/component/context/GoalItemStateContext';
+import { TaskItemStateContext } from '@/component/context/TaskItemStateContext';
+import { ModalStateContext } from '@/component/context/ModalContext';
+import { SnackBarStateContext } from '@/component/context/SnackBarContext';
 
-import { Heading } from '../module/Heading';
-import { Button } from '../module/Button';
-import { Panel } from '../module/Panel';
-import { TextInput } from '../module/TextInput';
-import { Select } from '../module/Select';
+import { Heading } from '@/component/module/Heading';
+import { Button } from '@/component/module/Button';
+import { Panel } from '@/component/module/Panel';
+import { TextInput } from '@/component/module/TextInput';
+import { Select } from '@/component/module/Select';
 
 import './css/TaskPage.css';
 

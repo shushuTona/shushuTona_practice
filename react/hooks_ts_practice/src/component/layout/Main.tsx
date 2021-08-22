@@ -1,9 +1,12 @@
-import React from 'react';
-import './css/Main.css';
-import { SideNav } from './SideNav';
-import { ContentsArea } from './ContentsArea';
+import { memo } from 'react';
 
-const Main = React.memo( () => {
+import { SideNav } from '@/component/layout/SideNav';
+
+import { ContentsArea } from '@/component/layout/ContentsArea';
+
+import './css/Main.css';
+
+const Main = memo( () => {
     console.log( 'Main' );
 
     return (

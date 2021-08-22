@@ -1,8 +1,10 @@
-import React from 'react';
+import { memo } from 'react';
+
 import { Link } from 'react-router-dom';
+
 import './css/Header.css';
 
-const Header = React.memo( () => {
+const Header = memo( () => {
     console.log( 'Header' );
 
     return (

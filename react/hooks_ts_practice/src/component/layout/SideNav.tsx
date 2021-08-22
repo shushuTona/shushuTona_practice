@@ -1,5 +1,10 @@
 import { memo } from 'react';
-import { Link, useRouteMatch } from 'react-router-dom';
+
+import {
+    Link,
+    useRouteMatch
+} from 'react-router-dom';
+
 import './css/SideNav.css';
 
 interface Props {

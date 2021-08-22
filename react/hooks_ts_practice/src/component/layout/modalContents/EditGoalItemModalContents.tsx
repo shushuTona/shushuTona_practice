@@ -10,14 +10,14 @@ import {
 } from 'react';
 
 // Context
-import { GoalItemStateContext } from '../../context/GoalItemStateContext';
-import { ModalStateContext } from '../../context/ModalContext';
-import { SnackBarStateContext } from '../../context/SnackBarContext';
+import { GoalItemStateContext } from '@/component/context/GoalItemStateContext';
+import { ModalStateContext } from '@/component/context/ModalContext';
+import { SnackBarStateContext } from '@/component/context/SnackBarContext';
 
 // Module
-import { TextInput } from '../../module/TextInput';
-import { Select } from '../../module/Select';
-import { Button } from '../../module/Button';
+import { TextInput } from '@/component/module/TextInput';
+import { Select } from '@/component/module/Select';
+import { Button } from '@/component/module/Button';
 
 const panelStatusArray = ['Standby', 'Running', 'Finish', 'Stopped'];
 type panelStatusType = typeof panelStatusArray[number];

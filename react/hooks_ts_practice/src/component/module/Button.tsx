@@ -1,4 +1,8 @@
-import { memo, MouseEventHandler } from 'react';
+import {
+    memo,
+    MouseEventHandler
+} from 'react';
+
 import './css/Button.css';
 
 interface Props {

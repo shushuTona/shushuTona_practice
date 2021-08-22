@@ -1,4 +1,8 @@
-import { memo, ChangeEventHandler } from 'react';
+import {
+    memo,
+    ChangeEventHandler
+} from 'react';
+
 import './css/TextInput.css';
 
 interface Props {

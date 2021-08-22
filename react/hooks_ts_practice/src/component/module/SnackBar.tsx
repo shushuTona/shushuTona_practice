@@ -4,7 +4,7 @@ import {
 } from 'react';
 
 // Context
-import { SnackBarStateContext } from '../context/SnackBarContext';
+import { SnackBarStateContext } from '@/component/context/SnackBarContext';
 
 import './css/SnackBar.css';
 

@@ -3,7 +3,9 @@ import {
     useContext,
     Suspense
 } from 'react';
-import { ModalStateContext } from '../context/ModalContext';
+
+import { ModalStateContext } from '@/component/context/ModalContext';
+
 import './css/Modal.css';
 
 const Modal = memo( () => {

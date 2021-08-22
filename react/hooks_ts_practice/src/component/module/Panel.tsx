@@ -1,4 +1,14 @@
-import React, { ChangeEventHandler, ChangeEvent, MouseEventHandler, useEffect, useCallback, useRef, RefObject } from 'react';
+import {
+    memo,
+    ChangeEventHandler,
+    ChangeEvent,
+    MouseEventHandler,
+    RefObject,
+    useEffect,
+    useCallback,
+    useRef,
+} from 'react';
+
 import './css/Panel.css';
 
 const panelStatusArray = ['Standby', 'Running', 'Finish', 'Stopped'];
@@ -16,7 +26,7 @@ interface Props {
     changePanelHandler: ( panelID: number, checked: boolean ) => void
 }
 
-const Panel = React.memo( ( {
+const Panel = memo( ( {
     panelID,
     panelTitle,
     panelDesc,

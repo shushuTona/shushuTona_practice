@@ -6,11 +6,11 @@ import {
 } from 'react';
 
 // Context
-import { ModalStateContext } from '../../context/ModalContext';
+import { ModalStateContext } from '@/component/context/ModalContext';
 
 // Module
-import { Button } from '../../module/Button';
-import { Heading } from '../../module/Heading';
+import { Button } from '@/component/module/Button';
+import { Heading } from '@/component/module/Heading';
 
 const AnnounceFirstLoginContents = memo( () => {
     console.log('AnnounceFirstLoginContents');

@@ -1,12 +1,19 @@
-import { lazy, memo, Suspense } from 'react';
+import {
+    memo,
+    lazy,
+    Suspense
+} from 'react';
+
 import {
     Switch,
     Route
 } from "react-router-dom";
+
 import './css/ContentsArea.css';
 
 // Page Component
-import HomePage from '../pages/HomePage';
+import HomePage from '@/component/pages/HomePage';
+
 const TaskPage = lazy( () => import( '../pages/TaskPage' ));
 const GoalsPage = lazy( () => import( '../pages/GoalsPage' ));
 
