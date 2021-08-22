@@ -29,6 +29,7 @@ interface ModalReducerActions {
     type: 'EDIT_GOAL_ITEM' |
             'EDIT_TASK_ITEM' |
             'ANNOUNCE_ADD_GOAL' |
+            'ANNOUNCE_FIRST_LOGIN' |
             'CLOSE_MODAL',
     payload?: EditItemProps
 }
@@ -96,6 +97,18 @@ const modalStateReducer: Reducer<ModalReducerState, ModalReducerActions> = ( pre
                         isModalShow: true,
                         isModalHidden: false,
                         modalContentsComponent: <AnnounceAddGoalModalContents />
+                    }
+                };
+                return mergeState;
+
+            case 'ANNOUNCE_FIRST_LOGIN':
+                const AnnounceFirstLoginContents = lazy( () => import( '../layout/modalContents/AnnounceFirstLoginContents' ) );
+
+                mergeState = {
+                    ...prevState, ...{
+                        isModalShow: true,
+                        isModalHidden: false,
+                        modalContentsComponent: <AnnounceFirstLoginContents />
                     }
                 };
                 return mergeState;

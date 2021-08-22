@@ -9,7 +9,8 @@ import {
     memo,
     Fragment,
     useContext,
-    useMemo
+    useMemo,
+    useEffect
 } from 'react';
 
 import { Link } from 'react-router-dom';
@@ -17,6 +18,7 @@ import { Link } from 'react-router-dom';
 // Context
 import { GoalItemStateContext } from '../context/GoalItemStateContext';
 import { TaskItemStateContext } from '../context/TaskItemStateContext';
+import { ModalStateContext } from '../context/ModalContext';
 
 // Module
 import { Heading } from '../module/Heading';
@@ -27,8 +29,9 @@ const HomePage = memo( () => {
 
     const goalItemContext = useContext( GoalItemStateContext );
     const taskItemContext = useContext( TaskItemStateContext );
+    const modalContext = useContext( ModalStateContext );
 
-    //
+    // 達成した目標一覧
     const finishGoalItemList = useMemo( () => {
         const goalItemState = goalItemContext.state;
         const goalItemArray = [];
@@ -58,7 +61,7 @@ const HomePage = memo( () => {
                     )
     }, [goalItemContext.state] );
 
-    //
+    // 直近追加した目標名
     const addGoalItemList = useMemo( () => {
         const goalItemList = Object.values(goalItemContext.state);
 
@@ -82,7 +85,7 @@ const HomePage = memo( () => {
         </Fragment>
     }, [goalItemContext.state] );
 
-    //
+    // 直近追加したタスク名
     const addTaskItemList = useMemo( () => {
         const taskItemList = Object.values(taskItemContext.state.itemList);
 
@@ -105,6 +108,18 @@ const HomePage = memo( () => {
             } />
         </Fragment>
     }, [taskItemContext.state] );
+
+    useEffect( () => {
+        const firstLoginFlag = localStorage.getItem( 'FIRST_LOGIN_FLAG' );
+
+        if ( !firstLoginFlag ) {
+            modalContext.dispatch( {
+                type: 'ANNOUNCE_FIRST_LOGIN'
+            } );
+
+            localStorage.setItem( 'FIRST_LOGIN_FLAG', 'true' );
+        }
+    } );
 
     return (
         <Fragment>
