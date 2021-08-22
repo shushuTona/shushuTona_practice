@@ -197,69 +197,7 @@ const GoalsPage = memo( () => {
 
     // タスクの数・完了数によって目標に紐付くタスク数を更新する
     useEffect( () => {
-        const goalLocalItemString = localStorage.getItem( 'GOAL_ITEM' );
-        const taskLocalItemString = localStorage.getItem( 'TASK_ITEM' );;
-        const goalLocalItemObj = goalLocalItemString !== null && JSON.parse( goalLocalItemString );
-        const taskLocalItemObj = taskLocalItemString !== null && JSON.parse( taskLocalItemString );
-
-        const goalHasTaskNumObj: { [key: string]: { hasTaskNum: number, finishedTaskNum: number, panelStatus: panelStatusType } } = {};
-        const payloadArray: GoalItemInterface[] = [];
-
-        // 目標のアイテム毎にgoalHasTaskNumObjを初期化
-        for ( let goalIndex in goalLocalItemObj ) {
-            const goalObj = goalLocalItemObj[goalIndex];
-
-            goalHasTaskNumObj[goalObj.title] = {
-                hasTaskNum: 0,
-                finishedTaskNum: 0,
-                panelStatus: 'Standby'
-            }
-        }
-
-        // 各目標に紐づくタスクの数とそれたが完了しているかの確認
-        for ( let taskIndex in taskLocalItemObj.itemList ) {
-            const taskObj = taskLocalItemObj.itemList[taskIndex];
-            const { goalTitle } = taskObj;
-
-            if ( !goalHasTaskNumObj[goalTitle] ) {
-                goalHasTaskNumObj[goalTitle] = {
-                    hasTaskNum: 1,
-                    finishedTaskNum: 0,
-                    panelStatus: 'Running'
-                }
-            } else {
-                const prevNum = goalHasTaskNumObj[goalTitle].hasTaskNum;
-                goalHasTaskNumObj[goalTitle].hasTaskNum = prevNum + 1;
-            }
-
-            if ( taskObj.taskStatus === 'Finish' ) {
-                const prevNum = goalHasTaskNumObj[goalTitle].finishedTaskNum;
-                goalHasTaskNumObj[goalTitle].finishedTaskNum = prevNum + 1;
-            }
-        }
-
-        // 目標一覧を更新する為のpayloadの配列を作成する
-        for ( let goalIndex in goalLocalItemObj ) {
-            const goalObj = goalLocalItemObj[goalIndex];
-
-            if ( goalHasTaskNumObj.hasOwnProperty( goalObj.title ) ) {
-                if (
-                    goalHasTaskNumObj[goalObj.title].finishedTaskNum !== 0 &&
-                    goalHasTaskNumObj[goalObj.title].hasTaskNum !== 0 &&
-                    goalHasTaskNumObj[goalObj.title].finishedTaskNum === goalHasTaskNumObj[goalObj.title].hasTaskNum
-                ) {
-                    goalHasTaskNumObj[goalObj.title].panelStatus = 'Finish';
-                }
-
-                goalLocalItemObj[goalIndex] = { ...goalLocalItemObj[goalIndex], ...goalHasTaskNumObj[goalObj.title] };
-                payloadArray.push( goalLocalItemObj[goalIndex] );
-            }
-        }
-
-        goalItemContext.dispatch( {
-            type: 'CHANGE_GOAL_ITEM_STATE',
-            payload: payloadArray
-        } );
+        goalItemContext.updateTaskNum();
     }, [] );
 
     return (
@@ -305,14 +243,19 @@ const GoalsPage = memo( () => {
                 </li>
             </ul>
 
-            <Disclosure title="目標のステータスについて">
-                <ul className="goalDescription__panelInner">
-                    <li className="goalDescription__item">まだタスクが紐付けされていない目標は、ステータスが<span className="goalDescription__status">Standby</span>になります。<br /><Link to="/task">Taskページでタスクを設定しよう！</Link></li>
-                    <li className="goalDescription__item">1つでも進行中のタスクが紐づいている目標は、ステータスが<span className="goalDescription__status">Running</span>になります。</li>
-                    <li className="goalDescription__item">目標に紐づくタスクが全て完了になると、その目標は完了になり、ステータスが<span className="goalDescription__status">Finish</span>になります。</li>
-                    <li className="goalDescription__item">途中で中断した目標は、ステータスが<span className="goalDescription__status">Stopped</span>になります。</li>
-                </ul>
-            </Disclosure>
+            {
+                itemList.length !== 0 &&
+                (
+                    <Disclosure title="目標のステータスについて">
+                        <ul className="goalDescription__panelInner">
+                            <li className="goalDescription__item">まだタスクが紐付けされていない目標は、ステータスが<span className="goalDescription__status">Standby</span>になります。<br /><Link to="/task">Taskページでタスクを設定しよう！</Link></li>
+                            <li className="goalDescription__item">1つでも進行中のタスクが紐づいている目標は、ステータスが<span className="goalDescription__status">Running</span>になります。</li>
+                            <li className="goalDescription__item">目標に紐づくタスクが全て完了になると、その目標は完了になり、ステータスが<span className="goalDescription__status">Finish</span>になります。</li>
+                            <li className="goalDescription__item">途中で中断した目標は、ステータスが<span className="goalDescription__status">Stopped</span>になります。</li>
+                        </ul>
+                    </Disclosure>
+                )
+            }
 
             <ul className="panelArea">
                 {

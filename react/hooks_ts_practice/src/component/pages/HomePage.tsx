@@ -109,6 +109,7 @@ const HomePage = memo( () => {
         </Fragment>
     }, [taskItemContext.state] );
 
+    // 初回ログイン時のモーダル表示
     useEffect( () => {
         const firstLoginFlag = localStorage.getItem( 'FIRST_LOGIN_FLAG' );
 
@@ -120,6 +121,11 @@ const HomePage = memo( () => {
             localStorage.setItem( 'FIRST_LOGIN_FLAG', 'true' );
         }
     } );
+
+    // タスクの数・完了数によって目標に紐付くタスク数を更新する
+    useEffect( () => {
+        goalItemContext.updateTaskNum();
+    }, [] );
 
     return (
         <Fragment>

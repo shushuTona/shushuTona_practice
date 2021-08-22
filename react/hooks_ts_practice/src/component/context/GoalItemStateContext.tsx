@@ -34,7 +34,8 @@ interface ReducerActions {
 
 interface ContextInterface {
     state: GoalItemStateInterface,
-    dispatch: Dispatch<ReducerAction<Reducer<any, any>>>
+    dispatch: Dispatch<ReducerAction<Reducer<any, any>>>,
+    updateTaskNum(): void
 }
 
 // localStorage内の一覧を初期値として取得する。（localStorageにGOAL_ITEMが存在しない場合、新規で作成する。）
@@ -96,8 +97,75 @@ const GoalItemStateContext = createContext<ContextInterface>( {} as ContextInter
 const GoalItemContextProvider = ( { children }: PropsWithChildren<{}>) => {
     const [state, dispatch] = useReducer( goalItemStateReducer, initialState );
 
+    // HomeとGoalページを表示する際に、各goalのタスク数を確認＆更新する処理
+    const updateTaskNum = () => {
+        const goalLocalItemString = localStorage.getItem( 'GOAL_ITEM' );
+        const taskLocalItemString = localStorage.getItem( 'TASK_ITEM' );;
+        const goalLocalItemObj = goalLocalItemString !== null && JSON.parse( goalLocalItemString );
+        const taskLocalItemObj = taskLocalItemString !== null && JSON.parse( taskLocalItemString );
+
+        const goalHasTaskNumObj: { [key: string]: Omit<GoalItemInterface, 'id' | 'title' | 'desc'> } = {};
+        const payloadArray: GoalItemInterface[] = [];
+
+        // 目標のアイテム毎にgoalHasTaskNumObjを初期化
+        for ( let goalIndex in goalLocalItemObj ) {
+            const goalObj = goalLocalItemObj[goalIndex];
+
+            goalHasTaskNumObj[goalObj.title] = {
+                hasTaskNum: 0,
+                finishedTaskNum: 0,
+                panelStatus: 'Standby'
+            }
+        }
+
+        // 各目標に紐づくタスクの数とそれたが完了しているかの確認
+        for ( let taskIndex in taskLocalItemObj.itemList ) {
+            const taskObj = taskLocalItemObj.itemList[taskIndex];
+            const { goalTitle } = taskObj;
+
+            if ( !goalHasTaskNumObj[goalTitle] ) {
+                goalHasTaskNumObj[goalTitle] = {
+                    hasTaskNum: 1,
+                    finishedTaskNum: 0,
+                    panelStatus: 'Running'
+                }
+            } else {
+                const prevNum = goalHasTaskNumObj[goalTitle].hasTaskNum;
+                goalHasTaskNumObj[goalTitle].hasTaskNum = prevNum + 1;
+            }
+
+            if ( taskObj.taskStatus === 'Finish' ) {
+                const prevNum = goalHasTaskNumObj[goalTitle].finishedTaskNum;
+                goalHasTaskNumObj[goalTitle].finishedTaskNum = prevNum + 1;
+            }
+        }
+
+        // 目標一覧を更新する為のpayloadの配列を作成する
+        for ( let goalIndex in goalLocalItemObj ) {
+            const goalObj = goalLocalItemObj[goalIndex];
+
+            if ( goalHasTaskNumObj.hasOwnProperty( goalObj.title ) ) {
+                if (
+                    goalHasTaskNumObj[goalObj.title].finishedTaskNum !== 0 &&
+                    goalHasTaskNumObj[goalObj.title].hasTaskNum !== 0 &&
+                    goalHasTaskNumObj[goalObj.title].finishedTaskNum === goalHasTaskNumObj[goalObj.title].hasTaskNum
+                ) {
+                    goalHasTaskNumObj[goalObj.title].panelStatus = 'Finish';
+                }
+
+                goalLocalItemObj[goalIndex] = { ...goalLocalItemObj[goalIndex], ...goalHasTaskNumObj[goalObj.title] };
+                payloadArray.push( goalLocalItemObj[goalIndex] );
+            }
+        }
+
+        dispatch( {
+            type: 'CHANGE_GOAL_ITEM_STATE',
+            payload: payloadArray
+        } );
+    }
+
     return (
-        <GoalItemStateContext.Provider value={{ state, dispatch }}>
+        <GoalItemStateContext.Provider value={{ state, dispatch, updateTaskNum }}>
             { children }
         </GoalItemStateContext.Provider>
     );
