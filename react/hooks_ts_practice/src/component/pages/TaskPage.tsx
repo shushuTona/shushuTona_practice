@@ -302,26 +302,31 @@ const TaskPage = memo( () => {
                         disabled={addTaskBtnDisabledFlag} />
                 </li>
 
-                <li className="btnArea__item">
-                    <Button
-                        btnText="対象のタスクを編集する"
-                        clickHandler={editBtnClickHandler}
-                        disabled={btnActiveSingularFlag} />
-                </li>
+                {
+                    itemList.length !== 0 &&
+                    <Fragment>
+                        <li className="btnArea__item">
+                            <Button
+                                btnText="対象のタスクを編集する"
+                                clickHandler={editBtnClickHandler}
+                                disabled={btnActiveSingularFlag} />
+                        </li>
 
-                <li className="btnArea__item">
-                    <Button
-                        btnText="対象のタスクを中断する"
-                        clickHandler={stoppedBtnClickHandler}
-                        disabled={btnActiveMultipleFlag} />
-                </li>
+                        <li className="btnArea__item">
+                            <Button
+                                btnText="対象のタスクを中断する"
+                                clickHandler={stoppedBtnClickHandler}
+                                disabled={btnActiveMultipleFlag} />
+                        </li>
 
-                <li className="btnArea__item">
-                    <Button
-                        btnText="対象のタスクを削除する"
-                        clickHandler={removeBtnClickHandler}
-                        disabled={btnActiveMultipleFlag} />
-                </li>
+                        <li className="btnArea__item">
+                            <Button
+                                btnText="対象のタスクを削除する"
+                                clickHandler={removeBtnClickHandler}
+                                disabled={btnActiveMultipleFlag} />
+                        </li>
+                    </Fragment>
+                }
             </ul>
 
             <ul className="panelArea">

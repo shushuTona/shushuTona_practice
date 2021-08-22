@@ -35,6 +35,7 @@
 
 .panel__input {
     width: 0;
+    visibility: hidden;
     caret-color: transparent;
 }
 

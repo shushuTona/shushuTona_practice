@@ -229,18 +229,23 @@ const GoalsPage = memo( () => {
                         clickHandler={btnClickAddItemHandler}
                         disabled={btnDisabledFlag} />
                 </li>
-                <li className="btnArea__item">
-                    <Button
-                        btnText="対象の目標を編集する"
-                        clickHandler={editBtnClickHandler}
-                        disabled={checkedItemList.length !== 1} />
-                </li>
-                <li className="btnArea__item">
-                    <Button
-                        btnText="対象の目標を中断する"
-                        clickHandler={btnClickChangeStatusHandler}
-                        disabled={checkedItemList.length === 0} />
-                </li>
+                {
+                    itemList.length !== 0 &&
+                    <Fragment>
+                        <li className="btnArea__item">
+                            <Button
+                                btnText="対象の目標を編集する"
+                                clickHandler={editBtnClickHandler}
+                                disabled={checkedItemList.length !== 1} />
+                        </li>
+                        <li className="btnArea__item">
+                            <Button
+                                btnText="対象の目標を中断する"
+                                clickHandler={btnClickChangeStatusHandler}
+                                disabled={checkedItemList.length === 0} />
+                        </li>
+                    </Fragment>
+                }
             </ul>
 
             {

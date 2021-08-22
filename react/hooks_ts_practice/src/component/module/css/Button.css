@@ -20,6 +20,7 @@
     margin: -10px -10px 0 0;
     display: flex;
     flex-wrap: wrap;
+    justify-content: center;
 }
 
 .btnArea__item {
@@ -67,5 +68,9 @@
         color: #fff;
         border-color: #ed2828;
         background-color: #ed2828;
+    }
+
+    .btnArea {
+        justify-content: flex-start;
     }
 }
