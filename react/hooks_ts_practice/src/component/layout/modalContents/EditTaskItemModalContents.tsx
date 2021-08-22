@@ -12,6 +12,7 @@ import {
 // Context
 import { TaskItemStateContext } from '../../context/TaskItemStateContext';
 import { ModalStateContext } from '../../context/ModalContext';
+import { SnackBarStateContext } from '../../context/SnackBarContext';
 
 // Module
 import { TextInput } from '../../module/TextInput';
@@ -36,6 +37,7 @@ const EditTaskItemModalContents = memo( ( { id, title, desc, taskStatus, goalTit
 
     const taskItemContext = useContext( TaskItemStateContext );
     const modalContext = useContext( ModalStateContext );
+    const snackBarContexte = useContext( SnackBarStateContext );
 
     const changeTitleHandler: ChangeEventHandler = useCallback( (event: ChangeEvent<HTMLInputElement>) => {
         setTitleState( event.target.value );
@@ -46,8 +48,6 @@ const EditTaskItemModalContents = memo( ( { id, title, desc, taskStatus, goalTit
     }, [] );
 
     const changeSelectHandler: ChangeEventHandler = useCallback( ( event: ChangeEvent<HTMLSelectElement> ) => {
-        console.log( event.target.value );
-
         setPanelStatusState( event.target.value );
     }, [] );
 
@@ -70,7 +70,12 @@ const EditTaskItemModalContents = memo( ( { id, title, desc, taskStatus, goalTit
         modalContext.dispatch( {
             type: 'CLOSE_MODAL'
         } );
-    }, [id, titleState, descState, taskStatusState, goalTitle, taskItemContext, modalContext] );
+
+        snackBarContexte.showSnackBar( {
+            snackBarHeading: '選択したタスクを編集しました！',
+            snackBarContents: '目標達成に向けてタスクをガシガシ進めていこう！'
+        } );
+    }, [id, titleState, descState, taskStatusState, goalTitle, taskItemContext, modalContext, snackBarContexte] );
 
     const clickChangeReturnBtnHandler: MouseEventHandler = useCallback( () => {
         // モーダルを閉じる処理

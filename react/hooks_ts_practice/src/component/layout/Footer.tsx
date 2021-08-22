@@ -6,7 +6,7 @@ const Footer = React.memo( () => {
 
     return (
         <footer className="l-footer">
-            <p><small>コピーライト</small></p>
+            <p><small>© 2021 ガシガシ目標達成</small></p>
         </footer>
     );
 } );

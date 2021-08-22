@@ -27,6 +27,7 @@ import { Link } from 'react-router-dom';
 // Context
 import { GoalItemStateContext } from '../context/GoalItemStateContext';
 import { ModalStateContext } from '../context/ModalContext';
+import { SnackBarStateContext } from '../context/SnackBarContext';
 
 // Module
 import { Heading } from '../module/Heading';
@@ -54,6 +55,7 @@ const GoalsPage = memo( () => {
 
     const goalItemContext = useContext( GoalItemStateContext );
     const modalContext = useContext( ModalStateContext );
+    const snackBarContexte = useContext( SnackBarStateContext );
 
     let count = Object.keys( goalItemContext.state ).length;
     const [title, setTitle] = useState( '' );
@@ -104,7 +106,12 @@ const GoalsPage = memo( () => {
 
         setTitle( '' );
         setDesc( '' );
-    }, [ goalItemContext, count, title, desc ] ); // TODO：Buttonコンポーネントの再レンダリングが走ってしまうけど、setCountが機能しなくなる
+
+        snackBarContexte.showSnackBar( {
+            snackBarHeading: '目標設定が完了しました！',
+            snackBarContents: 'Taskページで目標を達成する為に必要なタスクの設定をしましょう！'
+        } );
+    }, [goalItemContext, count, title, desc, snackBarContexte ] ); // TODO：Buttonコンポーネントの再レンダリングが走ってしまうけど、setCountが機能しなくなる
 
     // 選択した目標の内容を修正する
     const editBtnClickHandler: MouseEventHandler = useCallback( () => {
@@ -147,7 +154,12 @@ const GoalsPage = memo( () => {
                 inputRefObj.current.checked = false;
             }
         } );
-    }, [goalItemContext, checkedItemList, panelRefObjArray] );
+
+        snackBarContexte.showSnackBar( {
+            snackBarHeading: '選択した目標のステータスを中断に変更しました！',
+            snackBarContents: 'またやる気が出たらステータスを進行中に設定しよう！'
+        } );
+    }, [goalItemContext, checkedItemList, panelRefObjArray, snackBarContexte] );
 
     // パネルチェックボックスイベントハンドラ
     const panelChangeHandler = useCallback( ( panelID: number, checked: boolean ): void => {

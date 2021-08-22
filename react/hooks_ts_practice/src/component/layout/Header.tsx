@@ -8,7 +8,7 @@ const Header = React.memo( () => {
     return (
         <header className="l-header">
             <div className="header__inner">
-                <Link className="header__logo" to="/">LOGO</Link>
+                <Link className="header__logo" to="/">ガシガシ目標達成</Link>
             </div>
         </header>
     );

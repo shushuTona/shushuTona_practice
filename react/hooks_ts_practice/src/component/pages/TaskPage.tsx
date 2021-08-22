@@ -27,6 +27,7 @@ import {
 import { GoalItemStateContext } from '../context/GoalItemStateContext';
 import { TaskItemStateContext } from '../context/TaskItemStateContext';
 import { ModalStateContext } from '../context/ModalContext';
+import { SnackBarStateContext } from '../context/SnackBarContext';
 
 import { Heading } from '../module/Heading';
 import { Button } from '../module/Button';
@@ -53,6 +54,7 @@ const TaskPage = memo( () => {
     const goalItemContext = useContext( GoalItemStateContext );
     const taskItemContext = useContext( TaskItemStateContext );
     const modalContext = useContext( ModalStateContext );
+    const snackBarContexte = useContext( SnackBarStateContext );
 
     const [titleState, setTitleState] = useState( '' );
     const [descState, setDescState] = useState( '' );
@@ -161,7 +163,12 @@ const TaskPage = memo( () => {
         ) {
             selectRefObj.current.selectedIndex = 0;
         }
-    }, [taskItemContext, count, titleState, descState, targetGoalState, selectRefObj] );
+
+        snackBarContexte.showSnackBar( {
+            snackBarHeading: 'タスク設定が完了しました！',
+            snackBarContents: 'さっそく設定したタスクをガシガシ進めよう！'
+        } );
+    }, [taskItemContext, count, titleState, descState, targetGoalState, selectRefObj, snackBarContexte] );
 
     // 対象タスクを編集する処理
     const editBtnClickHandler: MouseEventHandler = useCallback( () => {
@@ -196,7 +203,12 @@ const TaskPage = memo( () => {
         } );
 
         uncheckedPanel();
-    }, [checkedItemList, taskItemContext, uncheckedPanel] );
+
+        snackBarContexte.showSnackBar( {
+            snackBarHeading: '選択したタスクのステータスを中断に変更しました！',
+            snackBarContents: 'またやる気が出たらステータスを進行中に設定しよう！'
+        } );
+    }, [checkedItemList, taskItemContext, uncheckedPanel, snackBarContexte] );
 
     // 対象タスクを削除する処理
     const removeBtnClickHandler: MouseEventHandler = useCallback( () => {
@@ -212,7 +224,12 @@ const TaskPage = memo( () => {
         } );
 
         uncheckedPanel();
-    }, [checkedItemList, taskItemContext, uncheckedPanel] );
+
+        snackBarContexte.showSnackBar( {
+            snackBarHeading: '選択したタスクを削除しました！',
+            snackBarContents: '目標を達成するために新しいタスクを設定しよう！'
+        } );
+    }, [checkedItemList, taskItemContext, uncheckedPanel, snackBarContexte] );
 
     // パネルのチェックボックスを操作した際の処理
     const panelChangeHandler = useCallback( ( panelID: number, checked: boolean ): void => {

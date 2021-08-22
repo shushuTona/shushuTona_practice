@@ -12,6 +12,7 @@ import {
 // Context
 import { GoalItemStateContext } from '../../context/GoalItemStateContext';
 import { ModalStateContext } from '../../context/ModalContext';
+import { SnackBarStateContext } from '../../context/SnackBarContext';
 
 // Module
 import { TextInput } from '../../module/TextInput';
@@ -37,6 +38,7 @@ const EditGoalItemModalContents = memo( ( { id, title, desc, panelStatus }: Prop
 
     const goalItemContext = useContext( GoalItemStateContext );
     const modalContext = useContext( ModalStateContext );
+    const snackBarContexte = useContext( SnackBarStateContext );
 
     // 目標タイトル入力変更
     const changeTitleHandler: ChangeEventHandler = useCallback( ( event: ChangeEvent<HTMLInputElement> ) => {
@@ -74,7 +76,12 @@ const EditGoalItemModalContents = memo( ( { id, title, desc, panelStatus }: Prop
         modalContext.dispatch( {
             type: 'CLOSE_MODAL'
         } );
-    }, [goalItemContext, modalContext, id, titleState, descState, panelStatusState] );
+
+        snackBarContexte.showSnackBar( {
+            snackBarHeading: '選択した目標を編集しました！',
+            snackBarContents: '新しい内容でガシガシ目標達成していこう！'
+        } );
+    }, [goalItemContext, modalContext, id, titleState, descState, panelStatusState, snackBarContexte] );
 
     // 戻るボタンクリック処理
     const clickChangeReturnBtnHandler: MouseEventHandler = useCallback( () => {
