@@ -11,6 +11,7 @@
     transition: color .3s;
     border: none;
     overflow: hidden;
+    perspective: 1000;
     cursor: pointer;
     position: relative;
 }
@@ -66,6 +67,7 @@
         border-color .3s,
         opacity .5s;
     transform-origin: center;
+    perspective: 1000;
     position: absolute;
     top: 0;
     bottom: 0;
