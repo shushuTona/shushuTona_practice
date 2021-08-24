@@ -6,16 +6,22 @@ import {
 
 import {
     Switch,
-    Route
+    Route,
+    RouteProps
 } from "react-router-dom";
 
 import './css/ContentsArea.css';
 
 // Page Component
 import HomePage from '@/component/pages/HomePage';
+import SuspenceContents from '@/component/layout/SuspenceContents';
 
-const TaskPage = lazy( () => import( '../pages/TaskPage' ));
-const GoalsPage = lazy( () => import( '../pages/GoalsPage' ));
+const TaskPage = lazy( () => import( '@/component/pages/TaskPage' ));
+const GoalsPage = lazy( () => import( '@/component/pages/GoalsPage' ));
+
+const GuardedRoute = memo( ( props: RouteProps ) => {
+    return <Route {...props} />;
+} );
 
 const ContentsArea = memo( () => {
     console.log( 'ContentsArea' );
@@ -23,11 +29,11 @@ const ContentsArea = memo( () => {
     return (
         <div className="l-contentsArea">
             <div className="contentsArea__inner">
-                <Suspense fallback={<p></p>}>
+                <Suspense fallback={<SuspenceContents />}>
                     <Switch>
-                            <Route path="/goals" component={GoalsPage} />
-                            <Route path="/task" component={TaskPage} />
-                            <Route path="/" component={HomePage} />
+                        <GuardedRoute path="/" exact component={HomePage} />
+                        <GuardedRoute path="/goals" component={GoalsPage} />
+                        <GuardedRoute path="/task" component={TaskPage} />
                     </Switch>
                 </Suspense>
             </div>

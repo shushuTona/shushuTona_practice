@@ -4,7 +4,8 @@ import {
     Dispatch,
     ReducerAction,
     createContext,
-    useReducer
+    useReducer,
+    useCallback
 } from 'react';
 
 const panelStatusArray = ['Standby', 'Running', 'Finish', 'Stopped'];
@@ -98,7 +99,7 @@ const GoalItemContextProvider = ( { children }: PropsWithChildren<{}>) => {
     const [state, dispatch] = useReducer( goalItemStateReducer, initialState );
 
     // HomeとGoalページを表示する際に、各goalのタスク数を確認＆更新する処理
-    const updateTaskNum = () => {
+    const updateTaskNum = useCallback( () => {
         const goalLocalItemString = localStorage.getItem( 'GOAL_ITEM' );
         const taskLocalItemString = localStorage.getItem( 'TASK_ITEM' );;
         const goalLocalItemObj = goalLocalItemString !== null && JSON.parse( goalLocalItemString );
@@ -162,7 +163,7 @@ const GoalItemContextProvider = ( { children }: PropsWithChildren<{}>) => {
             type: 'CHANGE_GOAL_ITEM_STATE',
             payload: payloadArray
         } );
-    }
+    }, []);
 
     return (
         <GoalItemStateContext.Provider value={{ state, dispatch, updateTaskNum }}>

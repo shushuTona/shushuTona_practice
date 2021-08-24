@@ -4,6 +4,7 @@
 
 .contentsArea__inner {
     padding: 70px 15px 30px;
+    height: 100%;
 }
 
 .contentsArea__inner > *:first-child {
