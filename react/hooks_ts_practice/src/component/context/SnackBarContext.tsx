@@ -1,7 +1,7 @@
 import {
     Dispatch,
     ReducerAction,
-    PropsWithChildren,
+    ProviderProps,
     createContext,
     Reducer,
     useCallback,
@@ -39,7 +39,7 @@ const initialState: SnackBarReducerState = {
 
 const SnackBarStateContext = createContext<ContextInterface>( {} as ContextInterface );
 
-const SnackBarContextProvider = ( { children }: PropsWithChildren<{}>) => {
+const SnackBarContextProvider = ( { children }: Omit<ProviderProps<ContextInterface>, 'value'> ): JSX.Element => {
     const [state, dispatch] = useReducer( snackBarStateReducer, initialState );
 
     const showSnackBar = useCallback( ( payload: showSnackBarPayload ) => {

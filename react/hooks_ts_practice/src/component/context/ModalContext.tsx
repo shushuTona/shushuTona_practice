@@ -1,7 +1,7 @@
 import {
     createContext,
     useReducer,
-    PropsWithChildren,
+    ProviderProps,
     Reducer,
     Dispatch,
     ReducerAction,
@@ -47,7 +47,7 @@ const modalStateReducer: Reducer<ModalReducerState, ModalReducerActions> = ( pre
         const { id, title, desc, panelStatus, goalTitle } = payload;
 
         switch ( type ) {
-            case 'EDIT_GOAL_ITEM':
+            case 'EDIT_GOAL_ITEM': {
                 // propsの値がキャッシュされる（？）から都度importする
                 const EditGoalItemModalContents = lazy( () => import( '../layout/modalContents/EditGoalItemModalContents' ) );
 
@@ -57,22 +57,26 @@ const modalStateReducer: Reducer<ModalReducerState, ModalReducerActions> = ( pre
                     modalContentsComponent: <EditGoalItemModalContents id={id} title={title} desc={desc} panelStatus={panelStatus} />
                 };
                 break;
+            }
 
-            case 'EDIT_TASK_ITEM':
+            case 'EDIT_TASK_ITEM': {
                 const EditTaskItemModalContents = lazy( () => import( '../layout/modalContents/EditTaskItemModalContents' ) );
+
                 payloadObj = {
                     isModalShow: true,
                     isModalHidden: false,
                     modalContentsComponent: <EditTaskItemModalContents id={id} title={title} desc={desc} taskStatus={panelStatus} goalTitle={goalTitle} />
                 };
                 break;
+            }
 
-            default:
+            default: {
                 payloadObj = {
                     isModalShow: false,
                     isModalHidden: false,
                     modalContentsComponent: <p>Modal Contents.</p>
                 }
+            }
         }
 
         mergeState = {...prevState, ...payloadObj};
@@ -80,7 +84,7 @@ const modalStateReducer: Reducer<ModalReducerState, ModalReducerActions> = ( pre
         return mergeState;
     } else {
         switch ( type ) {
-            case 'CLOSE_MODAL':
+            case 'CLOSE_MODAL': {
                 mergeState = {
                     ...prevState, ...{
                         isModalShow: false,
@@ -88,8 +92,9 @@ const modalStateReducer: Reducer<ModalReducerState, ModalReducerActions> = ( pre
                     }
                 };
                 return mergeState;
+            }
 
-            case 'ANNOUNCE_ADD_GOAL':
+            case 'ANNOUNCE_ADD_GOAL': {
                 const AnnounceAddGoalModalContents = lazy( () => import( '../layout/modalContents/AnnounceAddGoalModalContents' ) );
 
                 mergeState = {
@@ -100,8 +105,9 @@ const modalStateReducer: Reducer<ModalReducerState, ModalReducerActions> = ( pre
                     }
                 };
                 return mergeState;
+            }
 
-            case 'ANNOUNCE_FIRST_LOGIN':
+            case 'ANNOUNCE_FIRST_LOGIN': {
                 const AnnounceFirstLoginContents = lazy( () => import( '../layout/modalContents/AnnounceFirstLoginContents' ) );
 
                 mergeState = {
@@ -112,6 +118,7 @@ const modalStateReducer: Reducer<ModalReducerState, ModalReducerActions> = ( pre
                     }
                 };
                 return mergeState;
+            }
         }
     }
 
@@ -126,7 +133,7 @@ const initialState: ModalReducerState = {
 
 const ModalStateContext = createContext<ContextInterface>( {} as ContextInterface );
 
-const ModalStateContextProvider = ( { children }: PropsWithChildren<{}> ) => {
+const ModalStateContextProvider = ( { children }: Omit<ProviderProps<ContextInterface>, 'value'> ): JSX.Element => {
     const [state, dispatch] = useReducer( modalStateReducer, initialState );
 
     return (

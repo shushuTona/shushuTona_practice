@@ -12,7 +12,7 @@ const List = memo( ( { textList }: Props ) => {
             {
                 textList.map( ( text ) => {
                     return <li key={text} className="list__item">{ text }</li>
-                })
+                } )
             }
         </ul>
     )

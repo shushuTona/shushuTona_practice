@@ -16,7 +16,7 @@ const CurrentLink = memo( ( { to, label }: Props ) => {
     const current = useRouteMatch( { path: to } );
 
     return (
-        <li className={'sideNav__listItem ' + ( current?.isExact ? 'is-current' : '')}>
+        <li className={'sideNav__listItem ' + ( current?.isExact ? 'is-current' : '' )}>
             <Link to={to}><span>{label}</span></Link>
         </li>
     )

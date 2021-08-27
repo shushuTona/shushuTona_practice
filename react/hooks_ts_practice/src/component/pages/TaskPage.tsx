@@ -91,7 +91,7 @@ const TaskPage = memo( () => {
         const goalItemStateObj = goalItemContext.state;
         const selectOptionList = [];
 
-        for ( let goalItemIndex in goalItemStateObj ) {
+        for ( const goalItemIndex in goalItemStateObj ) {
             selectOptionList.push( goalItemStateObj[goalItemIndex].title );
         }
 

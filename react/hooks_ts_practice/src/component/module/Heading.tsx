@@ -8,7 +8,7 @@ interface Props  {
     htmlHeadingTag: keyof JSX.IntrinsicElements & headingGroup
 }
 
-const Heading = memo( ( { text, htmlHeadingTag }: Props) => {
+const Heading = memo( ( { text, htmlHeadingTag }: Props ) => {
     console.log( 'Heading' );
 
     const CustomTag = htmlHeadingTag;

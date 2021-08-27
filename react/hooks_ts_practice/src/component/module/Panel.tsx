@@ -39,8 +39,8 @@ const Panel = memo( ( {
 }: Props ) => {
     console.log( 'Panel' );
 
-    const rootRef = useRef<HTMLDivElement>(null);
-    const panelRef = useRef<HTMLDivElement>(null);
+    const rootRef = useRef<HTMLDivElement>( null );
+    const panelRef = useRef<HTMLDivElement>( null );
     const panelInnerRef = useRef<HTMLDivElement>( null );
 
     const clickHandler: MouseEventHandler<HTMLButtonElement> = useCallback( () => {
@@ -73,7 +73,7 @@ const Panel = memo( ( {
                         panelRef.current.style.height = `${panelInnerRef.current.clientHeight}px`;
                         rootRef.current.classList.add( 'is-open' );
                     }
-                }, 50);
+                }, 50 );
             }
         }
     }, [] );
@@ -89,7 +89,7 @@ const Panel = memo( ( {
             panelRef.current &&
             panelInnerRef.current
         ) {
-            const animationendHandler = ( event: Event ) => {
+            const animationendHandler = () => {
                 rootRef.current?.classList.remove( 'is-show' );
 
                 rootRef.current?.removeEventListener( 'animationend', animationendHandler );
@@ -98,7 +98,7 @@ const Panel = memo( ( {
             rootRef.current.addEventListener( 'animationend', animationendHandler );
 
             // パネルの開閉トランジション後の処理
-            panelRef.current.addEventListener( 'transitionend', ( event ) => {
+            panelRef.current.addEventListener( 'transitionend', () => {
                 if (
                     rootRef.current &&
                     panelRef.current &&
@@ -106,7 +106,7 @@ const Panel = memo( ( {
                 ) {
                     if ( panelRef.current.clientHeight === 0 ) {
                         rootRef.current.classList.remove( 'is-open' );
-                    } else if ( rootRef.current.classList.contains( 'is-open' )) {
+                    } else if ( rootRef.current.classList.contains( 'is-open' ) ) {
                         panelRef.current.style.height = 'auto';
                     }
                 }

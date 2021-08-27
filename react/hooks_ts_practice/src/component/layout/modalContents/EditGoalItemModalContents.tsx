@@ -30,7 +30,7 @@ interface Props {
 }
 
 const EditGoalItemModalContents = memo( ( { id, title, desc, panelStatus }: Props ) => {
-    console.log('EditGoalItemModalContents');
+    console.log( 'EditGoalItemModalContents' );
 
     const [titleState, setTitleState] = useState( title );
     const [descState, setDescState] = useState( desc );
@@ -51,7 +51,7 @@ const EditGoalItemModalContents = memo( ( { id, title, desc, panelStatus }: Prop
     }, [] );
 
     // 目標状態変更
-    const changeSelectHandler: ChangeEventHandler = useCallback( (event: ChangeEvent<HTMLSelectElement>) => {
+    const changeSelectHandler: ChangeEventHandler = useCallback( ( event: ChangeEvent<HTMLSelectElement> ) => {
         const changeValue = event.target.value as panelStatusType;
         setPanelStatusState( changeValue );
     }, [] );
@@ -88,7 +88,7 @@ const EditGoalItemModalContents = memo( ( { id, title, desc, panelStatus }: Prop
         // モーダルを閉じる処理
         modalContext.dispatch( {
             type: 'CLOSE_MODAL'
-        });
+        } );
     }, [modalContext] );
 
     const btnDisabledFlag = useMemo( () => {
@@ -97,7 +97,7 @@ const EditGoalItemModalContents = memo( ( { id, title, desc, panelStatus }: Prop
             descState.length === 0 ||
             panelStatusArray.indexOf( panelStatusState ) === -1
         )
-    }, [titleState, descState, panelStatusState]);
+    }, [titleState, descState, panelStatusState] );
 
     return (
         <div className="modal__editGoalItem">

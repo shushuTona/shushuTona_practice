@@ -13,7 +13,7 @@ const SnackBar = memo( () => {
     const { isSnackBarShow, snackBarHeading, snackBarContents } = snackBarContexte.state;
 
     return (
-        <div className={'m-snackBar' + (isSnackBarShow ? ' is-show' : '')}>
+        <div className={'m-snackBar' + ( isSnackBarShow ? ' is-show' : '' )}>
             <div className="snackBar__inner">
                 <p className="snackBar__heading">{ snackBarHeading }</p>
                 <p className="snackBar__contents">{ snackBarContents }</p>

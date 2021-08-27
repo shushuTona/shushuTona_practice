@@ -36,7 +36,7 @@ const HomePage = memo( () => {
         const goalItemState = goalItemContext.state;
         const goalItemArray = [];
 
-        for ( let index in goalItemState ) {
+        for ( const index in goalItemState ) {
             const goalItem = goalItemState[index];
 
             if (
@@ -63,14 +63,14 @@ const HomePage = memo( () => {
 
     // 直近追加した目標名
     const addGoalItemList = useMemo( () => {
-        const goalItemList = Object.values(goalItemContext.state);
+        const goalItemList = Object.values( goalItemContext.state );
 
         if ( goalItemList.length === 0 ) {
             return <p>まだ目標は追加されてません！<Link to="/goals">目標</Link>を追加しよう！</p>;
         }
 
         let showTaskIndex = 0;
-        for ( let goalObj of goalItemList ) {
+        for ( const goalObj of goalItemList ) {
             const id = goalObj.id;
 
             if ( id >= showTaskIndex ) {
@@ -87,14 +87,14 @@ const HomePage = memo( () => {
 
     // 直近追加したタスク名
     const addTaskItemList = useMemo( () => {
-        const taskItemList = Object.values(taskItemContext.state.itemList);
+        const taskItemList = Object.values( taskItemContext.state.itemList );
 
         if ( taskItemList.length === 0 ) {
             return <p>まだタスクは追加されてません！<Link to="/task">タスク</Link>を追加しよう！</p>;
         }
 
         let showTaskIndex = 0;
-        for ( let taskObj of taskItemList ) {
+        for ( const taskObj of taskItemList ) {
             const id = taskObj.id;
 
             if ( id >= showTaskIndex ) {

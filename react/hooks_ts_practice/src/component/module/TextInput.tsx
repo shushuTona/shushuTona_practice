@@ -14,7 +14,7 @@ interface Props {
 }
 
 const TextInput = memo( ( { inputType, inputValue, labelText, placeholder, changeInputHandler }: Props ) => {
-    console.log('TextInput');
+    console.log( 'TextInput' );
 
     return (
         <label className="m-textInput">

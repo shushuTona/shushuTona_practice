@@ -1,5 +1,5 @@
 import {
-    PropsWithChildren,
+    ProviderProps,
     Reducer,
     Dispatch,
     ReducerAction,
@@ -45,7 +45,7 @@ const localItem = localStorage.getItem( 'GOAL_ITEM' );
 if ( localItem !== null ) {
     initialState = JSON.parse( localItem );
 } else {
-    localStorage.setItem( 'GOAL_ITEM', JSON.stringify({}) );
+    localStorage.setItem( 'GOAL_ITEM', JSON.stringify( {} ) );
 }
 
 let mergeState: GoalItemStateInterface;
@@ -95,13 +95,13 @@ const goalItemStateReducer: Reducer<GoalItemStateInterface, ReducerActions> = ( 
 
 const GoalItemStateContext = createContext<ContextInterface>( {} as ContextInterface );
 
-const GoalItemContextProvider = ( { children }: PropsWithChildren<{}>) => {
+const GoalItemContextProvider = ( { children }: Omit<ProviderProps<ContextInterface>, 'value'> ): JSX.Element => {
     const [state, dispatch] = useReducer( goalItemStateReducer, initialState );
 
     // HomeとGoalページを表示する際に、各goalのタスク数を確認＆更新する処理
     const updateTaskNum = useCallback( () => {
         const goalLocalItemString = localStorage.getItem( 'GOAL_ITEM' );
-        const taskLocalItemString = localStorage.getItem( 'TASK_ITEM' );;
+        const taskLocalItemString = localStorage.getItem( 'TASK_ITEM' );
         const goalLocalItemObj = goalLocalItemString !== null && JSON.parse( goalLocalItemString );
         const taskLocalItemObj = taskLocalItemString !== null && JSON.parse( taskLocalItemString );
 
@@ -109,7 +109,7 @@ const GoalItemContextProvider = ( { children }: PropsWithChildren<{}>) => {
         const payloadArray: GoalItemInterface[] = [];
 
         // 目標のアイテム毎にgoalHasTaskNumObjを初期化
-        for ( let goalIndex in goalLocalItemObj ) {
+        for ( const goalIndex in goalLocalItemObj ) {
             const goalObj = goalLocalItemObj[goalIndex];
 
             goalHasTaskNumObj[goalObj.title] = {
@@ -120,7 +120,7 @@ const GoalItemContextProvider = ( { children }: PropsWithChildren<{}>) => {
         }
 
         // 各目標に紐づくタスクの数とそれたが完了しているかの確認
-        for ( let taskIndex in taskLocalItemObj.itemList ) {
+        for ( const taskIndex in taskLocalItemObj.itemList ) {
             const taskObj = taskLocalItemObj.itemList[taskIndex];
             const { goalTitle } = taskObj;
 
@@ -142,10 +142,10 @@ const GoalItemContextProvider = ( { children }: PropsWithChildren<{}>) => {
         }
 
         // 目標一覧を更新する為のpayloadの配列を作成する
-        for ( let goalIndex in goalLocalItemObj ) {
+        for ( const goalIndex in goalLocalItemObj ) {
             const goalObj = goalLocalItemObj[goalIndex];
 
-            if ( goalHasTaskNumObj.hasOwnProperty( goalObj.title ) ) {
+            if ( Object.prototype.hasOwnProperty.call( goalHasTaskNumObj, goalObj.title ) ) {
                 if (
                     goalHasTaskNumObj[goalObj.title].finishedTaskNum !== 0 &&
                     goalHasTaskNumObj[goalObj.title].hasTaskNum !== 0 &&
@@ -163,7 +163,7 @@ const GoalItemContextProvider = ( { children }: PropsWithChildren<{}>) => {
             type: 'CHANGE_GOAL_ITEM_STATE',
             payload: payloadArray
         } );
-    }, []);
+    }, [] );
 
     return (
         <GoalItemStateContext.Provider value={{ state, dispatch, updateTaskNum }}>

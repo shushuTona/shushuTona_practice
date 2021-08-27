@@ -39,7 +39,7 @@ const EditTaskItemModalContents = memo( ( { id, title, desc, taskStatus, goalTit
     const modalContext = useContext( ModalStateContext );
     const snackBarContexte = useContext( SnackBarStateContext );
 
-    const changeTitleHandler: ChangeEventHandler = useCallback( (event: ChangeEvent<HTMLInputElement>) => {
+    const changeTitleHandler: ChangeEventHandler = useCallback( ( event: ChangeEvent<HTMLInputElement> ) => {
         setTitleState( event.target.value );
     }, [] );
 

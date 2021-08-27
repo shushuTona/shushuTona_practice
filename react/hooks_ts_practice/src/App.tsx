@@ -11,7 +11,7 @@ import { TaskItemContextProvider } from '@/component/context/TaskItemStateContex
 import { ModalStateContextProvider } from '@/component/context/ModalContext';
 import { SnackBarContextProvider } from '@/component/context/SnackBarContext';
 
-const App = () => {
+const App = (): JSX.Element => {
     return (
         <Router>
             <GoalItemContextProvider>

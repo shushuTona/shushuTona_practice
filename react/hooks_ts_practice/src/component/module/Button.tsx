@@ -11,7 +11,7 @@ interface Props {
     disabled?: boolean
 }
 
-const Button = memo( ( { btnText, clickHandler, disabled }: Props) => {
+const Button = memo( ( { btnText, clickHandler, disabled }: Props ) => {
     console.log( 'Button' );
 
     return (

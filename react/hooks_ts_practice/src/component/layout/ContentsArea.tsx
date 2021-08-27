@@ -16,8 +16,8 @@ import './css/ContentsArea.css';
 import HomePage from '@/component/pages/HomePage';
 import SuspenceContents from '@/component/layout/SuspenceContents';
 
-const TaskPage = lazy( () => import( '@/component/pages/TaskPage' ));
-const GoalsPage = lazy( () => import( '@/component/pages/GoalsPage' ));
+const TaskPage = lazy( () => import( '@/component/pages/TaskPage' ) );
+const GoalsPage = lazy( () => import( '@/component/pages/GoalsPage' ) );
 
 const GuardedRoute = memo( ( props: RouteProps ) => {
     return <Route {...props} />;

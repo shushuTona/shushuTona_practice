@@ -14,7 +14,7 @@ import { ModalStateContext } from '@/component/context/ModalContext';
 import { Button } from '@/component/module/Button';
 
 const AnnounceAddGoalModalContents = memo( () => {
-    console.log('AnnounceAddGoalModalContents');
+    console.log( 'AnnounceAddGoalModalContents' );
 
     const history = useHistory();
 

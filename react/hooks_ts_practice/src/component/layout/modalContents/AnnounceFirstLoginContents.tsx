@@ -13,7 +13,7 @@ import { Button } from '@/component/module/Button';
 import { Heading } from '@/component/module/Heading';
 
 const AnnounceFirstLoginContents = memo( () => {
-    console.log('AnnounceFirstLoginContents');
+    console.log( 'AnnounceFirstLoginContents' );
 
     const modalContext = useContext( ModalStateContext );
 

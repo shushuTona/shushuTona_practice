@@ -60,7 +60,7 @@ const GoalsPage = memo( () => {
     let count = Object.keys( goalItemContext.state ).length;
     const [title, setTitle] = useState( '' );
     const [desc, setDesc] = useState( '' );
-    const [checkedItemList, setCheckedItemList] = useState<number[]>([]);
+    const [checkedItemList, setCheckedItemList] = useState<number[]>( [] );
 
     // 表示要素一覧配列を生成する
     const itemList = useMemo( (): GoalItemInterface[] => {
@@ -100,7 +100,7 @@ const GoalsPage = memo( () => {
         goalItemContext.dispatch( {
             type: 'ADD_GOAL_ITEM',
             payload: [ payload ]
-        });
+        } );
 
         count++;
 
@@ -163,10 +163,10 @@ const GoalsPage = memo( () => {
 
     // パネルチェックボックスイベントハンドラ
     const panelChangeHandler = useCallback( ( panelID: number, checked: boolean ): void => {
-        const indexNum = checkedItemList.indexOf(panelID);
+        const indexNum = checkedItemList.indexOf( panelID );
 
-        if (checked) {
-            if (indexNum < 0) {
+        if ( checked ) {
+            if ( indexNum < 0 ) {
                 setCheckedItemList( ( prevState ) => {
                     return [...prevState, panelID]
                 } );
@@ -278,7 +278,7 @@ const GoalsPage = memo( () => {
                                     changePanelHandler={panelChangeHandler} />
                             </li>
                         );
-                    })
+                    } )
                 }
             </ul>
         </Fragment>

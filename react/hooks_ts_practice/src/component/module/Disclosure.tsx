@@ -15,8 +15,8 @@ interface Props {
 }
 
 const Disclosure = memo( ( { title, children }: Props ) => {
-    const rootRef = useRef<HTMLDListElement>(null);
-    const panelRef = useRef<HTMLElement>(null);
+    const rootRef = useRef<HTMLDListElement>( null );
+    const panelRef = useRef<HTMLElement>( null );
     const panelInnerRef = useRef<HTMLDivElement>( null );
     const openClassName = 'is-open';
 
@@ -56,7 +56,7 @@ const Disclosure = memo( ( { title, children }: Props ) => {
             rootElem &&
             panelElem
         ) {
-            if (panelElem.style.height === '0px') {
+            if ( panelElem.style.height === '0px' ) {
                 rootElem.classList.remove( openClassName );
             } else {
                 panelElem.style.height = 'auto';
