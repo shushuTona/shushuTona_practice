@@ -1,4 +1,79 @@
-.appRoot {
-  color: red;
-  text-align: center;
+.linkList {
+  margin: 0;
+  padding: 0;
+  border-bottom: 1px solid #333;
+
+  .linkListItem {
+    list-style: none;
+
+    & + .linkListItem {
+      border-top: 1px solid #333;
+    }
+
+    a {
+      padding: 10px;
+      display: block;
+      color: #333;
+      text-decoration: none;
+      transition:
+        background-color 300ms,
+        color 300ms;
+
+        &:hover,
+        &:focus {
+          background-color: rgba($color: #f00, $alpha: 0.4);
+        }
+
+      &.activeLink {
+        color: #fff;
+        background-color: #f00
+      }
+    }
+  }
+}
+
+.routeContents {
+  padding: 20px;
+  position: relative;
+}
+
+.page {
+  position: absolute;
+  left: 15px;
+  right: 15px;
+}
+
+// Appear
+.pageAppear {
+  opacity: 0;
+}
+.pageAppearActive {
+  opacity: 1;
+  transition: opacity 800ms,
+}
+
+// Enter
+.pageEnter {
+  opacity: 0;
+  transform: translateX(-500px);
+}
+.pageEnterActive {
+  opacity: 1;
+  transform: translateX(0px);
+  transition:
+    opacity 300ms,
+    transform 300ms;
+}
+
+// Exit
+.pageExit {
+  opacity: 1;
+  transform: translateX(0px);
+}
+.pageExitActive {
+  opacity: 0;
+  transform: translateX(500px);
+  transition:
+    opacity 300ms,
+    transform 300ms;
 }

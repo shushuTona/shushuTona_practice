@@ -1,0 +1,38 @@
+.switchTransition {
+  margin: 0 auto;
+  padding: 20px;
+  width: 100%;
+  max-width: 500px;
+  color: #fff;
+  border-radius: 10px;
+
+  &.red {
+    background-color: #f00;
+  }
+  &.blue {
+    background-color: #06f;
+  }
+}
+
+.switchTransitionEnter{
+  opacity: 0;
+  transform: translateX(-10px);
+}
+.switchTransitionEnterActive{
+  opacity: 1;
+  transform: translateX(0);
+}
+.switchTransitionExit{
+  opacity: 1;
+  transform: translateX(0);
+}
+.switchTransitionExitActive{
+  opacity: 0;
+  transform: translateX(10px);
+}
+.switchTransitionEnterActive,
+.switchTransitionExitActive{
+  transition:
+    opacity 500ms,
+    transform 500ms;
+}

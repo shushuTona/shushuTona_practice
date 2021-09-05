@@ -1,0 +1,17 @@
+.transitionGroup {
+  display: flex;
+  justify-content: space-between;
+}
+
+.itemAppear {
+  opacity: 0;
+  transition-delay: 300ms;
+}
+.itemAppearActive {
+  opacity: 1;
+  transition: opacity 500ms ease-in;
+}
+.itemAppearDone {
+  background-color: #af0;
+  transition: background-color 500ms ease-in;
+}
