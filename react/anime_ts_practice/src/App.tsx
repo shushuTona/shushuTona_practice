@@ -12,7 +12,6 @@ import {
 } from 'react-router-dom';
 import { CSSTransition } from 'react-transition-group';
 import AppCssClassList from '@/styles/App.module.scss';
-
 // page
 import CSSTransitionComp from '@/pages/CSSTransitionComp';
 import SwitchTransitionComp from '@/pages/SwitchTransitionComp';
@@ -110,5 +109,7 @@ const App: VFC = memo( () => {
         </main>
     );
 } );
+
+App.displayName = 'App Component';
 
 export default App;

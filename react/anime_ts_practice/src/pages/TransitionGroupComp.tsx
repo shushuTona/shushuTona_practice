@@ -1,4 +1,5 @@
 import {
+    VFC,
     memo,
     Fragment,
     useState,
@@ -11,7 +12,7 @@ import {
 import { PageHeading } from '@/components/PageHeading';
 import TransitionGroupCssClassList from '@/styles/pages/TransitionGroup.module.scss';
 
-const TransitionGroupComp = memo( () => {
+const TransitionGroupComp: VFC = memo( () => {
     const [items] = useState( [
         {
             id: 0,
@@ -57,5 +58,7 @@ const TransitionGroupComp = memo( () => {
         </Fragment>
     )
 } );
+
+TransitionGroupComp.displayName = 'TransitionGroup Component';
 
 export default TransitionGroupComp;

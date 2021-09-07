@@ -1,14 +1,19 @@
-import { memo } from 'react';
+import {
+    VFC,
+    memo
+} from 'react';
 import PageHeadingCssClassList from '@/styles/components/PageHeading.module.scss';
 
 interface Props {
     text: string
 }
 
-const PageHeading = memo( ( { text }: Props ) => {
+const PageHeading: VFC<Props> = memo( ( { text } ) => {
     return (
         <h1 className={PageHeadingCssClassList.pageHeading}>{ text }</h1>
     )
 } );
+
+PageHeading.displayName = 'PageHeading Component';
 
 export { PageHeading };

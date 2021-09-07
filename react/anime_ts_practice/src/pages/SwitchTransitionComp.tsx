@@ -1,4 +1,5 @@
 import {
+    VFC,
     memo,
     Fragment,
     useState,
@@ -14,7 +15,7 @@ import { PageHeading } from '@/components/PageHeading';
 import { Button } from '@/components/Button';
 import SwitchTransitionCssClassList from '@/styles/pages/SwitchTransition.module.scss';
 
-const SwitchTransitionComp = memo( () => {
+const SwitchTransitionComp: VFC = memo( () => {
     const [state, setState] = useState( false );
     const nodeRef = useRef<HTMLDivElement>( null );
 
@@ -59,5 +60,7 @@ const SwitchTransitionComp = memo( () => {
         </Fragment>
     );
 } );
+
+SwitchTransitionComp.displayName = 'SwitchTransition Component';
 
 export default SwitchTransitionComp;

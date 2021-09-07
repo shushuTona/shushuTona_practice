@@ -1,4 +1,5 @@
 import {
+    VFC,
     memo,
     Dispatch,
     SetStateAction,
@@ -20,7 +21,7 @@ interface AnimeItem {
     nodeRef: RefObject<HTMLParagraphElement>
 }
 
-const CSSTransitionComp = memo( () => {
+const CSSTransitionComp: VFC = memo( () => {
     const timeout = {
         appear: 500,
         enter: 300,
@@ -124,5 +125,7 @@ const CSSTransitionComp = memo( () => {
         </div>
     )
 } );
+
+CSSTransitionComp.displayName = 'CSSTransition Component';
 
 export default CSSTransitionComp;

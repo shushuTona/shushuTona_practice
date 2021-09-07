@@ -1,4 +1,5 @@
 import {
+    VFC,
     memo,
     MouseEventHandler
 } from 'react';
@@ -9,7 +10,7 @@ interface Props {
     clickHandler: MouseEventHandler
 }
 
-const Button = memo( ( { text, clickHandler }: Props ) => {
+const Button: VFC<Props> = memo( ( { text, clickHandler } ) => {
     return (
         <button
             type="button"
@@ -18,5 +19,7 @@ const Button = memo( ( { text, clickHandler }: Props ) => {
         >{text}</button>
     )
 } );
+
+Button.displayName = 'Button Component';
 
 export { Button };
