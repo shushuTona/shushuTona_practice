@@ -1,3 +1,4 @@
+import { FC } from 'react';
 import { BrowserRouter as Router } from 'react-router-dom';
 import { Header } from '@/component/layout/Header';
 import { Main } from '@/component/layout/Main';
@@ -11,7 +12,7 @@ import { TaskItemContextProvider } from '@/component/context/TaskItemStateContex
 import { ModalStateContextProvider } from '@/component/context/ModalContext';
 import { SnackBarContextProvider } from '@/component/context/SnackBarContext';
 
-const App = (): JSX.Element => {
+const App: FC = () => {
     return (
         <Router>
             <GoalItemContextProvider>

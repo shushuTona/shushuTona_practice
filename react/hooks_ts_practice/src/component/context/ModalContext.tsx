@@ -1,4 +1,5 @@
 import {
+    FC,
     createContext,
     useReducer,
     ProviderProps,
@@ -133,7 +134,7 @@ const initialState: ModalReducerState = {
 
 const ModalStateContext = createContext<ContextInterface>( {} as ContextInterface );
 
-const ModalStateContextProvider = ( { children }: Omit<ProviderProps<ContextInterface>, 'value'> ): JSX.Element => {
+const ModalStateContextProvider: FC<Omit<ProviderProps<ContextInterface>, 'value'>> = ( { children } ) => {
     const [state, dispatch] = useReducer( modalStateReducer, initialState );
 
     return (

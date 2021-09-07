@@ -1,4 +1,5 @@
 import {
+    FC,
     ProviderProps,
     createContext,
     Reducer,
@@ -118,7 +119,7 @@ const taskItemStateReducer: Reducer<TaskItemStateInterface, ReducerActions> = ( 
 
 const TaskItemStateContext = createContext<ContextInterface>( {} as ContextInterface );
 
-const TaskItemContextProvider = ( { children }: Omit<ProviderProps<ContextInterface>, 'value'> ): JSX.Element => {
+const TaskItemContextProvider: FC<Omit<ProviderProps<ContextInterface>, 'value'>> = ( { children } ) => {
     const [state, dispatch] = useReducer( taskItemStateReducer, initialState );
 
     return (

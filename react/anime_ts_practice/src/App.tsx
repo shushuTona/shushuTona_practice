@@ -1,4 +1,5 @@
 import {
+    FC,
     memo,
     ElementType,
     RefObject,
@@ -24,7 +25,7 @@ interface RoutesItem {
     nodeRef: RefObject<HTMLDivElement>
 }
 
-const App = memo( (): JSX.Element => {
+const App: FC = memo( () => {
     const routes: RoutesItem[] = [
         {
             path: '/CSSTransition',

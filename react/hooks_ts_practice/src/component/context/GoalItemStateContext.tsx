@@ -1,4 +1,5 @@
 import {
+    FC,
     ProviderProps,
     Reducer,
     Dispatch,
@@ -95,7 +96,7 @@ const goalItemStateReducer: Reducer<GoalItemStateInterface, ReducerActions> = ( 
 
 const GoalItemStateContext = createContext<ContextInterface>( {} as ContextInterface );
 
-const GoalItemContextProvider = ( { children }: Omit<ProviderProps<ContextInterface>, 'value'> ): JSX.Element => {
+const GoalItemContextProvider: FC = ( { children }: Omit<ProviderProps<ContextInterface>, 'value'> ) => {
     const [state, dispatch] = useReducer( goalItemStateReducer, initialState );
 
     // HomeとGoalページを表示する際に、各goalのタスク数を確認＆更新する処理

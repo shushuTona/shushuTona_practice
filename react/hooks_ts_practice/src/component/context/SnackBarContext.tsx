@@ -1,4 +1,5 @@
 import {
+    FC,
     Dispatch,
     ReducerAction,
     ProviderProps,
@@ -39,7 +40,7 @@ const initialState: SnackBarReducerState = {
 
 const SnackBarStateContext = createContext<ContextInterface>( {} as ContextInterface );
 
-const SnackBarContextProvider = ( { children }: Omit<ProviderProps<ContextInterface>, 'value'> ): JSX.Element => {
+const SnackBarContextProvider: FC<Omit<ProviderProps<ContextInterface>, 'value'>> = ( { children } ) => {
     const [state, dispatch] = useReducer( snackBarStateReducer, initialState );
 
     const showSnackBar = useCallback( ( payload: showSnackBarPayload ) => {
