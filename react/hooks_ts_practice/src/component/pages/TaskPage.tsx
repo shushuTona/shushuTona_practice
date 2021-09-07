@@ -23,18 +23,17 @@ import {
     useMemo,
     useEffect
 } from 'react';
-
+// Context
 import { GoalItemStateContext } from '@/component/context/GoalItemStateContext';
 import { TaskItemStateContext } from '@/component/context/TaskItemStateContext';
 import { ModalStateContext } from '@/component/context/ModalContext';
 import { SnackBarStateContext } from '@/component/context/SnackBarContext';
-
+// Module
 import { Heading } from '@/component/module/Heading';
 import { Button } from '@/component/module/Button';
 import { Panel } from '@/component/module/Panel';
 import { TextInput } from '@/component/module/TextInput';
 import { Select } from '@/component/module/Select';
-
 import './css/TaskPage.css';
 
 interface TaskItemInterface {
@@ -350,5 +349,7 @@ const TaskPage = memo( () => {
         </Fragment>
     );
 } );
+
+TaskPage.displayName = 'Task Page Component';
 
 export default TaskPage;

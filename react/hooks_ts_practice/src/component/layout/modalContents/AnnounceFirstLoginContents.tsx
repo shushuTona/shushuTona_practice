@@ -1,18 +1,17 @@
 import {
+    VFC,
     memo,
     MouseEventHandler,
     useCallback,
     useContext,
 } from 'react';
-
 // Context
 import { ModalStateContext } from '@/component/context/ModalContext';
-
 // Module
 import { Button } from '@/component/module/Button';
 import { Heading } from '@/component/module/Heading';
 
-const AnnounceFirstLoginContents = memo( () => {
+const AnnounceFirstLoginContents: VFC = memo( () => {
     console.log( 'AnnounceFirstLoginContents' );
 
     const modalContext = useContext( ModalStateContext );
@@ -47,5 +46,7 @@ const AnnounceFirstLoginContents = memo( () => {
         </div>
     )
 } );
+
+AnnounceFirstLoginContents.displayName = 'AnnounceFirstLoginContents Component';
 
 export default AnnounceFirstLoginContents;

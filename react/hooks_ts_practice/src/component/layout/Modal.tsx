@@ -1,14 +1,13 @@
 import {
+    VFC,
     memo,
     useContext,
     Suspense
 } from 'react';
-
 import { ModalStateContext } from '@/component/context/ModalContext';
-
 import './css/Modal.css';
 
-const Modal = memo( () => {
+const Modal: VFC = memo( () => {
     console.log( 'Modal' );
 
     const modalContext = useContext( ModalStateContext );
@@ -26,5 +25,7 @@ const Modal = memo( () => {
         </div>
     )
 } );
+
+Modal.displayName = 'Modal Component';
 
 export { Modal };

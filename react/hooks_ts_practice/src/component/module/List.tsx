@@ -1,12 +1,14 @@
-import { memo } from 'react';
-
+import {
+    VFC,
+    memo
+} from 'react';
 import './css/List.css';
 
 interface Props {
     textList: string[]
 }
 
-const List = memo( ( { textList }: Props ) => {
+const List: VFC<Props> = memo( ( { textList } ) => {
     return (
         <ul className="m-list">
             {
@@ -17,5 +19,7 @@ const List = memo( ( { textList }: Props ) => {
         </ul>
     )
 } );
+
+List.displayName = 'List Component';
 
 export { List };

@@ -1,9 +1,9 @@
 import {
+    VFC,
     memo,
     ChangeEventHandler,
     RefObject
 } from 'react';
-
 import './css/Select.css';
 
 interface Props {
@@ -15,7 +15,7 @@ interface Props {
     selectRef?: RefObject<HTMLSelectElement>
 }
 
-const Select = memo( ( { options, selectValue, labelText, defaultText, changeInputHandler, selectRef }: Props ) => {
+const Select: VFC<Props> = memo( ( { options, selectValue, labelText, defaultText, changeInputHandler, selectRef } ) => {
     return (
         <label className="m-select">
             <select className="select__inner" defaultValue={selectValue} onChange={changeInputHandler} ref={selectRef}>
@@ -33,5 +33,7 @@ const Select = memo( ( { options, selectValue, labelText, defaultText, changeInp
         </label>
     )
 } );
+
+Select.displayName = 'Select Component';
 
 export { Select };

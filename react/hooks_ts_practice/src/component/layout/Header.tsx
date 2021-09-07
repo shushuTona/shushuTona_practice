@@ -1,10 +1,11 @@
-import { memo } from 'react';
-
+import {
+    VFC,
+    memo
+} from 'react';
 import { Link } from 'react-router-dom';
-
 import './css/Header.css';
 
-const Header = memo( () => {
+const Header: VFC = memo( () => {
     console.log( 'Header' );
 
     return (
@@ -15,5 +16,7 @@ const Header = memo( () => {
         </header>
     );
 } );
+
+Header.displayName = 'Header Component';
 
 export { Header };

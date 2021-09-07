@@ -1,4 +1,5 @@
 import {
+    VFC,
     ReactNode,
     memo,
     MouseEventHandler,
@@ -6,7 +7,6 @@ import {
     useCallback,
     useRef
 } from "react";
-
 import './css/Disclosure.css';
 
 interface Props {
@@ -14,7 +14,7 @@ interface Props {
     children: ReactNode
 }
 
-const Disclosure = memo( ( { title, children }: Props ) => {
+const Disclosure: VFC<Props> = memo( ( { title, children } ) => {
     const rootRef = useRef<HTMLDListElement>( null );
     const panelRef = useRef<HTMLElement>( null );
     const panelInnerRef = useRef<HTMLDivElement>( null );
@@ -80,5 +80,7 @@ const Disclosure = memo( ( { title, children }: Props ) => {
         </dl>
     )
 } );
+
+Disclosure.displayName = 'Disclosure Component';
 
 export { Disclosure };

@@ -1,5 +1,7 @@
-import { VFC, memo } from 'react';
-
+import {
+    VFC,
+    memo
+} from 'react';
 import './css/Heading.css';
 
 type headingGroup = ( 'h1' | 'h2' | 'h3' | 'h4' | 'h5' | 'h6' );
@@ -17,5 +19,7 @@ const Heading: VFC<Props> = memo( ( { text, htmlHeadingTag } ) => {
         <CustomTag className="m-heading"><span>{ text }</span></CustomTag>
     );
 } );
+
+Heading.displayName = 'Heading Component';
 
 export { Heading };

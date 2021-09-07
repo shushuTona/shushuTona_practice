@@ -1,4 +1,5 @@
 import {
+    VFC,
     memo,
     MouseEventHandler,
     ChangeEvent,
@@ -8,12 +9,10 @@ import {
     useContext,
     useMemo
 } from 'react';
-
 // Context
 import { GoalItemStateContext } from '@/component/context/GoalItemStateContext';
 import { ModalStateContext } from '@/component/context/ModalContext';
 import { SnackBarStateContext } from '@/component/context/SnackBarContext';
-
 // Module
 import { TextInput } from '@/component/module/TextInput';
 import { Select } from '@/component/module/Select';
@@ -29,7 +28,7 @@ interface Props {
     panelStatus: panelStatusType
 }
 
-const EditGoalItemModalContents = memo( ( { id, title, desc, panelStatus }: Props ) => {
+const EditGoalItemModalContents: VFC<Props> = memo( ( { id, title, desc, panelStatus } ) => {
     console.log( 'EditGoalItemModalContents' );
 
     const [titleState, setTitleState] = useState( title );
@@ -129,5 +128,7 @@ const EditGoalItemModalContents = memo( ( { id, title, desc, panelStatus }: Prop
         </div>
     )
 } );
+
+EditGoalItemModalContents.displayName = 'EditGoalItemModalContents Component';
 
 export default EditGoalItemModalContents;

@@ -1,8 +1,8 @@
 import {
+    VFC,
     memo,
     ChangeEventHandler
 } from 'react';
-
 import './css/TextInput.css';
 
 interface Props {
@@ -13,7 +13,7 @@ interface Props {
     changeInputHandler: ChangeEventHandler
 }
 
-const TextInput = memo( ( { inputType, inputValue, labelText, placeholder, changeInputHandler }: Props ) => {
+const TextInput: VFC<Props> = memo( ( { inputType, inputValue, labelText, placeholder, changeInputHandler } ) => {
     console.log( 'TextInput' );
 
     return (
@@ -36,5 +36,7 @@ const TextInput = memo( ( { inputType, inputValue, labelText, placeholder, chang
         </label>
     )
 } );
+
+TextInput.displayName = 'TextInput Component';
 
 export { TextInput };

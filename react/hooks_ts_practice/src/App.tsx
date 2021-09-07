@@ -5,7 +5,6 @@ import { Main } from '@/component/layout/Main';
 import { Footer } from '@/component/layout/Footer';
 import { SnackBar } from '@/component/module/SnackBar';
 import { Modal } from '@/component/layout/Modal';
-
 // Context
 import { GoalItemContextProvider } from '@/component/context/GoalItemStateContext';
 import { TaskItemContextProvider } from '@/component/context/TaskItemStateContext';
@@ -33,5 +32,7 @@ const App: VFC = () => {
         </Router>
     );
 }
+
+App.displayName = 'App Component';
 
 export default App;

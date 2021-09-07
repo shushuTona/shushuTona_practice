@@ -23,19 +23,16 @@ import {
     useMemo
 } from 'react';
 import { Link } from 'react-router-dom';
-
 // Context
 import { GoalItemStateContext } from '@/component/context/GoalItemStateContext';
 import { ModalStateContext } from '@/component/context/ModalContext';
 import { SnackBarStateContext } from '@/component/context/SnackBarContext';
-
 // Module
 import { Heading } from '@/component/module/Heading';
 import { Button } from '@/component/module/Button';
 import { Panel } from '@/component/module/Panel';
 import { TextInput } from '@/component/module/TextInput';
 import { Disclosure } from '@/component/module/Disclosure';
-
 import './css/GoalsPage.css';
 
 const panelStatusArray = ['Standby', 'Running', 'Finish', 'Stopped'];
@@ -284,5 +281,7 @@ const GoalsPage = memo( () => {
         </Fragment>
     );
 } );
+
+GoalsPage.displayName = 'Goal Page Component';
 
 export default GoalsPage;

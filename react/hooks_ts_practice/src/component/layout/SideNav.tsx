@@ -1,10 +1,11 @@
-import { memo } from 'react';
-
+import {
+    VFC,
+    memo
+} from 'react';
 import {
     Link,
     useRouteMatch
 } from 'react-router-dom';
-
 import './css/SideNav.css';
 
 interface Props {
@@ -12,7 +13,7 @@ interface Props {
     label: string
 }
 
-const CurrentLink = memo( ( { to, label }: Props ) => {
+const CurrentLink: VFC<Props> = memo( ( { to, label } ) => {
     const current = useRouteMatch( { path: to } );
 
     return (
@@ -35,5 +36,7 @@ const SideNav = memo( () => {
         </div>
     );
 } );
+
+SideNav.displayName = 'SideNav Component';
 
 export { SideNav };

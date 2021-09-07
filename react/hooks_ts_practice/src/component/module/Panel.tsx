@@ -1,4 +1,5 @@
 import {
+    VFC,
     memo,
     ChangeEventHandler,
     ChangeEvent,
@@ -8,7 +9,6 @@ import {
     useCallback,
     useRef,
 } from 'react';
-
 import './css/Panel.css';
 
 const panelStatusArray = ['Standby', 'Running', 'Finish', 'Stopped'];
@@ -26,7 +26,7 @@ interface Props {
     changePanelHandler: ( panelID: number, checked: boolean ) => void
 }
 
-const Panel = memo( ( {
+const Panel: VFC<Props> = memo( ( {
     panelID,
     panelTitle,
     panelDesc,
@@ -36,7 +36,7 @@ const Panel = memo( ( {
     goalTitle,
     inputRef,
     changePanelHandler
-}: Props ) => {
+} ) => {
     console.log( 'Panel' );
 
     const rootRef = useRef<HTMLDivElement>( null );
@@ -162,5 +162,7 @@ const Panel = memo( ( {
         </div>
     );
 } );
+
+Panel.displayName = 'Panel Component';
 
 export { Panel };

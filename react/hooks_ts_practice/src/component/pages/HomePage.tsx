@@ -12,14 +12,11 @@ import {
     useMemo,
     useEffect
 } from 'react';
-
 import { Link } from 'react-router-dom';
-
 // Context
 import { GoalItemStateContext } from '@/component/context/GoalItemStateContext';
 import { TaskItemStateContext } from '@/component/context/TaskItemStateContext';
 import { ModalStateContext } from '@/component/context/ModalContext';
-
 // Module
 import { Heading } from '@/component/module/Heading';
 import { List } from '@/component/module/List';
@@ -148,5 +145,7 @@ const HomePage = memo( () => {
         </Fragment>
     );
 } );
+
+HomePage.displayName = 'Home Page Component';
 
 export default HomePage;

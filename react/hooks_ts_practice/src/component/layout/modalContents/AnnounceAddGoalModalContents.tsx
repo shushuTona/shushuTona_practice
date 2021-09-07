@@ -1,19 +1,17 @@
 import {
+    VFC,
     memo,
     MouseEventHandler,
     useCallback,
     useContext,
 } from 'react';
-
 import { useHistory } from "react-router-dom";
-
 // Context
 import { ModalStateContext } from '@/component/context/ModalContext';
-
 // Module
 import { Button } from '@/component/module/Button';
 
-const AnnounceAddGoalModalContents = memo( () => {
+const AnnounceAddGoalModalContents: VFC = memo( () => {
     console.log( 'AnnounceAddGoalModalContents' );
 
     const history = useHistory();
@@ -39,5 +37,7 @@ const AnnounceAddGoalModalContents = memo( () => {
         </div>
     )
 } );
+
+AnnounceAddGoalModalContents.displayName = 'AnnounceAddGoalModalContents Component';
 
 export default AnnounceAddGoalModalContents;

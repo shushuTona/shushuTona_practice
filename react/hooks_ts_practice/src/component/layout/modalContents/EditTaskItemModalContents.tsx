@@ -1,4 +1,5 @@
 import {
+    VFC,
     memo,
     ChangeEvent,
     ChangeEventHandler,
@@ -8,12 +9,10 @@ import {
     useContext,
     useMemo,
 } from 'react';
-
 // Context
 import { TaskItemStateContext } from '@/component/context/TaskItemStateContext';
 import { ModalStateContext } from '@/component/context/ModalContext';
 import { SnackBarStateContext } from '@/component/context/SnackBarContext';
-
 // Module
 import { TextInput } from '@/component/module/TextInput';
 import { Select } from '@/component/module/Select';
@@ -30,7 +29,7 @@ interface Props {
     goalTitle: string
 }
 
-const EditTaskItemModalContents = memo( ( { id, title, desc, taskStatus, goalTitle }: Props ) => {
+const EditTaskItemModalContents: VFC<Props> = memo( ( { id, title, desc, taskStatus, goalTitle } ) => {
     const [titleState, setTitleState] = useState( title );
     const [descState, setDescState] = useState( desc );
     const [taskStatusState, setPanelStatusState] = useState( taskStatus );
@@ -122,5 +121,7 @@ const EditTaskItemModalContents = memo( ( { id, title, desc, taskStatus, goalTit
         </div>
     )
 } );
+
+EditTaskItemModalContents.displayName = 'EditTaskItemModalContents Component';
 
 export default EditTaskItemModalContents;

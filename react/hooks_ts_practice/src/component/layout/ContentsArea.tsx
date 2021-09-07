@@ -1,15 +1,14 @@
 import {
+    VFC,
     memo,
     lazy,
     Suspense
 } from 'react';
-
 import {
     Switch,
     Route,
     RouteProps
 } from "react-router-dom";
-
 import './css/ContentsArea.css';
 
 // Page Component
@@ -23,7 +22,7 @@ const GuardedRoute = memo( ( props: RouteProps ) => {
     return <Route {...props} />;
 } );
 
-const ContentsArea = memo( () => {
+const ContentsArea: VFC = memo( () => {
     console.log( 'ContentsArea' );
 
     return (
@@ -40,5 +39,7 @@ const ContentsArea = memo( () => {
         </div>
     );
 } );
+
+ContentsArea.displayName = 'ContentsArea Component';
 
 export { ContentsArea };

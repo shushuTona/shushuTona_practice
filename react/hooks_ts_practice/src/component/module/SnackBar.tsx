@@ -1,14 +1,13 @@
 import {
+    VFC,
     memo,
     useContext
 } from 'react';
-
 // Context
 import { SnackBarStateContext } from '@/component/context/SnackBarContext';
-
 import './css/SnackBar.css';
 
-const SnackBar = memo( () => {
+const SnackBar: VFC = memo( () => {
     const snackBarContexte = useContext( SnackBarStateContext );
     const { isSnackBarShow, snackBarHeading, snackBarContents } = snackBarContexte.state;
 
@@ -21,5 +20,7 @@ const SnackBar = memo( () => {
         </div>
     )
 } );
+
+SnackBar.displayName = 'SnackBar Component';
 
 export { SnackBar };

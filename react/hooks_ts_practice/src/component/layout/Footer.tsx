@@ -1,8 +1,10 @@
-import { memo } from 'react';
-
+import {
+    VFC,
+    memo
+} from 'react';
 import './css/Footer.css';
 
-const Footer = memo( () => {
+const Footer: VFC = memo( () => {
     console.log( 'Footer' );
 
     return (
@@ -11,5 +13,7 @@ const Footer = memo( () => {
         </footer>
     );
 } );
+
+Footer.displayName = 'Footer Component';
 
 export { Footer };
