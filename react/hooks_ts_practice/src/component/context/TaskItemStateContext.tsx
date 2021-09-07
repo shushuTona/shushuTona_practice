@@ -1,5 +1,5 @@
 import {
-    FC,
+    VFC,
     ProviderProps,
     createContext,
     Reducer,
@@ -119,7 +119,7 @@ const taskItemStateReducer: Reducer<TaskItemStateInterface, ReducerActions> = ( 
 
 const TaskItemStateContext = createContext<ContextInterface>( {} as ContextInterface );
 
-const TaskItemContextProvider: FC<Omit<ProviderProps<ContextInterface>, 'value'>> = ( { children } ) => {
+const TaskItemContextProvider: VFC<Omit<ProviderProps<ContextInterface>, 'value'>> = ( { children } ) => {
     const [state, dispatch] = useReducer( taskItemStateReducer, initialState );
 
     return (

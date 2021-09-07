@@ -1,5 +1,5 @@
 import {
-    FC,
+    VFC,
     memo,
     ElementType,
     RefObject,
@@ -25,7 +25,7 @@ interface RoutesItem {
     nodeRef: RefObject<HTMLDivElement>
 }
 
-const App: FC = memo( () => {
+const App: VFC = memo( () => {
     const routes: RoutesItem[] = [
         {
             path: '/CSSTransition',

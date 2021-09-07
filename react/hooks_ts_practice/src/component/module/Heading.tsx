@@ -1,4 +1,4 @@
-import { FC, memo } from 'react';
+import { VFC, memo } from 'react';
 
 import './css/Heading.css';
 
@@ -8,7 +8,7 @@ interface Props  {
     htmlHeadingTag: keyof JSX.IntrinsicElements & headingGroup
 }
 
-const Heading: FC<Props> = memo( ( { text, htmlHeadingTag } ) => {
+const Heading: VFC<Props> = memo( ( { text, htmlHeadingTag } ) => {
     console.log( 'Heading' );
 
     const CustomTag = htmlHeadingTag;
