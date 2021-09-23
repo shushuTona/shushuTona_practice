@@ -35,18 +35,6 @@ import { TextInput } from '@/component/module/TextInput';
 import { Disclosure } from '@/component/module/Disclosure';
 import './css/GoalsPage.css';
 
-const panelStatusArray = ['Standby', 'Running', 'Finish', 'Stopped'];
-type panelStatusType = typeof panelStatusArray[number];
-
-interface GoalItemInterface {
-    id: number,
-    title: string,
-    desc: string,
-    panelStatus: panelStatusType,
-    hasTaskNum: number,
-    finishedTaskNum: number
-}
-
 const GoalsPage = memo( () => {
     console.log( 'GoalsPage' );
 

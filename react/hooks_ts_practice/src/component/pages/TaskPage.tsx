@@ -36,17 +36,6 @@ import { TextInput } from '@/component/module/TextInput';
 import { Select } from '@/component/module/Select';
 import './css/TaskPage.css';
 
-interface TaskItemInterface {
-    id: number,
-    title: string,
-    desc: string,
-    taskStatus: taskStatusType,
-    goalTitle: string
-}
-
-const taskStatusArray = ['Standby', 'Running', 'Finish', 'Stopped'];
-type taskStatusType = typeof taskStatusArray[number];
-
 const TaskPage = memo( () => {
     console.log( 'TaskPage' );
 

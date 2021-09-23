@@ -9,9 +9,6 @@ import {
     lazy
 } from 'react';
 
-const panelStatusArray = ['Standby', 'Running', 'Finish', 'Stopped'];
-type panelStatusType = typeof panelStatusArray[number];
-
 interface ModalReducerState {
     isModalShow: boolean,
     isModalHidden: boolean,

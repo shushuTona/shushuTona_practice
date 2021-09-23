@@ -11,9 +11,6 @@ import {
 } from 'react';
 import './css/Panel.css';
 
-const panelStatusArray = ['Standby', 'Running', 'Finish', 'Stopped'];
-type panelStatusType = typeof panelStatusArray[number];
-
 interface Props {
     panelID: number,
     panelTitle: string,

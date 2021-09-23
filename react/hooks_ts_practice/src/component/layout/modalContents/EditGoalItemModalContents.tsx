@@ -18,9 +18,6 @@ import { TextInput } from '@/component/module/TextInput';
 import { Select } from '@/component/module/Select';
 import { Button } from '@/component/module/Button';
 
-const panelStatusArray = ['Standby', 'Running', 'Finish', 'Stopped'];
-type panelStatusType = typeof panelStatusArray[number];
-
 interface Props {
     id: number,
     title: string,

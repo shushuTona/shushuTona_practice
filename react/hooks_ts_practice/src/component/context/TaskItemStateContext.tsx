@@ -8,17 +8,6 @@ import {
     useReducer
 } from 'react';
 
-const taskStatusArray = ['Standby', 'Running', 'Finish', 'Stopped'];
-type taskStatusType = typeof taskStatusArray[number];
-
-interface TaskItemInterface {
-    id: number,
-    title: string,
-    desc: string,
-    taskStatus: taskStatusType,
-    goalTitle: string
-}
-
 interface TaskItemStateInterface {
     itemCount: number,
     itemList: {

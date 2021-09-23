@@ -9,18 +9,6 @@ import {
     useCallback
 } from 'react';
 
-const panelStatusArray = ['Standby', 'Running', 'Finish', 'Stopped'];
-type panelStatusType = typeof panelStatusArray[number];
-
-interface GoalItemInterface {
-    id: number,
-    title: string,
-    desc: string,
-    panelStatus: panelStatusType,
-    hasTaskNum: number,
-    finishedTaskNum: number
-}
-
 interface GoalItemStateInterface {
     [key: number]: GoalItemInterface
 }
