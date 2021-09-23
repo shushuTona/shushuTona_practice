@@ -91,7 +91,7 @@ const EditGoalItemModalContents: VFC<Props> = memo( ( { id, title, desc, panelSt
         return (
             titleState.length === 0 ||
             descState.length === 0 ||
-            panelStatusArray.indexOf( panelStatusState ) === -1
+            statusArray.indexOf( panelStatusState ) === -1
         )
     }, [titleState, descState, panelStatusState] );
 
@@ -112,7 +112,7 @@ const EditGoalItemModalContents: VFC<Props> = memo( ( { id, title, desc, panelSt
                 changeInputHandler={changeDescHandler} />
 
             <Select
-                options={panelStatusArray}
+                options={statusArray}
                 selectValue={panelStatusState}
                 labelText="状態"
                 defaultText="状態を選択してください。"

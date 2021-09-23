@@ -84,7 +84,7 @@ const EditTaskItemModalContents: VFC<Props> = memo( ( { id, title, desc, taskSta
         return (
             titleState.length === 0 ||
             descState.length === 0 ||
-            panelStatusArray.indexOf( taskStatusState ) === -1
+            statusArray.indexOf( taskStatusState ) === -1
         )
     }, [titleState, descState, taskStatusState] );
 
@@ -105,7 +105,7 @@ const EditTaskItemModalContents: VFC<Props> = memo( ( { id, title, desc, taskSta
                 changeInputHandler={changeDescHandler} />
 
             <Select
-                options={panelStatusArray}
+                options={statusArray}
                 selectValue={taskStatusState}
                 labelText="状態"
                 defaultText="状態を選択してください。"
