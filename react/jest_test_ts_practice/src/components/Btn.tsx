@@ -6,12 +6,15 @@ import {
 
 interface Props {
     btnText: string,
-    clickHandler: MouseEventHandler
+    clickHandler: MouseEventHandler,
+    disabled?: boolean
 }
 
-const Btn: VFC<Props> = memo( ( { btnText, clickHandler } ) => {
+const Btn: VFC<Props> = memo( ( { btnText, clickHandler, disabled = false } ) => {
+    console.log( 'Btn : ' + btnText );
+
     return (
-        <button onClick={clickHandler}>{ btnText }</button>
+        <button className="btn" type="button" onClick={clickHandler} disabled={disabled}>{ btnText }</button>
     )
 } );
 

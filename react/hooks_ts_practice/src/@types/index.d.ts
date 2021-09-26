@@ -1,4 +1,4 @@
-const statusArray = ['Standby', 'Running', 'Finish', 'Stopped'];
+const statusArray = ['Standby', 'Running', 'Finish', 'Stopped'] as const;
 type panelStatusType = typeof statusArray[number];
 type taskStatusType = typeof statusArray[number];
 
